@@ -14,14 +14,14 @@ import { Imagen } from 'src/app/model/imagen.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CentroServicio } from 'src/app/model/centro-servicio.model';
 import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
-import { Constantes } from 'src/app/utils/constantes';
+import { Constants } from 'src/app/utils/constants';
 
 @Component({
-  selector: 'app-salas-detail',
-  templateUrl: './salas-detail.component.html',
-  styleUrls: ['./salas-detail.component.css']
+  selector: 'app-rooms-detail',
+  templateUrl: './rooms-detail.component.html',
+  styleUrls: ['./rooms-detail.component.css']
 })
-export class SalasDetailComponent implements OnInit {
+export class RoomsDetailComponent implements OnInit {
   zoom = 8;
   lat = 41.406413;
   lng = 2.162171;
@@ -41,7 +41,7 @@ export class SalasDetailComponent implements OnInit {
   imagen = 0;
   imagenes: any[] = [];
   formGroup: FormGroup;
-  horas: string[] = Constantes.horas;
+  horas: string[] = Constants.hours;
   constructor(private centrosService: CentrosService, private route: ActivatedRoute, private calendar: NgbCalendar) {}
 
   ngOnInit() {
@@ -106,7 +106,7 @@ export class SalasDetailComponent implements OnInit {
     }
   }
   getCalendarEvents() {
-    this.centrosService.calendarEvents(Constantes.CALENDAR_API_KEY, this.centro.url).subscribe((calendar: any) => {
+    this.centrosService.calendarEvents(Constants.CALENDAR_API_KEY, this.centro.url).subscribe((calendar: any) => {
       calendar.items.forEach((item: any) => {
         if (this.calendarComponent) {
           this.calendarComponent.getApi().addEvent({

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PoliticaPrivacidadComponent } from './politica-privacidad.component';
+import { RoomsComponent } from './rooms.component';
 
-describe('PoliticaPrivacidadComponent', () => {
-  let component: PoliticaPrivacidadComponent;
-  let fixture: ComponentFixture<PoliticaPrivacidadComponent>;
+describe('RoomsComponent', () => {
+  let component: RoomsComponent;
+  let fixture: ComponentFixture<RoomsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PoliticaPrivacidadComponent ]
+      declarations: [ RoomsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PoliticaPrivacidadComponent);
+    fixture = TestBed.createComponent(RoomsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

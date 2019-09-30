@@ -7,11 +7,11 @@ import { Centro } from 'src/app/model/centro.model';
 import { Marker } from 'src/app/model/marker.model';
 
 @Component({
-  selector: 'app-ver-salas',
-  templateUrl: './ver-salas.component.html',
-  styleUrls: ['./ver-salas.component.css']
+  selector: 'app-rooms',
+  templateUrl: './rooms.component.html',
+  styleUrls: ['./rooms.component.css']
 })
-export class VerSalasComponent implements OnInit {
+export class RoomsComponent implements OnInit {
   zoom = 12;
   lat = 41.410182;
   lng = 2.200003;

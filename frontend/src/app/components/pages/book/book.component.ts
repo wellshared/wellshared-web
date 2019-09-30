@@ -3,33 +3,33 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CentrosService } from 'src/app/services/centros.service';
 
 @Component({
-  selector: 'app-alquila-tu-sala',
-  templateUrl: './alquila-tu-sala.component.html',
-  styleUrls: ['./alquila-tu-sala.component.css']
+  selector: 'app-book',
+  templateUrl: './book.component.html',
+  styleUrls: ['./book.component.css']
 })
-export class AlquilaTuSalaComponent implements OnInit {
+export class BookComponent implements OnInit {
   formGroup: FormGroup;
   constructor(private centrosService: CentrosService) { }
 
   ngOnInit() {
     window.scrollTo(0, 0);
     this.formGroup = new FormGroup({
-      centro: new FormControl(undefined, Validators.required),
-      nombre: new FormControl(undefined, Validators.required),
-      correo: new FormControl(undefined, Validators.required),
-      telefono: new FormControl(undefined, Validators.required),
-      mensaje: new FormControl(undefined, Validators.required),
+      center: new FormControl(undefined, Validators.required),
+      name: new FormControl(undefined, Validators.required),
+      email: new FormControl(undefined, Validators.required),
+      phone: new FormControl(undefined, Validators.required),
+      message: new FormControl(undefined, Validators.required),
       cookies: new FormControl(false, Validators.required)
     });
   }
 
   submit() {
     if (this.formGroup.valid) {
-      console.log( this.formGroup.value.centro,
-        this.formGroup.value.nombre,
-        this.formGroup.value.correo,
-        this.formGroup.value.telefono,
-        this.formGroup.value.mensaje);
+      console.log( this.formGroup.value.center,
+        this.formGroup.value.name,
+        this.formGroup.value.email,
+        this.formGroup.value.phone,
+        this.formGroup.value.message);
       this.centrosService
       .alquila(
         this.formGroup.value.centro,

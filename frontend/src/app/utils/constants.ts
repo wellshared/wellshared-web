@@ -1,6 +1,6 @@
-export class Constantes {
+export class Constants {
     public static CALENDAR_API_KEY = 'AIzaSyBi-z5l_ms8HcxnKrbC9BeJZkh0b9Rrxjw';
-    public static horas = [
+    public static hours = [
         '08:00',
         '09:00',
         '10:00',

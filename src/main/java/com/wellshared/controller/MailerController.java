@@ -13,7 +13,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
@@ -39,8 +38,8 @@ public class MailerController {
 		context.getVariables().put("phone", bookData.getPhone());
 		context.getVariables().put("number", bookData.getNumber());
 		context.getVariables().put("email", bookData.getEmail());
-		context.getVariables().put("timeFrom", bookData.getHourFrom());
-		context.getVariables().put("timeTo", bookData.getHourTo());
+		context.getVariables().put("timeFrom", bookData.getTimeFrom());
+		context.getVariables().put("timeTo", bookData.getTimeTo());
 		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Reserva Wellshared", "Content prueba");
 		this.prepareAndSend(mail, context, "book");
 		this.prepareAndSend(mail, context, "bookws");

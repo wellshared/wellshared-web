@@ -44,7 +44,7 @@ export class CenterService {
     .set('correo', correo)
     .set('telefono', telefono)
     .set('mensaje', mensaje);
-    return this.http.get(this.url + '/contacto', {params, responseType: 'text'});
+    return this.http.get(this.url + '/api/mailer/contact',);
   }
 
   alquila(centro, nombre, correo, telefono, mensaje) {
@@ -54,7 +54,7 @@ export class CenterService {
     .set('correo', correo)
     .set('telefono', telefono)
     .set('mensaje', mensaje);
-    return this.http.get(this.url + '/alquila', {params, responseType: 'text'});
+    return this.http.get(this.url + '/api/mailer/rent', {params, responseType: 'text'});
   }
 
   reserva(centroid, nombre, apellido, numero, correo, telefono, fecha, horaDesde, horaHasta) {
@@ -67,7 +67,7 @@ export class CenterService {
     .set('fecha', `${fecha.day}/${fecha.month}/${fecha.year}`)
     .set('horaDesde', horaDesde)
     .set('horaHasta', horaHasta);
-    return this.http.get(this.url + '/reserva/' + centroid, {params, responseType: 'text'});
+    return this.http.get(this.url + '/api/mailer/book' + centroid, {params, responseType: 'text'});
   }
 
   getServicios(centroid: number) {

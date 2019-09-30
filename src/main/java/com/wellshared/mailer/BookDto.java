@@ -8,8 +8,8 @@ public class BookDto {
 	private String email;
 	private String phone;
 	private String date;
-	private String hourFrom;
-	private String hourTo;
+	private String timeFrom;
+	private String timeTo;
 	
 	public Long getCenterId() {
 		return centerId;
@@ -53,17 +53,17 @@ public class BookDto {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public String getHourFrom() {
-		return hourFrom;
+	public String getTimeFrom() {
+		return timeFrom;
 	}
-	public void setHourFrom(String hourFrom) {
-		this.hourFrom = hourFrom;
+	public void setTimwFrom(String timeFrom) {
+		this.timeFrom = timeFrom;
 	}
-	public String getHourTo() {
-		return hourTo;
+	public String getTimeTo() {
+		return timeTo;
 	}
-	public void setHourTo(String hourTo) {
-		this.hourTo = hourTo;
+	public void setHourTo(String timeTo) {
+		this.timeTo = timeTo;
 	}
 	
 }

@@ -16,8 +16,8 @@ export class RoomsComponent implements OnInit {
   lat = 41.410182;
   lng = 2.200003;
   markers: Marker[] = [];
-  Centers: Center[] = [];
-  CenterSel = '0';
+  centers: Center[] = [];
+  centerSel = '0';
   previous: any;
   constructor(private CenterService: CenterService) {}
 
@@ -34,29 +34,29 @@ export class RoomsComponent implements OnInit {
  }
 
   selectionChange() {
-    if (this.CenterSel === '0') {
+    if (this.centerSel === '0') {
       this.getCenters();
     } else {
-      this.CenterService.findByLoc(this.CenterSel).subscribe(Centers => {
-        this.Centers = Centers;
+      this.CenterService.find(this.centerSel).subscribe((centers: Center[]) => {
+        this.centers = centers;
         this.getMarkers();
       });
     }
   }
 
   getCenters() {
-    this.CenterService.findAll().subscribe((Centers: Center[]) => {
-      this.Centers = Centers;
+    this.CenterService.find(undefined).subscribe((centers: Center[]) => {
+      this.centers = centers;
       this.getMarkers();
     });
   }
 
   getMarkers() {
     this.markers = [];
-    this.Centers.forEach((Center: Center) => {
+    this.centers.forEach((center: Center) => {
       const marker: Marker = new Marker(
-        Center.lat, Center.lon, false, Center.name,
-          Center.adress, Center.price, Center.img, Center.id);
+        center.lat, center.lon, false, center.name,
+        center.adress, center.price, center.mainImage, center.id);
       this.markers[this.markers.length] = marker;
     });
   }

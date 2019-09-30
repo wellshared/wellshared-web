@@ -39,8 +39,8 @@ public class Center {
 	private String description;
 	private String description2;
 	private String phone;
-	private String imgStr;
-	private String prive;
+	private String mainImage;
+	private String price;
 	private String lat;
 	private String lon;
 	private Byte individual;
@@ -94,17 +94,17 @@ public class Center {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getImgStr() {
-		return imgStr;
+	public String getMainImage() {
+		return mainImage;
 	}
-	public void setImgStr(String imgStr) {
-		this.imgStr = imgStr;
+	public void setMainImage(String imgStr) {
+		this.mainImage = imgStr;
 	}
-	public String getPrive() {
-		return prive;
+	public String getPrice() {
+		return price;
 	}
-	public void setPrive(String prive) {
-		this.prive = prive;
+	public void setPrice(String price) {
+		this.price = price;
 	}
 	public String getLat() {
 		return lat;

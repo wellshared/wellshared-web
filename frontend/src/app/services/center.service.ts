@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Center } from '../model/center.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,9 +18,13 @@ export class CenterService {
     }));
   }
 
-  findAll() {
-    return this.http.get(this.url + '/centers').pipe(map( (centros: any[]) => {
-      return Object.values(centros);
+  find(locationId: any) {
+    let url = this.url + '/api/center/';
+    if(locationId){
+      this.url += locationId;
+    }
+    return this.http.get(url).pipe(map( (centers: Center[]) => {
+      return centers;
     }));
   }
 

@@ -10,7 +10,7 @@ export class Center {
     adress: string;
     description2: string;
     phone: string;
-    img: string;
+    mainImage: string;
     price: string;
     lat: string;
     lon: string;

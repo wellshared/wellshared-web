@@ -10,7 +10,6 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import { Marker } from 'src/app/model/marker.model';
 import { ActivatedRoute } from '@angular/router';
 import { Center } from 'src/app/model/center.model';
-import { Image } from 'src/app/model/image.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { Constants } from 'src/app/utils/constants';
@@ -37,7 +36,7 @@ export class RoomsDetailComponent implements OnInit {
     week:     'Semana'
   };
   calendarApi: any;
-  Center: Center;
+  center: Center;
   Image = 0;
   Imagees: any[] = [];
   formGroup: FormGroup;
@@ -60,13 +59,13 @@ export class RoomsDetailComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params.id) {
         this.CenterService.findById(params.id).subscribe((data: any) => {
-          this.Center = data[0];
+          this.center = data[0];
           this.Image = 0;
-          this.lat =  Number(this.Center.lat);
-          this.lng = Number(this.Center.lon);
+          this.lat =  Number(this.center.lat);
+          this.lng = Number(this.center.lon);
           this.markers[0] = new Marker(
-            this.Center.lat, this.Center.lon, false, this.Center.name,
-            this.Center.adress, this.Center.price, this.Center.img, this.Center.id);
+            this.center.lat, this.center.lon, false, this.center.name,
+            this.center.adress, this.center.price, this.center.mainImage, this.center.id);
           this.getCalendarEvents();
           this.CenterService.findImgs(params.id).subscribe(img => {
             this.Imagees = img;
@@ -80,7 +79,7 @@ export class RoomsDetailComponent implements OnInit {
     if (this.formGroup.valid) {
       this.CenterService
       .reserva(
-        this.Center.id,
+        this.center.id,
         this.formGroup.value.name,
         this.formGroup.value.sname,
         this.formGroup.value.number,
@@ -103,7 +102,7 @@ export class RoomsDetailComponent implements OnInit {
     }
   }
   getCalendarEvents() {
-    this.CenterService.calendarEvents(Constants.CALENDAR_API_KEY, this.Center.url).subscribe((calendar: any) => {
+    this.CenterService.calendarEvents(Constants.CALENDAR_API_KEY, this.center.url).subscribe((calendar: any) => {
       calendar.items.forEach((item: any) => {
         if (this.calendarComponent) {
           this.calendarComponent.getApi().addEvent({

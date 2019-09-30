@@ -32,11 +32,11 @@ export class BookComponent implements OnInit {
         this.formGroup.value.message);
       this.CenterService
       .alquila(
-        this.formGroup.value.centro,
-        this.formGroup.value.nombre,
-        this.formGroup.value.correo,
-        this.formGroup.value.telefono,
-        this.formGroup.value.mensaje).subscribe(() => window.location.reload(), error => window.location.reload());
+        this.formGroup.value.center,
+        this.formGroup.value.name,
+        this.formGroup.value.email,
+        this.formGroup.value.phone,
+        this.formGroup.value.message).subscribe(() => window.location.reload(), error => window.location.reload());
     }
   }
 

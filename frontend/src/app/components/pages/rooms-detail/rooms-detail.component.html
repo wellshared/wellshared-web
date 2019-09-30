@@ -113,27 +113,27 @@
               <div class="row">
                   <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" class="form-control form-control--shadow" name="name" formControlName="nombre"
+                        <input type="text" class="form-control form-control--shadow" name="name" formControlName="name"
                           placeholder="Nombre">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" class="form-control form-control--shadow" name="apellido"
-                          formControlName="apellido" placeholder="Apellidos">
+                        <input type="text" class="form-control form-control--shadow" name="sname"
+                          formControlName="sname" placeholder="Apellidos">
                       </div>
                     </div>
               </div>
               <div class="row">
                   <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" class="form-control form-control--shadow" name="numero" formControlName="numero"
+                        <input type="text" class="form-control form-control--shadow" name="number" formControlName="number"
                           placeholder="Número de colegiado">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="email" class="form-control form-control--shadow" name="correo" formControlName="correo"
+                        <input type="email" class="form-control form-control--shadow" name="email" formControlName="email"
                           placeholder="Correo electrónico">
                       </div>
                     </div>
@@ -156,7 +156,7 @@
                       <div class="form-group inline-items" style="width: 250px">
                         <p class="vertical-align-center u-MarginRight10">Desde: </p>
                         <div class="select-wrapper" style="width: 100px">
-                          <select class="form-control" id="localidad" formControlName="timeDesde">
+                          <select class="form-control" id="timeFrom" formControlName="timeFrom">
                             <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
                           </select>
                         </div>
@@ -166,7 +166,7 @@
                       <div class="form-group inline-items" style="width: 250px">
                         <p class="vertical-align-center u-MarginRight10">Hasta: </p>
                         <div class="select-wrapper" style="width: 100px">
-                          <select class="form-control" id="localidad" formControlName="timeHasta">
+                          <select class="form-control" id="timeTo" formControlName="timeTo">
                             <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
                           </select>
                         </div>
@@ -176,7 +176,7 @@
               <div class="row">
                   <div class="col-md-6">
                       <div class="form-group">
-                        <input type="tel" class="form-control form-control--shadow" name="telefono" formControlName="telefono"
+                        <input type="tel" class="form-control form-control--shadow" name="phone" formControlName="phone"
                           placeholder="Teléfono">
                       </div>
                     </div>

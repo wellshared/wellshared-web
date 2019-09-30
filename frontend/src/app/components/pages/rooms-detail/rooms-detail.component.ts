@@ -46,14 +46,14 @@ export class RoomsDetailComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      nombre: new FormControl(undefined, Validators.required),
-      apellido: new FormControl(undefined, Validators.required),
-      numero: new FormControl(undefined, Validators.required),
-      correo: new FormControl(undefined, Validators.required),
-      telefono: new FormControl(undefined, Validators.required),
+      name: new FormControl(undefined, Validators.required),
+      sname: new FormControl(undefined, Validators.required),
+      number: new FormControl(undefined, Validators.required),
+      emaik: new FormControl(undefined, Validators.required),
+      phone: new FormControl(undefined, Validators.required),
       date: new FormControl(this.calendar.getToday(), Validators.required),
-      timeDesde: new FormControl({hour: 0, minute: 0}, Validators.required),
-      timeHasta: new FormControl({hour: 0, minute: 0}, Validators.required),
+      timeFrom: new FormControl({hour: 0, minute: 0}, Validators.required),
+      timeTo: new FormControl({hour: 0, minute: 0}, Validators.required),
       cookies: new FormControl(false, Validators.required)
     });
 
@@ -81,14 +81,14 @@ export class RoomsDetailComponent implements OnInit {
       this.CenterService
       .reserva(
         this.Center.id,
-        this.formGroup.value.nombre,
-        this.formGroup.value.apellido,
-        this.formGroup.value.numero,
-        this.formGroup.value.correo,
-        this.formGroup.value.telefono,
+        this.formGroup.value.name,
+        this.formGroup.value.sname,
+        this.formGroup.value.number,
+        this.formGroup.value.email,
+        this.formGroup.value.phone,
         this.formGroup.value.date,
-        this.formGroup.value.timeDesde,
-        this.formGroup.value.timeHasta).subscribe(() => window.location.reload(), error => window.location.reload());
+        this.formGroup.value.timeFrom,
+        this.formGroup.value.timeTo).subscribe(() => window.location.reload(), error => window.location.reload());
     }
   }
   seleccionaImage(index: number) {

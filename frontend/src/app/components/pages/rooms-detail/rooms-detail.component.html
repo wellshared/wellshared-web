@@ -1,24 +1,24 @@
-<ng-container *ngIf="centro">
+<ng-container *ngIf="center">
   <div class="swiper-container">
     <div class="swiper-wrapper">
       <section class="ImageBackground ImageBackground--overlay v-align-parent u-height350" data-overlay="3"
         style="margin-top: 80px;">
-        <div class="ImageBackground__holder" *ngIf="imagenes[imagen]"
-          [ngStyle]="{'background-image': 'url(assets/imgs/centros/'+centro.id+'/'+imagenes[imagen].url+')'}">
-          <img src="assets/imgs/centros/{{centro.id}}/{{imagenes[imagen].url}}" alt="">
+        <div class="ImageBackground__holder" *ngIf="images[imagePosition]"
+          [ngStyle]="{'background-image': 'url(assets/imgs/centros/'+centro.id+'/'+images[imagePosition].url+')'}">
+          <img src="assets/imgs/centros/{{center.id}}/{{images[imagePosition].url}}" alt="">
         </div>
       </section>
     </div>
-    <div class="swiper-control swiper-button-next" (click)="seleccionaImagen(+1)"></div>
-    <div class="swiper-control swiper-button-prev" (click)="seleccionaImagen(-1)"></div>
+    <div class="swiper-control swiper-button-next" (click)="selectImage(+1)"></div>
+    <div class="swiper-control swiper-button-prev" (click)="selectImage(-1)"></div>
   </div>
   <section class="u-PaddingTop70 u-xs-PaddingTo50 container">
     <div class="row">
       <div class="col-md-4 text-left">
-        <h2 class="Heading-wing-after"> {{ centro.nombre }} </h2>
+        <h2 class="Heading-wing-after"> {{ center.name }} </h2>
       </div>
       <div class="col-md-8 text-right">
-        <h4 class="Heading-wing-after"> {{ centro.direccion }} </h4>
+        <h4 class="Heading-wing-after"> {{ center.adress }} </h4>
       </div>
     </div>
     <div class="row ">
@@ -27,16 +27,16 @@
           <div class="col-md-6">
             <h4 style="font-weight: bold; letter-spacing: 1.5px">
               <img src="assets/imgs/icons/euro.png" alt="phone icon" style="width: 40px; margin-right: 8px">
-              {{ centro.precio }}€/h
+              {{ center.price }}€/h
             </h4>
           </div>
           <div class="col-md-12">
             <p class="u-LineHeight2">
-              {{ centro.descripcion }}
+              {{ center.description }}
             </p>
             <br>
             <p>
-              {{ centro.descripcion2 }}
+              {{ center.description2 }}
             </p>
           </div>
         </div>
@@ -48,9 +48,9 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-4 text-center" *ngFor="let servicio of servicios">
-            <img [src]="'assets/imgs/icons/'+servicio.img" style="width: 40px" [alt]="servicio.nombre">
-            <p>{{ servicio.nombre }}</p>
+          <div class="col-md-4 text-center" *ngFor="let service of servicios">
+            <img [src]="'assets/imgs/icons/'+service.url" style="width: 40px" [alt]="service.name">
+            <p>{{ service.name }}</p>
           </div>
         </div>
       </div>
@@ -76,7 +76,7 @@
             <agm-info-window>
               <div>
                 <img class="img-responsive" width="1000%" style="margin: 0px;"
-                  [src]="'assets/imgs/centros/'+m.centroid+'/'+m.img" alt="...">
+                  [src]="'assets/imgs/centros/'+m.centerid+'/'+m.img" alt="...">
                 <div class="centro-text">
                   <h5 style="font-weight: bold" class="text-left" style="margin: 10px 0px;">
                     {{m.label}}
@@ -87,7 +87,7 @@
                 </div>
                 <div class="precio-map">
                   <h5 class="text-right" style="margin: 5px 0px;">
-                    <strong> {{m.precio}} €/h</strong>
+                    <strong> {{m.price}} €/h</strong>
                   </h5>
                 </div>
               </div>
@@ -102,7 +102,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title" id="exampleModalLabel" style="float: left; width: 90%">Reserva para {{centro.name}}</h3>
+          <h3 class="modal-title" id="exampleModalLabel" style="float: left; width: 90%">Reserva para {{center.name}}</h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

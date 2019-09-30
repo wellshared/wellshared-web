@@ -14,6 +14,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { Constants } from 'src/app/utils/constants';
 import { Service } from '../../../model/service.model';
+import { Image } from 'src/app/model/image.model';
 
 @Component({
   selector: 'app-rooms-detail',
@@ -37,8 +38,8 @@ export class RoomsDetailComponent implements OnInit {
   };
   calendarApi: any;
   center: Center;
-  Image = 0;
-  Imagees: any[] = [];
+  imagePosition = 0;
+  images: Image[] = [];
   formGroup: FormGroup;
   horas: string[] = Constants.hours;
   constructor(private CenterService: CenterService, private route: ActivatedRoute, private calendar: NgbCalendar) {}
@@ -60,7 +61,7 @@ export class RoomsDetailComponent implements OnInit {
       if (params.id) {
         this.CenterService.findById(params.id).subscribe((data: any) => {
           this.center = data[0];
-          this.Image = 0;
+          this.imagePosition = 0;
           this.lat =  Number(this.center.lat);
           this.lng = Number(this.center.lon);
           this.markers[0] = new Marker(
@@ -68,7 +69,7 @@ export class RoomsDetailComponent implements OnInit {
             this.center.adress, this.center.price, this.center.mainImage, this.center.id);
           this.getCalendarEvents();
           this.CenterService.findImgs(params.id).subscribe(img => {
-            this.Imagees = img;
+            this.images = img;
           });
         });
       }
@@ -90,15 +91,15 @@ export class RoomsDetailComponent implements OnInit {
         this.formGroup.value.timeTo).subscribe(() => window.location.reload(), error => window.location.reload());
     }
   }
-  seleccionaImage(index: number) {
-    if(this.Image === (this.Imagees.length -1 )) {
-      this.Image = 0;
-    } else if ((this.Image + index) < 0 ) {
-      this.Image = this.Imagees.length - 1;
-    } else if ((this.Image + index) > this.Imagees.length) {
-      this.Image = 0;
+  selectImage(index: number) {
+    if(this.imagePosition === (this.images.length -1 )) {
+      this.imagePosition = 0;
+    } else if ((this.imagePosition + index) < 0 ) {
+      this.imagePosition = this.images.length - 1;
+    } else if ((this.imagePosition + index) > this.images.length) {
+      this.imagePosition = 0;
     } else {
-      this.Image = this.Image + index;
+      this.imagePosition = this.imagePosition + index;
     }
   }
   getCalendarEvents() {

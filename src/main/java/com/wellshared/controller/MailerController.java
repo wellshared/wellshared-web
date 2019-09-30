@@ -1,27 +1,26 @@
 package com.wellshared.controller;
 
+import java.nio.charset.StandardCharsets;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
+import com.wellshared.mailer.BookDto;
+import com.wellshared.mailer.ContactDto;
 import com.wellshared.mailer.Mail;
 import com.wellshared.mailer.RentDto;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
 @Controller
 @RequestMapping("api/mailer")
@@ -33,12 +32,23 @@ public class MailerController {
 	private SpringTemplateEngine templateEngine;
 
 	@RequestMapping(path = "/booking", method = RequestMethod.POST)
-	public @ResponseBody String book() {
-		return "Welcome to Spring Boot Server!";
+	public ResponseEntity<Object> book(BookDto bookData) {
+		Context context = new Context();
+		context.getVariables().put("center", bookData.getCenterId());
+		context.getVariables().put("name", bookData.getName());
+		context.getVariables().put("phone", bookData.getPhone());
+		context.getVariables().put("number", bookData.getNumber());
+		context.getVariables().put("email", bookData.getEmail());
+		context.getVariables().put("timeFrom", bookData.getHourFrom());
+		context.getVariables().put("timeTo", bookData.getHourTo());
+		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Reserva Wellshared", "Content prueba");
+		this.prepareAndSend(mail, context, "book");
+		this.prepareAndSend(mail, context, "bookws");
+		return ResponseEntity.ok("Correo enviado correctamente");
 	}
 
 	@RequestMapping(path = "/rent", method = RequestMethod.POST)
-	public @ResponseBody String rent(RentDto rentData) {
+	public ResponseEntity<Object> rent(RentDto rentData) {
 		Context context = new Context();
 		context.getVariables().put("center", rentData.getCenterId());
 		context.getVariables().put("name", rentData.getName());
@@ -46,21 +56,28 @@ public class MailerController {
 		context.getVariables().put("email", rentData.getEmail());
 		context.getVariables().put("message", rentData.getMessage());
 		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Reserva Wellshared", "Content prueba");
-		this.prepareAndSend(mail, context);
-		return "Welcome to Spring Boot Server!";
+		this.prepareAndSend(mail, context, "rent");
+		return ResponseEntity.ok("Correo enviado correctamente");
 	}
 
 	@RequestMapping(path = "/contact", method = RequestMethod.POST)
-	public @ResponseBody String contact() {
-		return "Welcome to Spring Boot Server!";
+	public ResponseEntity<Object> contact(ContactDto contactData) {
+		Context context = new Context();
+		context.getVariables().put("name", contactData.getName());
+		context.getVariables().put("phone", contactData.getPhone());
+		context.getVariables().put("email", contactData.getEmail());
+		context.getVariables().put("message", contactData.getMessage());
+		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Reserva Wellshared", "Content prueba");
+		this.prepareAndSend(mail, context, "contact");
+		return ResponseEntity.ok("Correo enviado correctamente");
 	}
 
-	public void prepareAndSend(Mail mail, Context context) {
+	public void prepareAndSend(Mail mail, Context context, String template) {
 		try {
 			MimeMessage message = emailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
 					StandardCharsets.UTF_8.name());
-			String html = templateEngine.process("rent", context);
+			String html = templateEngine.process(template, context);
 			helper.setTo(mail.getTo());
 			helper.setFrom(mail.getFrom());
 			helper.setText(html, true);

@@ -1,5 +1,6 @@
 import { Localidad } from './location.model';
 import { Image } from './image.model';
+import { Service } from './service.model';
 
 export class Center {
     id: number;
@@ -16,5 +17,6 @@ export class Center {
     lon: string;
     individual: number;
     activites: number;
+    services: Service[];
     url: string;
 }

@@ -18,8 +18,6 @@ public class Service {
 	private String name;
 	private String url;
 	private String description;
-	@ManyToMany(mappedBy="services")
-	private List<Center> centers;
 	
 	public Long getId() {
 		return id;
@@ -44,12 +42,6 @@ public class Service {
 	}
 	public void setUrl(String url) {
 		this.url = url;
-	}
-	public List<Center> getCenters() {
-		return centers;
-	}
-	public void setCenters(List<Center> centers) {
-		this.centers = centers;
 	}
 	
 	

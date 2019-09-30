@@ -1,6 +1,6 @@
 package com.wellshared.controller;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wellshared.model.Center;
@@ -30,8 +29,13 @@ public class CenterController {
 		return ResponseEntity.ok(this.centerRepository.findAll());
     }
 	
-	@RequestMapping(path = "/{locationId}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getCentersByLocation(@RequestParam() Long locationId) {
+	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getCenterById(@PathVariable Long id) {
+		return ResponseEntity.ok(this.centerRepository.findById(id).get());
+    }
+	
+	@RequestMapping(path = "/location/{locationId}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getCentersByLocation(@PathVariable Long locationId) {
 		Optional<Location> location = locationRepository.findById(locationId);
 		if(location.isPresent()) {
 			return ResponseEntity.ok(this.centerRepository.findAllByLocation(location.get()));
@@ -40,4 +44,14 @@ public class CenterController {
 		}
     }
 
+	@RequestMapping(path = "/{id}/imgs", method = RequestMethod.GET)
+    public ResponseEntity<Object> getCenterImgs(@PathVariable Long id) {
+		Optional<Center> center = centerRepository.findById(id);
+		if(center.isPresent()) {
+			return ResponseEntity.ok(new ArrayList<>(center.get().getImages()));
+		} else {
+			return new ResponseEntity<Object>("El centro indicado no existe", HttpStatus.BAD_REQUEST);
+		}
+    }
+	
 }

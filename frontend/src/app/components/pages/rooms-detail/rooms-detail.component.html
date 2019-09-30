@@ -4,7 +4,7 @@
       <section class="ImageBackground ImageBackground--overlay v-align-parent u-height350" data-overlay="3"
         style="margin-top: 80px;">
         <div class="ImageBackground__holder" *ngIf="images[imagePosition]"
-          [ngStyle]="{'background-image': 'url(assets/imgs/centros/'+centro.id+'/'+images[imagePosition].url+')'}">
+          [ngStyle]="{'background-image': 'url(assets/imgs/centros/'+center.id+'/'+images[imagePosition].url+')'}">
           <img src="assets/imgs/centros/{{center.id}}/{{images[imagePosition].url}}" alt="">
         </div>
       </section>
@@ -48,7 +48,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-4 text-center" *ngFor="let service of servicios">
+          <div class="col-md-4 text-center" *ngFor="let service of center.services">
             <img [src]="'assets/imgs/icons/'+service.url" style="width: 40px" [alt]="service.name">
             <p>{{ service.name }}</p>
           </div>

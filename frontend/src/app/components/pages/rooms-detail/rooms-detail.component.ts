@@ -28,7 +28,6 @@ export class RoomsDetailComponent implements OnInit {
   markers: Marker[] = [];
   calendarPlugins = [timeGridPlugin];
   customButtons: any;
-  servicios: Service[] = [];
   @ViewChild('calendar', {static: false}) calendarComponent: FullCalendarComponent;
   header = {};
   buttonText = {
@@ -42,14 +41,14 @@ export class RoomsDetailComponent implements OnInit {
   images: Image[] = [];
   formGroup: FormGroup;
   horas: string[] = Constants.hours;
-  constructor(private CenterService: CenterService, private route: ActivatedRoute, private calendar: NgbCalendar) {}
+  constructor(private centerService: CenterService, private route: ActivatedRoute, private calendar: NgbCalendar) {}
 
   ngOnInit() {
     this.formGroup = new FormGroup({
       name: new FormControl(undefined, Validators.required),
       sname: new FormControl(undefined, Validators.required),
       number: new FormControl(undefined, Validators.required),
-      emaik: new FormControl(undefined, Validators.required),
+      email: new FormControl(undefined, Validators.required),
       phone: new FormControl(undefined, Validators.required),
       date: new FormControl(this.calendar.getToday(), Validators.required),
       timeFrom: new FormControl({hour: 0, minute: 0}, Validators.required),
@@ -59,17 +58,17 @@ export class RoomsDetailComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       if (params.id) {
-        this.CenterService.findById(params.id).subscribe((data: any) => {
-          this.center = data[0];
+        this.centerService.findById(params.id).subscribe((center: Center) => {
+          this.center = center;
           this.imagePosition = 0;
           this.lat =  Number(this.center.lat);
           this.lng = Number(this.center.lon);
           this.markers[0] = new Marker(
-            this.center.lat, this.center.lon, false, this.center.name,
-            this.center.adress, this.center.price, this.center.mainImage, this.center.id);
+          this.center.lat, this.center.lon, false, this.center.name,
+          this.center.adress, this.center.price, this.center.mainImage, this.center.id);
           this.getCalendarEvents();
-          this.CenterService.findImgs(params.id).subscribe(img => {
-            this.images = img;
+          this.centerService.findImgs(params.id).subscribe((imgs: Image[]) => {
+            this.images = imgs;
           });
         });
       }
@@ -78,7 +77,7 @@ export class RoomsDetailComponent implements OnInit {
 
   submit() {
     if (this.formGroup.valid) {
-      this.CenterService
+      this.centerService
       .reserva(
         this.center.id,
         this.formGroup.value.name,
@@ -92,7 +91,7 @@ export class RoomsDetailComponent implements OnInit {
     }
   }
   selectImage(index: number) {
-    if(this.imagePosition === (this.images.length -1 )) {
+    if (this.imagePosition === (this.images.length - 1 )) {
       this.imagePosition = 0;
     } else if ((this.imagePosition + index) < 0 ) {
       this.imagePosition = this.images.length - 1;
@@ -103,7 +102,7 @@ export class RoomsDetailComponent implements OnInit {
     }
   }
   getCalendarEvents() {
-    this.CenterService.calendarEvents(Constants.CALENDAR_API_KEY, this.center.url).subscribe((calendar: any) => {
+    this.centerService.calendarEvents(Constants.CALENDAR_API_KEY, this.center.url).subscribe((calendar: any) => {
       calendar.items.forEach((item: any) => {
         if (this.calendarComponent) {
           this.calendarComponent.getApi().addEvent({
@@ -111,7 +110,7 @@ export class RoomsDetailComponent implements OnInit {
             start: moment(item.start.dateTime).format('YYYY-MM-DDTHH:mm:ss'),
             end: moment(item.end.dateTime).format('YYYY-MM-DDTHH:mm:ss'),
             allDay: false,
-            color: (item.summary === 'Lliure/Libre') ? '#0b8043': '#d50000'
+            color: (item.summary === 'Lliure/Libre') ? '#0b8043' : '#d50000'
           });
         }
       });

@@ -3,6 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Center } from '../model/center.model';
+import { Image } from '../model/image.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -20,30 +21,20 @@ export class CenterService {
 
   find(locationId: any) {
     let url = this.url + '/api/center/';
-    if(locationId){
-      this.url += locationId;
+    if (locationId) {
+      url += locationId;
     }
     return this.http.get(url).pipe(map( (centers: Center[]) => {
       return centers;
     }));
   }
 
-  findByLoc(loc) {
-    return this.http.get(`${this.url}/salas/${loc}`).pipe(map( (centros: any[]) => {
-    return Object.values(centros);
-    }));
-  }
-
   findById(id: string) {
-    return this.http.get(`${this.url}/centro/${id}`).pipe(map( (centros: any[]) => {
-      return Object.values(centros);
-    }));
+    return this.http.get(`${this.url}/api/center/${id}`);
   }
 
   findImgs(id: string) {
-    return this.http.get(`${this.url}/img/${id}`).pipe(map( (imgs: any[]) => {
-      return Object.values(imgs);
-    }));
+    return this.http.get(`${this.url}/api/center/${id}/imgs`);
   }
 
   contacto(nombre, apellidos, correo, telefono, mensaje) {

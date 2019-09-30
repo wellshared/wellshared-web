@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -45,6 +46,7 @@ public class Center {
 	private String lon;
 	private Byte individual;
 	private Byte activities;	
+	@Size(min = 3, max = 500)
 	private String url;
 	public Long getId() {
 		return id;

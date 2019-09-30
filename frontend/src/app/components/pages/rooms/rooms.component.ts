@@ -2,8 +2,8 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import { CentrosService } from 'src/app/services/centros.service';
-import { Centro } from 'src/app/model/centro.model';
+import { CenterService } from 'src/app/services/center.service';
+import { Center } from 'src/app/model/center.model';
 import { Marker } from 'src/app/model/marker.model';
 
 @Component({
@@ -16,13 +16,13 @@ export class RoomsComponent implements OnInit {
   lat = 41.410182;
   lng = 2.200003;
   markers: Marker[] = [];
-  centros: Centro[] = [];
-  centroSel = '0';
+  Centers: Center[] = [];
+  CenterSel = '0';
   previous: any;
-  constructor(private centrosService: CentrosService) {}
+  constructor(private CenterService: CenterService) {}
 
   ngOnInit() {
-    this.getCentros();
+    this.getCenters();
     window.scrollTo(0, 0);
   }
 
@@ -34,29 +34,29 @@ export class RoomsComponent implements OnInit {
  }
 
   selectionChange() {
-    if (this.centroSel === '0') {
-      this.getCentros();
+    if (this.CenterSel === '0') {
+      this.getCenters();
     } else {
-      this.centrosService.findByLoc(this.centroSel).subscribe(centros => {
-        this.centros = centros;
+      this.CenterService.findByLoc(this.CenterSel).subscribe(Centers => {
+        this.Centers = Centers;
         this.getMarkers();
       });
     }
   }
 
-  getCentros() {
-    this.centrosService.findAll().subscribe((centros: Centro[]) => {
-      this.centros = centros;
+  getCenters() {
+    this.CenterService.findAll().subscribe((Centers: Center[]) => {
+      this.Centers = Centers;
       this.getMarkers();
     });
   }
 
   getMarkers() {
     this.markers = [];
-    this.centros.forEach((centro: Centro) => {
+    this.Centers.forEach((Center: Center) => {
       const marker: Marker = new Marker(
-        centro.lat, centro.lang, false, centro.nombre,
-          centro.direccion, centro.precio, centro.img, centro.id);
+        Center.lat, Center.lon, false, Center.name,
+          Center.adress, Center.price, Center.img, Center.id);
       this.markers[this.markers.length] = marker;
     });
   }

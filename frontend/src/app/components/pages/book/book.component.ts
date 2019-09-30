@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CentrosService } from 'src/app/services/centros.service';
+import { CenterService } from 'src/app/services/center.service';
 
 @Component({
   selector: 'app-book',
@@ -9,7 +9,7 @@ import { CentrosService } from 'src/app/services/centros.service';
 })
 export class BookComponent implements OnInit {
   formGroup: FormGroup;
-  constructor(private centrosService: CentrosService) { }
+  constructor(private CenterService: CenterService) { }
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -30,7 +30,7 @@ export class BookComponent implements OnInit {
         this.formGroup.value.email,
         this.formGroup.value.phone,
         this.formGroup.value.message);
-      this.centrosService
+      this.CenterService
       .alquila(
         this.formGroup.value.centro,
         this.formGroup.value.nombre,

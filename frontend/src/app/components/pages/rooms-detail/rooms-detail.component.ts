@@ -3,18 +3,18 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import { CentrosService } from 'src/app/services/centros.service';
+import { CenterService } from 'src/app/services/center.service';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import * as moment from 'moment';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { Marker } from 'src/app/model/marker.model';
 import { ActivatedRoute } from '@angular/router';
-import { Centro } from 'src/app/model/centro.model';
-import { Imagen } from 'src/app/model/imagen.model';
+import { Center } from 'src/app/model/center.model';
+import { Image } from 'src/app/model/image.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CentroServicio } from 'src/app/model/centro-servicio.model';
 import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { Constants } from 'src/app/utils/constants';
+import { Service } from '../../../model/service.model';
 
 @Component({
   selector: 'app-rooms-detail',
@@ -28,7 +28,7 @@ export class RoomsDetailComponent implements OnInit {
   markers: Marker[] = [];
   calendarPlugins = [timeGridPlugin];
   customButtons: any;
-  servicios: CentroServicio[] = [];
+  servicios: Service[] = [];
   @ViewChild('calendar', {static: false}) calendarComponent: FullCalendarComponent;
   header = {};
   buttonText = {
@@ -37,12 +37,12 @@ export class RoomsDetailComponent implements OnInit {
     week:     'Semana'
   };
   calendarApi: any;
-  centro: Centro;
-  imagen = 0;
-  imagenes: any[] = [];
+  Center: Center;
+  Image = 0;
+  Imagees: any[] = [];
   formGroup: FormGroup;
   horas: string[] = Constants.hours;
-  constructor(private centrosService: CentrosService, private route: ActivatedRoute, private calendar: NgbCalendar) {}
+  constructor(private CenterService: CenterService, private route: ActivatedRoute, private calendar: NgbCalendar) {}
 
   ngOnInit() {
     this.formGroup = new FormGroup({
@@ -59,20 +59,17 @@ export class RoomsDetailComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       if (params.id) {
-        this.centrosService.findById(params.id).subscribe((data: any) => {
-          this.centro = data[0];
-          this.imagen = 0;
-          this.centrosService.getServicios(this.centro.id).subscribe((servicios: CentroServicio[]) => {
-            this.servicios = Object.values(servicios);
-          });
-          this.lat =  Number(this.centro.lat);
-          this.lng = Number(this.centro.lang);
+        this.CenterService.findById(params.id).subscribe((data: any) => {
+          this.Center = data[0];
+          this.Image = 0;
+          this.lat =  Number(this.Center.lat);
+          this.lng = Number(this.Center.lon);
           this.markers[0] = new Marker(
-            this.centro.lat, this.centro.lang, false, this.centro.nombre,
-            this.centro.direccion, this.centro.precio, this.centro.img, this.centro.id);
+            this.Center.lat, this.Center.lon, false, this.Center.name,
+            this.Center.adress, this.Center.price, this.Center.img, this.Center.id);
           this.getCalendarEvents();
-          this.centrosService.findImgs(params.id).subscribe(img => {
-            this.imagenes = img;
+          this.CenterService.findImgs(params.id).subscribe(img => {
+            this.Imagees = img;
           });
         });
       }
@@ -81,9 +78,9 @@ export class RoomsDetailComponent implements OnInit {
 
   submit() {
     if (this.formGroup.valid) {
-      this.centrosService
+      this.CenterService
       .reserva(
-        this.centro.id,
+        this.Center.id,
         this.formGroup.value.nombre,
         this.formGroup.value.apellido,
         this.formGroup.value.numero,
@@ -94,19 +91,19 @@ export class RoomsDetailComponent implements OnInit {
         this.formGroup.value.timeHasta).subscribe(() => window.location.reload(), error => window.location.reload());
     }
   }
-  seleccionaImagen(index: number) {
-    if(this.imagen === (this.imagenes.length -1 )) {
-      this.imagen = 0;
-    } else if ((this.imagen + index) < 0 ) {
-      this.imagen = this.imagenes.length - 1;
-    } else if ((this.imagen + index) > this.imagenes.length) {
-      this.imagen = 0;
+  seleccionaImage(index: number) {
+    if(this.Image === (this.Imagees.length -1 )) {
+      this.Image = 0;
+    } else if ((this.Image + index) < 0 ) {
+      this.Image = this.Imagees.length - 1;
+    } else if ((this.Image + index) > this.Imagees.length) {
+      this.Image = 0;
     } else {
-      this.imagen = this.imagen + index;
+      this.Image = this.Image + index;
     }
   }
   getCalendarEvents() {
-    this.centrosService.calendarEvents(Constants.CALENDAR_API_KEY, this.centro.url).subscribe((calendar: any) => {
+    this.CenterService.calendarEvents(Constants.CALENDAR_API_KEY, this.Center.url).subscribe((calendar: any) => {
       calendar.items.forEach((item: any) => {
         if (this.calendarComponent) {
           this.calendarComponent.getApi().addEvent({

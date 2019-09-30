@@ -4,17 +4,17 @@ export class Marker {
     draggable: boolean;
     description: string;
     label?: string;
-    precio: string;
+    price: string;
     img: string;
-    centroid: number;
-    constructor(lat, lng, draggable, label, description, precio, img, centroid) {
+    centerid: number;
+    constructor(lat, lng, draggable, label, description, price, img, centerid) {
         this.lat = lat;
         this.lng = lng;
         this.draggable = draggable;
         this.label = label;
         this.description = description;
-        this.precio = precio;
+        this.price = price;
         this.img = img;
-        this.centroid = centroid;
+        this.centerid = centerid;
     }
 }

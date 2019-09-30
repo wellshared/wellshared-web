@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class CentrosService {
+export class CenterService {
 
   url = environment.url;
   constructor(private http: HttpClient) { }

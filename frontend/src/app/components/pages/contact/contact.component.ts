@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CentrosService } from 'src/app/services/centros.service';
+import { CenterService } from 'src/app/services/center.service';
 
 @Component({
   selector: 'app-contact',
@@ -9,7 +9,7 @@ import { CentrosService } from 'src/app/services/centros.service';
 })
 export class ContactComponent implements OnInit {
   formGroup: FormGroup;
-  constructor(private centrosService: CentrosService) { }
+  constructor(private CenterService: CenterService) { }
 
   ngOnInit() {
     this.formGroup = new FormGroup({
@@ -24,7 +24,7 @@ export class ContactComponent implements OnInit {
   }
   submit() {
     if (this.formGroup.valid) {
-      this.centrosService
+      this.CenterService
       .contacto(
         this.formGroup.value.name,
         this.formGroup.value.sname,

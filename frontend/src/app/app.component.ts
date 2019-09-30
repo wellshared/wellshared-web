@@ -1,21 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { WelcomeService } from './welcome.service';
+import { HTTPStatus } from './services/HTTPListener.interceptor';
+
 @Component({
   selector: 'app-root',
-  providers: [WelcomeService],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  HTTPActivity: boolean;
   title = 'app';
-  serverWelcome = '';
-
-  constructor(private _welcomeService : WelcomeService) {
-
+  acceptCookies = false;
+  constructor(private httpStatus: HTTPStatus) {}
+  ngOnInit(): void {
+    this.httpStatus.getHttpStatus().subscribe((status: boolean) => this.HTTPActivity = status);
   }
-
-  ngOnInit(){
-    this._welcomeService.getWelcomeMessage().subscribe((data: string) => this.serverWelcome = data);
-  }
-
 }

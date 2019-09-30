@@ -1,0 +1,20 @@
+<section class="container u-PaddingTop100 position-center">
+    <form [formGroup]="formGroup" (ngSubmit)="login()" class="u-MarginBottom50 u-MarginTop50 u-Padding50 col-xs-12 col-md-6 col-lg-5 u-BoxShadow100">
+        <div class="col-md-12">
+            <h2>Inicia sesión</h2>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="text" class="form-control form-control--shadow" name="username" formControlName="username" placeholder="Nombre del centro">
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group u-PaddingBottom0">
+                <input type="text" class="form-control form-control--shadow" name="password" formControlName="password" placeholder="Nombre del responsable">
+            </div>
+        </div>
+        <div class="col-md-12 position-right">
+            <button class="btn btn-primary" type="submit">Enviar</button>
+        </div>
+    </form>
+</section>

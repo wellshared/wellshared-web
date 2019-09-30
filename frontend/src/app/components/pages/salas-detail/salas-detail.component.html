@@ -1,0 +1,200 @@
+<ng-container *ngIf="centro">
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <section class="ImageBackground ImageBackground--overlay v-align-parent u-height350" data-overlay="3"
+        style="margin-top: 80px;">
+        <div class="ImageBackground__holder" *ngIf="imagenes[imagen]"
+          [ngStyle]="{'background-image': 'url(assets/imgs/centros/'+centro.id+'/'+imagenes[imagen].url+')'}">
+          <img src="assets/imgs/centros/{{centro.id}}/{{imagenes[imagen].url}}" alt="">
+        </div>
+      </section>
+    </div>
+    <div class="swiper-control swiper-button-next" (click)="seleccionaImagen(+1)"></div>
+    <div class="swiper-control swiper-button-prev" (click)="seleccionaImagen(-1)"></div>
+  </div>
+  <section class="u-PaddingTop70 u-xs-PaddingTo50 container">
+    <div class="row">
+      <div class="col-md-4 text-left">
+        <h2 class="Heading-wing-after"> {{ centro.nombre }} </h2>
+      </div>
+      <div class="col-md-8 text-right">
+        <h4 class="Heading-wing-after"> {{ centro.direccion }} </h4>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="col-md-6 text-justify">
+        <div class="row">
+          <div class="col-md-6">
+            <h4 style="font-weight: bold; letter-spacing: 1.5px">
+              <img src="assets/imgs/icons/euro.png" alt="phone icon" style="width: 40px; margin-right: 8px">
+              {{ centro.precio }}€/h
+            </h4>
+          </div>
+          <div class="col-md-12">
+            <p class="u-LineHeight2">
+              {{ centro.descripcion }}
+            </p>
+            <br>
+            <p>
+              {{ centro.descripcion2 }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 text-justify">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <h3 class="Heading-wing Heading-wing">Servicios</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 text-center" *ngFor="let servicio of servicios">
+            <img [src]="'assets/imgs/icons/'+servicio.img" style="width: 40px" [alt]="servicio.nombre">
+            <p>{{ servicio.nombre }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="u-PaddingTop20 u-PaddingBottom20 u-xs-PaddingTo20 u-xs-PaddingBottom0 container text-center">
+    <button type="button" class="btn btn-lg btn-primary u-Rounded" data-toggle="modal"
+      data-target=".bd-modal-lg">Reserva ya</button>
+  </section>
+  <section class="u-PaddingTop70 u-PaddingBottom50 u-xs-PaddingTo50 u-xs-PaddingBottom0 container">
+    <div class="row">
+      <div class="col-md-6 u-PaddingBottom50">
+        <full-calendar #calendar defaultView="timeGridWeek" [buttonText]="buttonText" [weekends]="true" [header]="header"
+          [timeZone]="'CEST'" [allDaySlot]="false" [firstDay]="1" [displayEventTime]="true" [locale]="'es'" [plugins]="calendarPlugins">
+        </full-calendar>
+      </div>
+      <div class="col-md-6 u-PaddingBottom50">
+        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="false">
+
+          <agm-marker *ngFor="let m of markers; let i = index" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label"
+            [markerDraggable]="m.draggable">
+
+            <agm-info-window>
+              <div>
+                <img class="img-responsive" width="1000%" style="margin: 0px;"
+                  [src]="'assets/imgs/centros/'+m.centroid+'/'+m.img" alt="...">
+                <div class="centro-text">
+                  <h5 style="font-weight: bold" class="text-left" style="margin: 10px 0px;">
+                    {{m.label}}
+                  </h5>
+                  <h5 class="text-left" style="margin: 10px 0px;">
+                    {{m.description}}
+                  </h5>
+                </div>
+                <div class="precio-map">
+                  <h5 class="text-right" style="margin: 5px 0px;">
+                    <strong> {{m.precio}} €/h</strong>
+                  </h5>
+                </div>
+              </div>
+            </agm-info-window>
+          </agm-marker>
+        </agm-map>
+      </div>
+    </div>
+  </section>
+  <div class="modal fade bd-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLabel" style="float: left; width: 90%">Reserva para {{centro.nombre}}</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <form [formGroup]="formGroup" (ngSubmit)="submit()" class="u-Padding10">
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control--shadow" name="name" formControlName="nombre"
+                          placeholder="Nombre">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control--shadow" name="apellido"
+                          formControlName="apellido" placeholder="Apellidos">
+                      </div>
+                    </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control--shadow" name="numero" formControlName="numero"
+                          placeholder="Número de colegiado">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <input type="email" class="form-control form-control--shadow" name="correo" formControlName="correo"
+                          placeholder="Correo electrónico">
+                      </div>
+                    </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <input class="form-control form-control--shadow" formControlName="date"
+                            placeholder="Fecha y hora de reserva" name="dp" ngbDatepicker #d="ngbDatepicker">
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                              <i class="fa fa-calendar"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group inline-items" style="width: 250px">
+                        <p class="vertical-align-center u-MarginRight10">Desde: </p>
+                        <div class="select-wrapper" style="width: 100px">
+                          <select class="form-control" id="localidad" formControlName="timeDesde">
+                            <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group inline-items" style="width: 250px">
+                        <p class="vertical-align-center u-MarginRight10">Hasta: </p>
+                        <div class="select-wrapper" style="width: 100px">
+                          <select class="form-control" id="localidad" formControlName="timeHasta">
+                            <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <input type="tel" class="form-control form-control--shadow" name="telefono" formControlName="telefono"
+                          placeholder="Teléfono">
+                      </div>
+                    </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <input type="checkbox" style="margin-right: 10px" name="cookies" formControlName="cookies">
+                  <label>Acepto la <a routerLink="/privacidad">Política de privacidad</a> de wellshared.es</label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <button type="submit" [disabled]="!formGroup.valid || !formGroup.controls['cookies'].value"
+                  class="btn btn-primary btn--alien btn-block">Enviar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

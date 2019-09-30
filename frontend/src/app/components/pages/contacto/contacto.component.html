@@ -1,0 +1,56 @@
+<section class="ImageBackground ImageBackground--overlay v-align-parent u-height330 js-Parallax" data-overlay="3"
+  style="margin-top: 80px;">
+  <div class="ImageBackground__holder"
+    style="background-image: url(assets/imgs/contact.jpeg); background-position: 50% 32px;">
+    <img src="assets/imgs/contact.jpeg" alt="">
+  </div>
+  <div class="v-align-child">
+    <div class="container ">
+      <div class="row ">
+        <div class="col-md-8 col-xs-12 text-white ">
+          <h1 class=" u-Margin0 u-Weight300">Contacto</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="u-PaddingTop50 u-xs-PaddingTop50 u-PaddingBottom100 u-xs-PaddingBottom0 container">
+  <div class="col-md-12 text-center u-PaddingBottom50">
+    <h2 class="Heading-wing Heading-wing">Contacta con nosotros</h2>
+  </div>
+  <div class="container">
+    <div class="row u-MarginBottom70">
+      <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control form-control--shadow" name="nombre" formControlName="nombre"
+              placeholder="Nombre">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control form-control--shadow" name="apellidos" formControlName="apellidos"
+              placeholder="Apellidos">
+          </div>
+          <div class="form-group">
+            <input type="email" class="form-control form-control--shadow" name="correo" formControlName="correo"
+              placeholder="Correo electrónico">
+          </div>
+          <div class="form-group">
+            <input type="tel" class="form-control form-control--shadow" name="telefono" formControlName="telefono"
+              placeholder="Teléfono">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <textarea class="form-control form-control--shadow" rows="6" name="mensaje" formControlName="mensaje"
+              placeholder="Mensaje"></textarea>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" style="margin-right: 10px" name="cookies" formControlName="cookies">
+            <label>Acepto la <a routerLink="/privacidad">Política de privacidad</a> de wellshared.es</label>
+          </div>
+          <button type="submit" [disabled]="!formGroup.valid || !formGroup.controls['cookies'].value" class="btn btn-primary btn--alien btn-block">Enviar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

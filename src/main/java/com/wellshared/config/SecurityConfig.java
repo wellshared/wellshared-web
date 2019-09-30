@@ -38,7 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().authorizeRequests()
-		.antMatchers("/user/add").permitAll()
         .anyRequest().authenticated().and().formLogin()
         .successHandler((req,resp,exp) -> resp.setStatus(HttpStatus.OK.value()))
         .failureHandler((req,resp,exp) -> resp.setStatus(HttpStatus.UNAUTHORIZED.value()))

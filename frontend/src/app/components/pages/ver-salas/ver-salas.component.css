@@ -1,0 +1,16 @@
+agm-map {
+  height: 75vh;
+  width: 100%;
+}
+.card-list {
+  height: 75vh;
+  overflow: auto;
+}
+.centros-section {
+  padding: 30px 0px;
+}
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

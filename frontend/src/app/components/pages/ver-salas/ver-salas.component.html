@@ -1,0 +1,100 @@
+<section style="padding-top: 25px; max-width: 1120px; margin: 0 auto; margin-top: 80px;">
+  <div class="ImageBackground__holder"></div>
+  <div class="v-align-child">
+    <div class="container ">
+      <div class="row ">
+        <div class="col-md-6 col-xs-12">
+          <div class="form-group select-wrapper" style="width: 250px">
+              <select class="form-control" id="localidad" [(ngModel)]="centroSel" (change)="selectionChange()">
+                  <option value="0">Todos los barrios</option>
+                  <option value="1">Gràcia</option>
+                  <option value="2">Eixample</option>
+                  <option value="4">Horta-Guinardó</option>
+                  <option value="3">Sants-Montjuic</option>
+                </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="u-PaddingTop0 u-PaddingBottom50 u-xs-PaddingTop0 u-xs-PaddingBottom0">
+  <div style="max-width: 1120px; margin: 0 auto">
+    <div class="row centros-section" style="background-color: #fff;">
+      <div class="col-md-6 container card-list">
+        <div *ngFor="let centro of centros" class="col-12 centro-card u-MarginBottom60">
+            <div class="row cursor-pointer" [routerLink]="['/salas', centro.id]" style="margin: 0px">
+              <div class="col-md-6" style="padding: 0px">
+                  <a [routerLink]="['/salas', centro.id]">
+                    <img style="height: 178px; width: 100%" class="img-responsive" [src]="'assets/imgs/centros/'+centro.id+'/'+centro.img" alt="...">
+                  </a>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="card-content">
+                    <div class="card-section">
+                        <h3 style="margin: 5px 0px;">
+                            {{ centro.direccion }}
+                        </h3>
+                    </div>
+                    <div class="card-section">
+                        <p>
+                            {{ centro.nombre }}
+                        </p>
+                    </div>
+                    <div class="card-section">
+                      <div>
+                          <div class="card-square" *ngIf="centro.individual == 1">Individual</div>
+                          <div class="card-square" *ngIf="centro.actividades == 1">Actividades</div>
+                      </div>
+                      <div>
+                          <p style="    margin-bottom: 0px;">Por hora</p>
+                          <p ><b>{{ centro.precio }}€</b></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+            <agm-map
+            [latitude]="lat"
+            [longitude]="lng"
+            [zoom]="zoom"
+            [disableDefaultUI]="false"
+            [zoomControl]="false">
+
+            <agm-marker
+                *ngFor="let m of markers; let i = index"
+                [latitude]="m.lat"
+                [longitude]="m.lng"
+                (markerClick)="clickedMarker(infowindow)"
+                [label]="m.label"
+                [markerDraggable]="m.draggable">
+
+              <agm-info-window #infowindow>
+                  <div  [routerLink]="['/salas', m.centroid]" class="cursor-pointer">
+                      <img class="img-responsive" width="1000%" style="margin: 0px;" [src]="'assets/imgs/centros/'+m.centroid+'/'+m.img" alt="...">
+                      <div class="centro-text">
+                          <h5 style="font-weight: bold" class="text-left" style="margin: 10px 0px;">
+                              {{m.label}}
+                           </h5>
+                          <h5 class="text-left" style="margin: 10px 0px;">
+                              {{m.description}}
+                           </h5>
+                      </div>
+                      <div class="precio-map">
+                          <h5 class="text-right" style="margin: 5px 0px;">
+                              <strong> {{m.precio}} €/h</strong>
+                         </h5>
+                      </div>
+                  </div>
+              </agm-info-window>
+            </agm-marker>
+          </agm-map>
+      </div>
+    </div>
+  </div>
+</section>

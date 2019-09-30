@@ -1,0 +1,63 @@
+<section class="ImageBackground ImageBackground--overlay v-align-parent u-height330 js-Parallax" data-overlay="3"
+  style="margin-top: 80px;">
+  <div class="ImageBackground__holder"
+    style="background-image: url(assets/imgs/alquila_bg.jpg); background-position: 50% 32px;">
+    <img src="assets/imgs/alquila_bg.jpg" alt="">
+  </div>
+  <div class="v-align-child">
+    <div class="container ">
+      <div class="row ">
+        <div class="col-md-8 col-xs-12 text-white ">
+          <h1 class=" u-Margin0 u-Weight300">¿Quieres alquilar tu sala?</h1>
+          <p class="u-LineHeight2 text-muted u-Margin0">&nbsp;</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="u-PaddingTop100 u-xs-PaddingTop70 u-PaddingBottom0 u-xs-PaddingBottom0 container">
+  <div class="row ">
+    <div class="col-md-12 text-center">
+      <p class="u-LineHeight2">
+        Wellshared te ayuda a optimizar las salas de tu centro de fisioterapia poniéndote en contacto con otros fisioterapeutas de Barcelona. Además, te asegura que solamente los fisioterapeutas colegiados podrán utilizar los servicios de tu centro. Wellshared no solo te ayuda a pagar las facturas y a sacar un mayor rendimiento a los espacios de tu centro, sino que también te ofrece la oportunidad de colaborar con otros fisioterapeutas.
+      </p>
+      <br>
+      <p>
+        Si crees que Wellshared pude ayudarte, completa los datos del siguiente formulario y te explicaremos como crear tu anuncio.
+      </p>
+    </div>
+  </div>
+</section>
+<section class="u-PaddingTop50 u-xs-PaddingTop50 u-PaddingBottom100 u-xs-PaddingBottom0 container">
+    <div class="col-md-12 text-center u-PaddingBottom50"><h2 class="Heading-wing Heading-wing">Contacta con nosotros</h2></div>  
+  <div class="container">
+        <div class="row u-MarginBottom70">
+            <form  [formGroup]="formGroup" (ngSubmit)="submit()">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control--shadow" name="centro" formControlName="centro" placeholder="Nombre del centro">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control--shadow" name="nombre" formControlName="nombre" placeholder="Nombre del responsable">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control form-control--shadow" name="correo" formControlName="correo" placeholder="Correo electrónico">
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" class="form-control form-control--shadow" name="telefono" formControlName="telefono" placeholder="Teléfono">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <textarea class="form-control form-control--shadow" rows="6" name="mensaje" formControlName="mensaje" placeholder="Mensaje"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" style="margin-right: 10px" name="cookies" formControlName="cookies">
+                        <label>Acepto la <a routerLink="/privacidad">Política de privacidad</a> de wellshared.es</label>
+                      </div>
+                    <button type="submit" [disabled]="!formGroup.valid || !formGroup.controls['cookies'].value" class="btn btn-primary btn--alien btn-block">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

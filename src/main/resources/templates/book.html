@@ -1,5 +1,36 @@
-<html>
-    <body>
-        <h3>Hi ${user}, welcome to the application!</h3>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Sending Email with Thymeleaf HTML Template Example</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css' />
+
+    <!-- use the font -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 48px;
+        }
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    	.example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+</head>
+<body style="margin: 0; padding: 0;">
+	<div class="example-wrapper">
+		<h1 style='text-align: center; width: 100%'>¡Gracias <span th:text="${name}"></span>! Tu reserva en <span th:text="${center}"> está confirmada.</h1>
+	    <p>Fecha: <span th:text="${date}"></p>
+	    <p>Hora desde: <span th:text="${timeFrom}"></p>
+	    <p>Hora hasta: <span th:text="${timeTo}"></p>
+	    <p>Dirección: <span th:text="${adress}"></p>
+	    <hr>
+	    <h4>
+	        ¿Puedo cancelar mi reserva?
+	    </h4>
+	    <p>
+	        Sí, podrás cancelar hasta 2 horas antes del inicio de la reserva enviando un mail a info@wellshared.es
+	    </p>
+	</div>
+</body>
 </html>

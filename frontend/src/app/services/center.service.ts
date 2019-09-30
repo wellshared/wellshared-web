@@ -18,7 +18,7 @@ export class CenterService {
   }
 
   findAll() {
-    return this.http.get(this.url + '/salas/-1').pipe(map( (centros: any[]) => {
+    return this.http.get(this.url + '/centers').pipe(map( (centros: any[]) => {
       return Object.values(centros);
     }));
   }

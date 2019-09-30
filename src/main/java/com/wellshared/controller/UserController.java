@@ -1,4 +1,4 @@
-package com.wellshared.user;
+package com.wellshared.controller;
 
 import java.security.Principal;
 import java.util.Base64;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wellshared.model.User;
+import com.wellshared.repository.UserRepository;
 
 @RestController
 @CrossOrigin

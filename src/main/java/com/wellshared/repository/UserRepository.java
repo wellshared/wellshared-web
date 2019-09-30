@@ -1,4 +1,4 @@
-package com.wellshared.user;
+package com.wellshared.repository;
 
 import com.wellshared.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

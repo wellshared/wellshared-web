@@ -22,6 +22,7 @@ import { LoaderComponent } from './components/shared/loader/loader.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './components/pages/login/login.component';
 import { BookComponent } from './components/pages/book/book.component';
+import { PrivateModule } from './private/private.module';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { BookComponent } from './components/pages/book/book.component';
     FormsModule,
     ReactiveFormsModule,
     RecaptchaModule,
+    PrivateModule,
     NgbModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDgygXyg6jch1M0qaBmilfsO0Sb1LPP6tQ'

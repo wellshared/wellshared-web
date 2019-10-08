@@ -1,5 +1,5 @@
-export class Localidad {
+export class Location {
     id: number;
-    nombre: string;
-    descripcion: string;
+    name: string;
+    description: string;
 }

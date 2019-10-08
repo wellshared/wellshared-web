@@ -1,13 +1,12 @@
-import { Localidad } from './location.model';
 import { Image } from './image.model';
 import { Service } from './service.model';
-
+import { Location } from './location.model';
 export class Center {
     id: number;
     name: string;
     description: string;
     image: Image;
-    location: Localidad;
+    location: Location;
     adress: string;
     description2: string;
     phone: string;

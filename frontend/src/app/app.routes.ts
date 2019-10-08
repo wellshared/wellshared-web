@@ -19,6 +19,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'cookies', component: CookiesComponent },
     { path: 'privacidad', component: PrivacityComponent },
+    { path: 'centers', component: PrivacityComponent },
     { path: '**', pathMatch: 'full', redirectTo: '' }
 ];
 

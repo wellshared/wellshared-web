@@ -29,8 +29,12 @@ export class CenterService {
     }));
   }
 
-  findById(id: string) {
+  findById(id: number) {
     return this.http.get(`${this.url}/api/center/${id}`);
+  }
+
+  deleteCenter(id: number) {
+    return this.http.delete(`${this.url}/api/center/${id}`);
   }
 
   findImgs(id: string) {
@@ -68,6 +72,10 @@ export class CenterService {
     .set('horaDesde', horaDesde)
     .set('horaHasta', horaHasta);
     return this.http.get(this.url + '/api/mailer/book' + centroid, {params, responseType: 'text'});
+  }
+
+  save(center: Center) {
+    return this.http.post(this.url + '/api/center/', center , {responseType: 'text'});
   }
 
   getServicios(centroid: number) {

@@ -4,6 +4,9 @@
             <div class="col-md-8 col-xs-12">
                 <h1 class=" u-Margin0 u-Weight300">Administración de centros</h1>
             </div>
+            <div class="col-md-4 col-xs-12 position-right">
+                <button style="margin-right: 8px" class="btn btn-primary" routerLink="/admin/center">Añadir</button>
+            </div>
         </div>
     </section>
     <section class="u-PaddingBottom100">
@@ -24,12 +27,12 @@
                     <td>{{center.adress}}</td>
                     <td>{{center.price}} €/h</td>
                     <td>
-                        <button class="btn btn-danger" (click)="deleteCenter(center.id)">
+                        <button style="width: 100%" class="btn btn-danger" (click)="deleteCenter(center.id)">
                             Eliminar
                         </button>
                     </td>
                     <td>
-                        <button class="btn btn-primary" [routerLink]="['/admin/centers', center.id]" routerLinkActive="router-link-active" >
+                        <button style="width: 100%" class="btn btn-success" [routerLink]="['/admin/center', center.id]" routerLinkActive="router-link-active" >
                             Editar
                         </button>
                     </td>

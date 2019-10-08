@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CenterService } from 'src/app/services/center.service';
 import { Center } from 'src/app/model/center.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -14,10 +14,10 @@ import { LocationService } from 'src/app/services/location.service';
 export class CenterComponent implements OnInit {
   formGroup: FormGroup;
   locations: Location[] = [];
-  center: Center;
+  center: Center = new Center();
   constructor(
     private activatedRoute: ActivatedRoute, private centerService: CenterService,
-    private locationService: LocationService
+    private locationService: LocationService, private router: Router
     ) {
       this.createEmptyForGroup();
   }
@@ -26,13 +26,13 @@ export class CenterComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: any) => {
       if (params.id) {
         this.findCenter(Number(params.id));
-        this.findLocations();
       }
     });
+    this.findLocations();
   }
 
   findCenter(id: number) {
-    this.centerService.findById(id).subscribe((center: Center)=> {
+    this.centerService.findById(id).subscribe((center: Center) => {
       console.log(center);
       this.center = center;
       this.updateFormGroup();
@@ -64,7 +64,7 @@ export class CenterComponent implements OnInit {
   updateFormGroup() {
     this.formGroup.controls.name.setValue(this.center.name);
     this.formGroup.controls.adress.setValue(this.center.adress);
-    this.formGroup.controls.location.setValue(this.center.location);
+    this.formGroup.controls.location.setValue(this.center.location.id);
     this.formGroup.controls.description1.setValue(this.center.description);
     this.formGroup.controls.description2.setValue(this.center.description2);
     this.formGroup.controls.price.setValue(this.center.price);
@@ -78,7 +78,7 @@ export class CenterComponent implements OnInit {
   updateCenterModel() {
     this.center.name = this.formGroup.controls.name.value;
     this.center.adress = this.formGroup.controls.adress.value;
-    this.center.location = this.formGroup.controls.location.value;
+    this.center.location = this.locations.find((location: Location) => location.id === Number(this.formGroup.controls.location.value));
     this.center.description = this.formGroup.controls.description1.value;
     this.center.description2 = this.formGroup.controls.description2.value;
     this.center.price = this.formGroup.controls.price.value;
@@ -92,7 +92,9 @@ export class CenterComponent implements OnInit {
   submit() {
     if (this.formGroup.valid) {
       this.updateCenterModel();
-      this.centerService.save(this.center).subscribe();
+      this.centerService.save(this.center).subscribe(() => {
+        this.router.navigate(['/admin/centers']);
+      });
     }
   }
 

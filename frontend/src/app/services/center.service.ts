@@ -34,7 +34,7 @@ export class CenterService {
   }
 
   deleteCenter(id: number) {
-    return this.http.delete(`${this.url}/api/center/${id}`);
+    return this.http.delete(`${this.url}/api/center/${id}`, {responseType: 'text'});
   }
 
   findImgs(id: string) {
@@ -48,7 +48,7 @@ export class CenterService {
     .set('correo', correo)
     .set('telefono', telefono)
     .set('mensaje', mensaje);
-    return this.http.get(this.url + '/api/mailer/contact',);
+    return this.http.get(this.url + '/api/mailer/contact');
   }
 
   alquila(centro, nombre, correo, telefono, mensaje) {

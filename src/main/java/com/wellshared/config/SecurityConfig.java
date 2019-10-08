@@ -42,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/api/center/location/{locationId}").permitAll()
 		.antMatchers("/api/center/{id}").permitAll()
 		.antMatchers("/api/center/{id}/imgs").permitAll()
+		.antMatchers("/api/locations/").permitAll()
         .anyRequest().authenticated().and().formLogin()
         .successHandler((req,resp,exp) -> resp.setStatus(HttpStatus.OK.value()))
         .failureHandler((req,resp,exp) -> resp.setStatus(HttpStatus.UNAUTHORIZED.value()))

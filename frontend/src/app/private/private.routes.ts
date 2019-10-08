@@ -13,7 +13,11 @@ const routes: Routes = [
                 component: CenterListComponent
             },
             {
-                path: 'centers/:id',
+                path: 'center',
+                component: CenterComponent
+            },
+            {
+                path: 'center/:id',
                 component: CenterComponent
             }
         ]

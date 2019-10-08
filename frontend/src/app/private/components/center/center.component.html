@@ -36,7 +36,7 @@
                                 <p class="vertical-align-center u-MarginRight10">Localidad: </p>
                                 <div class="select-wrapper" style="width: 100%">
                                     <select class="form-control" id="timeFrom" formControlName="location">
-                                        <option [value]="location" *ngFor="let location of locations">{{location.name}}</option>
+                                        <option [value]="location.id" *ngFor="let location of locations">{{location.name}}</option>
                                     </select>
                                 </div>
                             </div>

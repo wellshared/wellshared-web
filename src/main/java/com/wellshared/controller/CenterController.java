@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,12 @@ public class CenterController {
 		return ResponseEntity.ok(this.centerRepository.findById(id).get());
     }
 	
+	@RequestMapping(path = "/", method = RequestMethod.POST)
+    public ResponseEntity<Object> getCenterById(@RequestBody Center center) {
+		this.centerRepository.save(center);
+		return ResponseEntity.ok("Centro guardado correctamente");
+    }
+	
 	@RequestMapping(path = "/location/{locationId}", method = RequestMethod.GET)
     public ResponseEntity<Object> getCentersByLocation(@PathVariable Long locationId) {
 		Optional<Location> location = locationRepository.findById(locationId);
@@ -49,6 +56,17 @@ public class CenterController {
 		Optional<Center> center = centerRepository.findById(id);
 		if(center.isPresent()) {
 			return ResponseEntity.ok(new ArrayList<>(center.get().getImages()));
+		} else {
+			return new ResponseEntity<Object>("El centro indicado no existe", HttpStatus.BAD_REQUEST);
+		}
+    }
+	
+	@RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> deleteCenter(@PathVariable Long id) {
+		Optional<Center> center = centerRepository.findById(id);
+		if(center.isPresent()) {
+			centerRepository.delete(id);
+			return ResponseEntity.ok("Centro eliminado correctamente");
 		} else {
 			return new ResponseEntity<Object>("El centro indicado no existe", HttpStatus.BAD_REQUEST);
 		}

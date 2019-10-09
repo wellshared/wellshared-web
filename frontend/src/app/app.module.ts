@@ -21,7 +21,7 @@ import { HTTPStatus, HTTPListener } from './services/HTTPListener.interceptor';
 import { LoaderComponent } from './components/shared/loader/loader.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './components/pages/login/login.component';
-import { BookComponent } from './components/pages/book/book.component';
+import { RentComponent } from './components/pages/rent/rent.component';
 import { PrivateModule } from './private/private.module';
 
 @NgModule({
@@ -32,7 +32,7 @@ import { PrivateModule } from './private/private.module';
     FooterComponent,
     RoomsComponent,
     ContactComponent,
-    BookComponent,
+    RentComponent,
     FaqComponent,
     CookiesComponent,
     PrivacityComponent,

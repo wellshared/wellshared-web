@@ -19,7 +19,7 @@ export class RoomsComponent implements OnInit {
   centers: Center[] = [];
   centerSel = '0';
   previous: any;
-  constructor(private CenterService: CenterService) {}
+  constructor(private centerService: CenterService) {}
 
   ngOnInit() {
     this.getCenters();
@@ -37,7 +37,7 @@ export class RoomsComponent implements OnInit {
     if (this.centerSel === '0') {
       this.getCenters();
     } else {
-      this.CenterService.find(this.centerSel).subscribe((centers: Center[]) => {
+      this.centerService.find(this.centerSel).subscribe((centers: Center[]) => {
         this.centers = centers;
         this.getMarkers();
       });
@@ -45,7 +45,7 @@ export class RoomsComponent implements OnInit {
   }
 
   getCenters() {
-    this.CenterService.find(undefined).subscribe((centers: Center[]) => {
+    this.centerService.find(undefined).subscribe((centers: Center[]) => {
       this.centers = centers;
       this.getMarkers();
     });

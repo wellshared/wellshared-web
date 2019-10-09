@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CenterService } from 'src/app/services/center.service';
+import { ContactDto } from 'src/app/model/dto/contact-dto.model';
+import { MailerService } from 'src/app/services/mailer.service';
 
 @Component({
   selector: 'app-contact',
@@ -9,7 +10,7 @@ import { CenterService } from 'src/app/services/center.service';
 })
 export class ContactComponent implements OnInit {
   formGroup: FormGroup;
-  constructor(private CenterService: CenterService) { }
+  constructor(private mailerService: MailerService) { }
 
   ngOnInit() {
     this.formGroup = new FormGroup({
@@ -24,13 +25,16 @@ export class ContactComponent implements OnInit {
   }
   submit() {
     if (this.formGroup.valid) {
-      this.CenterService
-      .contacto(
-        this.formGroup.value.name,
+      const contactDto = new ContactDto(
         this.formGroup.value.sname,
+        this.formGroup.value.name,
         this.formGroup.value.email,
         this.formGroup.value.phone,
-        this.formGroup.value.message).subscribe(() => window.location.reload(), error => window.location.reload());
+        this.formGroup.value.message
+      )
+      this.mailerService.contact(contactDto).subscribe(() => {
+        window.location.reload();
+      });
     }
   }
 

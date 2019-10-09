@@ -7,13 +7,13 @@ import { CookiesComponent } from './components/pages/cookies/cookies.component';
 import { PrivacityComponent } from './components/pages/privacity/privacity.component';
 import { RoomsDetailComponent } from './components/pages/rooms-detail/rooms-detail.component';
 import { LoginComponent } from './components/pages/login/login.component';
-import { BookComponent } from './components/pages/book/book.component';
+import { RentComponent } from './components/pages/rent/rent.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'salas', component: RoomsComponent },
     { path: 'salas/:id', component: RoomsDetailComponent },
-    { path: 'alquila', component: BookComponent },
+    { path: 'alquila', component: RentComponent },
     { path: 'contacto', component: ContactComponent },
     { path: 'faq', component: FaqComponent },
     { path: 'login', component: LoginComponent },

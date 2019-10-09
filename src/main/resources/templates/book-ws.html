@@ -19,13 +19,15 @@
 </head>
 <body style="margin: 0; padding: 0;">
 	<div class="example-wrapper">
-		<h1 style='text-align: center; width: 100%'>Formulario de contacto de Wellshared.es</h1>
-	    <h3>Nombre: <span th:text="${center}"></span> </h3>
-	    <h3>Apellidos: <span th:text="${name}"></span></h3>
-	    <h3>Correo: <span th:text="${email}"></span> </h3>
-	    <h3>Teléfono: <span th:text="${phone}"></span> </h3>
-	    <h3>Mensaje: </h3>
-	    <p><span th:text="${message}"></span> </p>
+		<h1 style='text-align: center; width: 100%'>Datos de la reserva</h1>
+		<h3>Centro: <span th:text="${center}"></span> </h3>
+	    <h3>Nombre: <span th:text="${name}"></span> </h3>
+	    <h3>Apellidos: <span th:text="${sname}"></span></h3>
+	    <h3>Correo: <span th:text="${email}"></span></h3>
+	    <h3>Nº Colegiado: <span th:text="${number}"></span> </h3>
+	    <h3>Día: <span th:text="${date}"></span> </h3>
+	    <h3>Hora desde: <span th:text="${timeFrom}"></span></h3>
+	    <h3>Hora hasta: <span th:text="${timeTo}"></span></h3>
 	</div>
 </body>
 </html>

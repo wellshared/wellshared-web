@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CenterService } from 'src/app/services/center.service';
+import { MailerService } from 'src/app/services/mailer.service';
+import { RentDto } from 'src/app/model/dto/rent-dto.model';
 
 @Component({
-  selector: 'app-book',
-  templateUrl: './book.component.html',
-  styleUrls: ['./book.component.css']
+  selector: 'app-rent',
+  templateUrl: './rent.component.html',
+  styleUrls: ['./rent.component.css']
 })
-export class BookComponent implements OnInit {
+export class RentComponent implements OnInit {
   formGroup: FormGroup;
-  constructor(private CenterService: CenterService) { }
+  constructor(private mailerService: MailerService) { }
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -25,18 +26,13 @@ export class BookComponent implements OnInit {
 
   submit() {
     if (this.formGroup.valid) {
-      console.log( this.formGroup.value.center,
+      const rentDto = new RentDto(this.formGroup.value.center,
         this.formGroup.value.name,
         this.formGroup.value.email,
         this.formGroup.value.phone,
-        this.formGroup.value.message);
-      this.CenterService
-      .alquila(
-        this.formGroup.value.center,
-        this.formGroup.value.name,
-        this.formGroup.value.email,
-        this.formGroup.value.phone,
-        this.formGroup.value.message).subscribe(() => window.location.reload(), error => window.location.reload());
+        this.formGroup.value.message
+      );
+      this.mailerService.rent(rentDto).subscribe(() => window.location.reload(), error => window.location.reload());
     }
   }
 

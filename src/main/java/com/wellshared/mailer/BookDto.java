@@ -1,7 +1,7 @@
 package com.wellshared.mailer;
 
 public class BookDto {
-	private Long centerId;
+	private String center;
 	private String name;
 	private String sname;
 	private String number;
@@ -11,11 +11,11 @@ public class BookDto {
 	private String timeFrom;
 	private String timeTo;
 	
-	public Long getCenterId() {
-		return centerId;
+	public String getCenter() {
+		return center;
 	}
-	public void setCenterId(Long centerId) {
-		this.centerId = centerId;
+	public void setCenter(String center) {
+		this.center = center;
 	}
 	public String getName() {
 		return name;

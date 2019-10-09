@@ -15,6 +15,8 @@ import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { Constants } from 'src/app/utils/constants';
 import { Service } from '../../../model/service.model';
 import { Image } from 'src/app/model/image.model';
+import { BookDto } from 'src/app/model/dto/book-dto.model';
+import { MailerService } from 'src/app/services/mailer.service';
 
 @Component({
   selector: 'app-rooms-detail',
@@ -41,7 +43,9 @@ export class RoomsDetailComponent implements OnInit {
   images: Image[] = [];
   formGroup: FormGroup;
   horas: string[] = Constants.hours;
-  constructor(private centerService: CenterService, private route: ActivatedRoute, private calendar: NgbCalendar) {}
+  constructor(
+    private centerService: CenterService, private mailerService: MailerService,
+    private route: ActivatedRoute, private calendar: NgbCalendar) {}
 
   ngOnInit() {
     this.formGroup = new FormGroup({
@@ -77,17 +81,18 @@ export class RoomsDetailComponent implements OnInit {
 
   submit() {
     if (this.formGroup.valid) {
-      this.centerService
-      .reserva(
-        this.center.id,
+      const bookDto = new BookDto(
+        this.center.name,
         this.formGroup.value.name,
         this.formGroup.value.sname,
-        this.formGroup.value.number,
         this.formGroup.value.email,
         this.formGroup.value.phone,
-        this.formGroup.value.date,
+        this.formGroup.value.number,
+        `${this.formGroup.value.date.day}/${this.formGroup.value.date.month}/${this.formGroup.value.date.year}`,
         this.formGroup.value.timeFrom,
-        this.formGroup.value.timeTo).subscribe(() => window.location.reload(), error => window.location.reload());
+        this.formGroup.value.timeTo
+      );
+      this.mailerService.book(bookDto).subscribe(() => window.location.reload());
     }
   }
   selectImage(index: number) {

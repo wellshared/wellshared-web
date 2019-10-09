@@ -11,6 +11,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.thymeleaf.context.Context;
@@ -31,25 +32,26 @@ public class MailerController {
 	private SpringTemplateEngine templateEngine;
 
 	@RequestMapping(path = "/booking", method = RequestMethod.POST)
-	public ResponseEntity<Object> book(BookDto bookData) {
+	public ResponseEntity<Object> book(@RequestBody BookDto bookData) {
 		Context context = new Context();
-		context.getVariables().put("center", bookData.getCenterId());
+		context.getVariables().put("center", bookData.getCenter());
 		context.getVariables().put("name", bookData.getName());
 		context.getVariables().put("phone", bookData.getPhone());
 		context.getVariables().put("number", bookData.getNumber());
 		context.getVariables().put("email", bookData.getEmail());
+		context.getVariables().put("date", bookData.getDate());
 		context.getVariables().put("timeFrom", bookData.getTimeFrom());
 		context.getVariables().put("timeTo", bookData.getTimeTo());
 		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Reserva Wellshared", "Content prueba");
 		this.prepareAndSend(mail, context, "book");
-		this.prepareAndSend(mail, context, "bookws");
+		this.prepareAndSend(mail, context, "book-ws");
 		return ResponseEntity.ok("Correo enviado correctamente");
 	}
 
 	@RequestMapping(path = "/rent", method = RequestMethod.POST)
-	public ResponseEntity<Object> rent(RentDto rentData) {
+	public ResponseEntity<Object> rent(@RequestBody RentDto rentData) {
 		Context context = new Context();
-		context.getVariables().put("center", rentData.getCenterId());
+		context.getVariables().put("center", rentData.getCenter());
 		context.getVariables().put("name", rentData.getName());
 		context.getVariables().put("phone", rentData.getPhone());
 		context.getVariables().put("email", rentData.getEmail());
@@ -60,7 +62,7 @@ public class MailerController {
 	}
 
 	@RequestMapping(path = "/contact", method = RequestMethod.POST)
-	public ResponseEntity<Object> contact(ContactDto contactData) {
+	public ResponseEntity<Object> contact(@RequestBody ContactDto contactData) {
 		Context context = new Context();
 		context.getVariables().put("name", contactData.getName());
 		context.getVariables().put("phone", contactData.getPhone());

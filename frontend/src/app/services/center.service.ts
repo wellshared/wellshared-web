@@ -4,6 +4,9 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Center } from '../model/center.model';
 import { Image } from '../model/image.model';
+import { ContactDto } from '../model/dto/contact-dto.model';
+import { RentDto } from '../model/dto/rent-dto.model';
+import { BookDto } from '../model/dto/book-dto.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -22,7 +25,7 @@ export class CenterService {
   find(locationId: any) {
     let url = this.url + '/api/center/';
     if (locationId) {
-      url += locationId;
+      url += 'location/' + locationId;
     }
     return this.http.get(url).pipe(map( (centers: Center[]) => {
       return centers;
@@ -39,39 +42,6 @@ export class CenterService {
 
   findImgs(id: string) {
     return this.http.get(`${this.url}/api/center/${id}/imgs`);
-  }
-
-  contacto(nombre, apellidos, correo, telefono, mensaje) {
-    const params: HttpParams = new HttpParams()
-    .set('nombre', nombre)
-    .set('apellidos', apellidos)
-    .set('correo', correo)
-    .set('telefono', telefono)
-    .set('mensaje', mensaje);
-    return this.http.get(this.url + '/api/mailer/contact');
-  }
-
-  alquila(centro, nombre, correo, telefono, mensaje) {
-    const params: HttpParams = new HttpParams()
-    .set('centro', centro)
-    .set('responsable', nombre)
-    .set('correo', correo)
-    .set('telefono', telefono)
-    .set('mensaje', mensaje);
-    return this.http.get(this.url + '/api/mailer/rent', {params, responseType: 'text'});
-  }
-
-  reserva(centroid, nombre, apellido, numero, correo, telefono, fecha, horaDesde, horaHasta) {
-    const params: HttpParams = new HttpParams()
-    .set('nombre', nombre)
-    .set('apellido', apellido)
-    .set('numero', numero)
-    .set('correo', correo)
-    .set('telefono', telefono)
-    .set('fecha', `${fecha.day}/${fecha.month}/${fecha.year}`)
-    .set('horaDesde', horaDesde)
-    .set('horaHasta', horaHasta);
-    return this.http.get(this.url + '/api/mailer/book' + centroid, {params, responseType: 'text'});
   }
 
   save(center: Center) {

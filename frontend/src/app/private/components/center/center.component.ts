@@ -5,6 +5,11 @@ import { Center } from 'src/app/model/center.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Location } from 'src/app/model/location.model';
 import { LocationService } from 'src/app/services/location.service';
+import { Image } from '../../../model/image.model';
+import { Service } from 'src/app/model/service.model';
+import { AddModalComponent } from '../modals/add-modal/add-modal.component';
+import { BsModalService } from 'ngx-bootstrap';
+import { ServiceService } from '../../../services/service.service';
 
 @Component({
   selector: 'app-center',
@@ -15,9 +20,11 @@ export class CenterComponent implements OnInit {
   formGroup: FormGroup;
   locations: Location[] = [];
   center: Center = new Center();
+  services: Service[] = [];
   constructor(
     private activatedRoute: ActivatedRoute, private centerService: CenterService,
-    private locationService: LocationService, private router: Router
+    private locationService: LocationService, private router: Router, 
+    private modalService: BsModalService, private serviceService: ServiceService
     ) {
       this.createEmptyForGroup();
   }
@@ -25,15 +32,21 @@ export class CenterComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: any) => {
       if (params.id) {
-        this.findCenter(Number(params.id));
+        this.findCenter(Number(params.id));        
       }
     });
     this.findLocations();
+    this.findServices();
+  }
+
+  findServices() {
+    this.serviceService.findAll().subscribe((services: Service[]) => {
+      this.services = services;
+    });
   }
 
   findCenter(id: number) {
     this.centerService.findById(id).subscribe((center: Center) => {
-      console.log(center);
       this.center = center;
       this.updateFormGroup();
     });
@@ -87,6 +100,30 @@ export class CenterComponent implements OnInit {
     this.center.individual = this.formGroup.controls.individual.value;
     this.center.activites = this.formGroup.controls.activities.value;
     this.center.url = this.formGroup.controls.url.value;
+  }
+
+  removeImage(id: number) {
+    this.center.images = this.center.images.filter((image: Image) => image.id !== id);
+  }
+
+  removeService(id: number) {
+    this.center.services = this.center.services.filter((service: Service) => service.id !== id);
+  }
+
+  addImage() {
+
+  }
+
+  addService() {
+
+    const modalRef = this.modalService.show(AddModalComponent, {
+      initialState: {
+        list: this.services
+      }
+    });
+    modalRef.content.onClose.subscribe((id: number) => {
+      this.center.services.push(this.services.find((service: Service) => service.id === id));
+    });
   }
 
   submit() {

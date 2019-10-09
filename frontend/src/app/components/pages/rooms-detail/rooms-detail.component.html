@@ -3,14 +3,14 @@
     <div class="swiper-wrapper">
       <section class="ImageBackground ImageBackground--overlay v-align-parent u-height350" data-overlay="3"
         style="margin-top: 80px;">
-        <div class="ImageBackground__holder" *ngIf="images[imagePosition]"
-          [ngStyle]="{'background-image': 'url(assets/imgs/centros/'+center.id+'/'+images[imagePosition].url+')'}">
-          <img src="assets/imgs/centros/{{center.id}}/{{images[imagePosition].url}}" alt="">
+        <div class="ImageBackground__holder" *ngIf="center.images[imagePosition]"
+          [ngStyle]="{'background-image': 'url(assets/imgs/centros/'+center.id+'/'+center.images[imagePosition].url+')'}">
+          <img src="assets/imgs/centros/{{center.id}}/{{center.images[imagePosition].url}}" alt="">
         </div>
       </section>
     </div>
-    <div class="swiper-control swiper-button-next" (click)="selectImage(+1)"></div>
-    <div class="swiper-control swiper-button-prev" (click)="selectImage(-1)"></div>
+    <div class="swiper-control swiper-button-next" (click)="selectImage(+1)" *ngIf="this.center.images.length > 1"></div>
+    <div class="swiper-control swiper-button-prev" (click)="selectImage(-1)" *ngIf="this.center.images.length > 1"></div>
   </div>
   <section class="u-PaddingTop70 u-xs-PaddingTo50 container">
     <div class="row">
@@ -143,9 +143,10 @@
                       <div class="form-group">
                         <div class="input-group">
                           <input class="form-control form-control--shadow" formControlName="date"
-                            placeholder="Fecha y hora de reserva" name="dp" ngbDatepicker #d="ngbDatepicker">
+                            placeholder="Fecha y hora de reserva" name="dp"   #dp="bsDatepicker"
+                            bsDatepicker>
                           <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                            <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button">
                               <i class="fa fa-calendar"></i>
                             </button>
                           </div>

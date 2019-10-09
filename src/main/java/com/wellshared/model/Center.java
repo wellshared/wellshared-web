@@ -1,7 +1,9 @@
 package com.wellshared.model;
 
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,13 +27,13 @@ public class Center {
 	private Long id;
 	private String name;
 	@JsonIgnore
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="center")
-	private List<Image> images;
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="center", orphanRemoval=true)
+	private Set<Image> images;
 	@ManyToOne
 	@NotNull
 	@JoinColumn(name="location_id")
 	private Location location;
-	@ManyToMany(fetch=FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name="center_service",
 				joinColumns = @JoinColumn(name="center_id"),
 				inverseJoinColumns = @JoinColumn(name="service_id"))
@@ -60,10 +62,10 @@ public class Center {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public List<Image> getImages() {
+	public Set<Image> getImages() {
 		return images;
 	}
-	public void setImages(List<Image> images) {
+	public void setImages(Set<Image> images) {
 		this.images = images;
 	}
 	public Location getLocation() {

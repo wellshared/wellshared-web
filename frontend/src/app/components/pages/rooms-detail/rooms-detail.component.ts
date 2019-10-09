@@ -11,12 +11,10 @@ import { Marker } from 'src/app/model/marker.model';
 import { ActivatedRoute } from '@angular/router';
 import { Center } from 'src/app/model/center.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { Constants } from 'src/app/utils/constants';
-import { Service } from '../../../model/service.model';
-import { Image } from 'src/app/model/image.model';
 import { BookDto } from 'src/app/model/dto/book-dto.model';
 import { MailerService } from 'src/app/services/mailer.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-rooms-detail',
@@ -40,12 +38,11 @@ export class RoomsDetailComponent implements OnInit {
   calendarApi: any;
   center: Center;
   imagePosition = 0;
-  images: Image[] = [];
   formGroup: FormGroup;
   horas: string[] = Constants.hours;
   constructor(
     private centerService: CenterService, private mailerService: MailerService,
-    private route: ActivatedRoute, private calendar: NgbCalendar) {}
+    private route: ActivatedRoute, private datePipe: DatePipe) {}
 
   ngOnInit() {
     this.formGroup = new FormGroup({
@@ -54,7 +51,7 @@ export class RoomsDetailComponent implements OnInit {
       number: new FormControl(undefined, Validators.required),
       email: new FormControl(undefined, Validators.required),
       phone: new FormControl(undefined, Validators.required),
-      date: new FormControl(this.calendar.getToday(), Validators.required),
+      date: new FormControl(new Date(), Validators.required),
       timeFrom: new FormControl({hour: 0, minute: 0}, Validators.required),
       timeTo: new FormControl({hour: 0, minute: 0}, Validators.required),
       cookies: new FormControl(false, Validators.required)
@@ -71,9 +68,6 @@ export class RoomsDetailComponent implements OnInit {
           this.center.lat, this.center.lon, false, this.center.name,
           this.center.adress, this.center.price, this.center.mainImage, this.center.id);
           this.getCalendarEvents();
-          this.centerService.findImgs(params.id).subscribe((imgs: Image[]) => {
-            this.images = imgs;
-          });
         });
       }
     });
@@ -82,13 +76,13 @@ export class RoomsDetailComponent implements OnInit {
   submit() {
     if (this.formGroup.valid) {
       const bookDto = new BookDto(
-        this.center.name,
+        this.center.id,
         this.formGroup.value.name,
         this.formGroup.value.sname,
         this.formGroup.value.email,
         this.formGroup.value.phone,
         this.formGroup.value.number,
-        `${this.formGroup.value.date.day}/${this.formGroup.value.date.month}/${this.formGroup.value.date.year}`,
+        this.datePipe.transform(this.formGroup.value.date, 'dd-MM-yyyy'),
         this.formGroup.value.timeFrom,
         this.formGroup.value.timeTo
       );
@@ -96,11 +90,11 @@ export class RoomsDetailComponent implements OnInit {
     }
   }
   selectImage(index: number) {
-    if (this.imagePosition === (this.images.length - 1 )) {
+    if (this.imagePosition === (this.center.images.length - 1 )) {
       this.imagePosition = 0;
     } else if ((this.imagePosition + index) < 0 ) {
-      this.imagePosition = this.images.length - 1;
-    } else if ((this.imagePosition + index) > this.images.length) {
+      this.imagePosition = this.center.images.length - 1;
+    } else if ((this.imagePosition + index) > this.center.images.length) {
       this.imagePosition = 0;
     } else {
       this.imagePosition = this.imagePosition + index;

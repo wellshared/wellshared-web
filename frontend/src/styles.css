@@ -160,3 +160,7 @@ button.btn.btn-link {
   margin-top: 80px;
   height: 130px;
 }
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}

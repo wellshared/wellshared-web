@@ -6,6 +6,7 @@ export class Center {
     name: string;
     description: string;
     image: Image;
+    images: Image[] = [];
     location: Location;
     adress: string;
     description2: string;
@@ -16,6 +17,6 @@ export class Center {
     lon: string;
     individual: number;
     activites: number;
-    services: Service[];
+    services: Service[] = [];
     url: string;
 }

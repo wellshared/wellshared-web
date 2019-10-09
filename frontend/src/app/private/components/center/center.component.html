@@ -1,85 +1,129 @@
 <div class="container">
-    <section class="admin-section position-flex-bottom u-PaddingBottom50">
-        <div class="row">
-            <div class="col-md-8 col-xs-12">
-                <h1 class=" u-Margin0 u-Weight300">Administración del centro</h1>
-            </div>
+  <section class="admin-section position-flex-bottom u-PaddingBottom50">
+    <div class="row">
+      <div class="col-md-8 col-xs-12">
+        <h1 class=" u-Margin0 u-Weight300">Administración del centro</h1>
+      </div>
+    </div>
+  </section>
+  <section class="u-PaddingBottom50">
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+      <div class="col-md-6">
+        <div class="form-group">
+          <input type="text" class="form-control form-control--shadow" name="name" formControlName="name"
+            placeholder="Nombre">
         </div>
-    </section>
-    <section class="u-PaddingBottom50">
-        <form [formGroup]="formGroup" (ngSubmit)="submit()">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <input type="text" class="form-control form-control--shadow" name="name" formControlName="name"
-                        placeholder="Nombre">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control form-control--shadow" name="adress" formControlName="adress"
-                        placeholder="Dirección">
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-control form-control--shadow" name="description1"
-                        formControlName="description1" placeholder="Descripción principal">
-                </div>
-                <div class="form-group">
-                    <input type="tel" class="form-control form-control--shadow" name="description2"
-                        formControlName="description2" placeholder="Descripción secundaria">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control form-control--shadow" name="url" formControlName="url"
-                        placeholder="URL Google Calendar">
-                </div>
+        <div class="form-group">
+          <input type="text" class="form-control form-control--shadow" name="adress" formControlName="adress"
+            placeholder="Dirección">
+        </div>
+        <div class="form-group">
+          <input type="email" class="form-control form-control--shadow" name="description1"
+            formControlName="description1" placeholder="Descripción principal">
+        </div>
+        <div class="form-group">
+          <input type="tel" class="form-control form-control--shadow" name="description2" formControlName="description2"
+            placeholder="Descripción secundaria">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control form-control--shadow" name="url" formControlName="url"
+            placeholder="URL Google Calendar">
+        </div>
+        <div class="form-group">
+          <div class="inline-items space-between">
+            <p>Imágenes</p>
+            <button type="button" class="btn btn-primary" (click)="addImage()">Añadir</button>
+          </div>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">url</th>
+                <th scope="col" width="15%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let image of this.center.images">
+                <td>{{image.name}}</td>
+                <td>{{image.url}}</td>
+                <td><button type="button" class="btn btn-danger" style="width: 100%" (click)="removeImage(image.id)">Eliminar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="form-group inline-items">
+            <p class="vertical-align-center u-MarginRight10">Localidad: </p>
+            <div class="select-wrapper" style="width: 100%">
+              <select class="form-control" id="timeFrom" formControlName="location">
+                <option [value]="location.id" *ngFor="let location of locations">{{location.name}}</option>
+              </select>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                        <div class="form-group inline-items">
-                                <p class="vertical-align-center u-MarginRight10">Localidad: </p>
-                                <div class="select-wrapper" style="width: 100%">
-                                    <select class="form-control" id="timeFrom" formControlName="location">
-                                        <option [value]="location.id" *ngFor="let location of locations">{{location.name}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                </div>
-                <div class="form-group">
-                    <input type="number" class="form-control form-control--shadow" name="price" formControlName="price"
-                        placeholder="Precio">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control form-control--shadow" name="lat" formControlName="lat"
-                        placeholder="Latitud">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control form-control--shadow" name="lon" formControlName="lon"
-                        placeholder="Longitud">
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group inline-items">
-                            <p class="vertical-align-center u-MarginRight10">Actividades: </p>
-                            <div class="select-wrapper" style="width: 100px">
-                                <select class="form-control" id="timeFrom" formControlName="activities" name="activities">
-                                    <option value="1">Sí</option>
-                                    <option value="0">No</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group inline-items">
-                            <p class="vertical-align-center u-MarginRight10">Individual: </p>
-                            <div class="select-wrapper" style="width: 100px">
-                                <select class="form-control" id="timeFrom" name="individual" formControlName="individual">
-                                    <option value="1">Sí</option>
-                                    <option value="0">No</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="number" class="form-control form-control--shadow" name="price" formControlName="price"
+            placeholder="Precio">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control form-control--shadow" name="lat" formControlName="lat"
+            placeholder="Latitud">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control form-control--shadow" name="lon" formControlName="lon"
+            placeholder="Longitud">
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group inline-items">
+              <p class="vertical-align-center u-MarginRight10">Actividades: </p>
+              <div class="select-wrapper" style="width: 100%">
+                <select class="form-control" id="timeFrom" formControlName="activities" name="activities">
+                  <option value="1">Sí</option>
+                  <option value="0">No</option>
+                </select>
+              </div>
             </div>
-            <button type="submit" [disabled]="!formGroup.valid"
-                class="btn btn-primary btn--alien btn-block">Enviar</button>
-        </form>
-    </section>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group inline-items">
+              <p class="vertical-align-center u-MarginRight10">Individual: </p>
+              <div class="select-wrapper" style="width: 100%">
+                <select class="form-control" id="timeFrom" name="individual" formControlName="individual">
+                  <option value="1">Sí</option>
+                  <option value="0">No</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="inline-items space-between">
+            <p>Servicios</p>
+            <button type="button" class="btn btn-primary" (click)="addService()">Añadir</button>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">url</th>
+                <th scope="col" width="15%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let service of center.services">
+                <td>{{service.name}}</td>
+                <td>{{service.url}}</td>
+                <td><button  type="button" class="btn btn-danger" style="width: 100%" (click)="removeService(service.id)">Eliminar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <button type="submit" [disabled]="!formGroup.valid" class="btn btn-primary btn--alien btn-block">Enviar</button>
+    </form>
+  </section>
 </div>

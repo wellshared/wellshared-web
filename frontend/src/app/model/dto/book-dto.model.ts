@@ -1,5 +1,5 @@
 export class BookDto {
-    center: string;
+    centerId: number;
     name: string;
     sname: string;
     number: string;
@@ -10,11 +10,11 @@ export class BookDto {
     timeTo: string;
 
     constructor(
-        center: string, name: string, sname: string,
+        centerId: number, name: string, sname: string,
         email: string, phone: string, numb: string,
         date: string, timeTo: string, timeFrom: string
         ) {
-        this.center = center;
+        this.centerId = centerId;
         this.name = name;
         this.sname = sname;
         this.email = email;

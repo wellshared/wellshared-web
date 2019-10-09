@@ -1,4 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { AppComponent } from './app.component';
@@ -19,11 +18,13 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTPStatus, HTTPListener } from './services/HTTPListener.interceptor';
 import { LoaderComponent } from './components/shared/loader/loader.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './components/pages/login/login.component';
 import { RentComponent } from './components/pages/rent/rent.component';
 import { PrivateModule } from './private/private.module';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
+import { CommonModule, DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,8 +42,10 @@ import { PrivateModule } from './private/private.module';
     LoginComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     RouterModule,
+    BrowserAnimationsModule,
+    BsDatepickerModule.forRoot(),
     appRouting,
     FullCalendarModule,
     HttpClientModule,
@@ -50,12 +53,14 @@ import { PrivateModule } from './private/private.module';
     ReactiveFormsModule,
     RecaptchaModule,
     PrivateModule,
-    NgbModule,
+    ModalModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDgygXyg6jch1M0qaBmilfsO0Sb1LPP6tQ'
     })
   ],
   providers: [
+    DatePipe,
+    BsModalRef,
     HTTPStatus,
     {
       provide: HTTP_INTERCEPTORS,

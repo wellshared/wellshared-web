@@ -40,7 +40,7 @@ export class CenterService {
     return this.http.delete(`${this.url}/api/center/${id}`, {responseType: 'text'});
   }
 
-  findImgs(id: string) {
+  findImgs(id: number) {
     return this.http.get(`${this.url}/api/center/${id}/imgs`);
   }
 

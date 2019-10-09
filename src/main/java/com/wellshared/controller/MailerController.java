@@ -21,6 +21,8 @@ import com.wellshared.mailer.BookDto;
 import com.wellshared.mailer.ContactDto;
 import com.wellshared.mailer.Mail;
 import com.wellshared.mailer.RentDto;
+import com.wellshared.model.Center;
+import com.wellshared.repository.CenterRepository;
 
 @Controller
 @RequestMapping("api/mailer")
@@ -30,20 +32,27 @@ public class MailerController {
 
 	@Autowired
 	private SpringTemplateEngine templateEngine;
+	
+	@Autowired
+	private CenterRepository centerRepository;
 
 	@RequestMapping(path = "/booking", method = RequestMethod.POST)
 	public ResponseEntity<Object> book(@RequestBody BookDto bookData) {
 		Context context = new Context();
-		context.getVariables().put("center", bookData.getCenter());
+		Center center = centerRepository.findById(bookData.getCenterId()).get();
+		context.getVariables().put("center", center.getName());
+		context.getVariables().put("adress", center.getAdress());
 		context.getVariables().put("name", bookData.getName());
+		context.getVariables().put("sname", bookData.getSname());
 		context.getVariables().put("phone", bookData.getPhone());
 		context.getVariables().put("number", bookData.getNumber());
 		context.getVariables().put("email", bookData.getEmail());
 		context.getVariables().put("date", bookData.getDate());
 		context.getVariables().put("timeFrom", bookData.getTimeFrom());
 		context.getVariables().put("timeTo", bookData.getTimeTo());
-		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Reserva Wellshared", "Content prueba");
+		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Reserva Wellshared", "");
 		this.prepareAndSend(mail, context, "book");
+		mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Peticion reserva Wellshared", "");
 		this.prepareAndSend(mail, context, "book-ws");
 		return ResponseEntity.ok("Correo enviado correctamente");
 	}
@@ -56,7 +65,7 @@ public class MailerController {
 		context.getVariables().put("phone", rentData.getPhone());
 		context.getVariables().put("email", rentData.getEmail());
 		context.getVariables().put("message", rentData.getMessage());
-		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Reserva Wellshared", "Content prueba");
+		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Peticón alquiler de sala Wellshared", "");
 		this.prepareAndSend(mail, context, "rent");
 		return ResponseEntity.ok("Correo enviado correctamente");
 	}
@@ -68,7 +77,7 @@ public class MailerController {
 		context.getVariables().put("phone", contactData.getPhone());
 		context.getVariables().put("email", contactData.getEmail());
 		context.getVariables().put("message", contactData.getMessage());
-		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Reserva Wellshared", "Content prueba");
+		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Contacto Wellshared", "");
 		this.prepareAndSend(mail, context, "contact");
 		return ResponseEntity.ok("Correo enviado correctamente");
 	}

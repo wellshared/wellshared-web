@@ -1,0 +1,9 @@
+<div class="modal-body">
+    <div class="drop-box" ng2FileDrop
+    [ngClass]="{'dragover': isDropOver}"
+    [uploader]="uploader"
+    (fileOver)="fileOverAnother($event)"
+    (click)="fileClicked()">
+ <span class="drag-in-title">Arrastra un fichero</span>
+ <span class="drag-over-title">Suelta el fichero</span>
+</div>

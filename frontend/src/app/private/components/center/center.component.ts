@@ -110,12 +110,7 @@ export class CenterComponent implements OnInit {
     this.center.services = this.center.services.filter((service: Service) => service.id !== id);
   }
 
-  addImage() {
-
-  }
-
   addService() {
-
     const modalRef = this.modalService.show(AddModalComponent, {
       initialState: {
         list: this.services

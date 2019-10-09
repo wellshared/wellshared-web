@@ -48,6 +48,20 @@ export class CenterService {
     return this.http.post(this.url + '/api/center/', center , {responseType: 'text'});
   }
 
+  loadImg(centerId: number, file: File) {
+    let headers = new HttpHeaders()
+    .append('Content-Type', 'multipart/form-data')
+    .append('Accept', 'application/json');
+    const img = new FormData();
+    img.append('file', file, file.name);
+    return this.http.post(this.url + '/api/center/img/'+centerId, img , {
+      headers, 
+      responseType: 'text',
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
+
   getServicios(centroid: number) {
     return this.http.get(this.url + '/servicios/' + centroid);
   }

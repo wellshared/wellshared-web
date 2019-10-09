@@ -1,5 +1,6 @@
 package com.wellshared.controller;
 
+import java.io.File;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.wellshared.model.Center;
 import com.wellshared.model.Location;
@@ -40,6 +43,12 @@ public class CenterController {
 	@RequestMapping(path = "/", method = RequestMethod.POST)
     public ResponseEntity<Object> getCenterById(@RequestBody CenterDto center) {
 		this.centerRepository.save(center.populateEntity());
+		return ResponseEntity.ok("Centro guardado correctamente");
+    }
+	
+	@RequestMapping(path = "/img/{id}", method = RequestMethod.POST)
+    public ResponseEntity<Object> loadImg(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+		Center center = this.centerRepository.findById(id).get();
 		return ResponseEntity.ok("Centro guardado correctamente");
     }
 	

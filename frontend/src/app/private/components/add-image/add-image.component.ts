@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
-import { BsModalRef } from 'ngx-bootstrap/modal';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from '../../../../environments/environment';
+import { Image } from 'src/app/model/image.model';
 
 @Component({
   selector: 'app-add-image',
@@ -14,15 +14,15 @@ export class AddImageComponent implements OnInit {
   onClose: Subject<File> = new Subject<File>();
   @ViewChild('fileInput', {static: true}) fileInput: ElementRef;
   @Input() centerId: number;
+  @Output() imageLoaded: EventEmitter<void> = new EventEmitter();
   uploader: FileUploader;
   isDropOver: boolean;
   constructor() { }
  
   ngOnInit(): void {
-    alert(this.centerId);
     const headers = [{name: 'Accept', value: 'application/json'}];
-    this.uploader = new FileUploader({url: environment.url+'/api/center/img/'+this.centerId, autoUpload: true, headers: headers});
-    this.uploader.onCompleteAll = () => alert('File uploaded');
+    this.uploader = new FileUploader({url: environment.url + '/api/center/img/' + this.centerId, autoUpload: true, headers});
+    this.uploader.onCompleteAll = () => this.imageLoaded.emit();
   }
  
   fileOverAnother(e: any): void {

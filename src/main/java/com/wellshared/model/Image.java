@@ -22,6 +22,18 @@ public class Image {
 	private Center center;
 	private String name;
 	private String url;
+	
+	
+	
+	public Image() {
+		super();
+	}
+	public Image(Center center, String name, String url) {
+		super();
+		this.center = center;
+		this.name = name;
+		this.url = url;
+	}
 	public Long getId() {
 		return id;
 	}

@@ -15,16 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.wellshared.model.Center;
+import com.wellshared.model.Image;
 import com.wellshared.model.Location;
 import com.wellshared.model.dto.CenterDto;
 import com.wellshared.repository.CenterRepository;
 import com.wellshared.repository.LocationRepository;
+import com.wellshared.service.ImageService;
 
 @RestController
 @RequestMapping("api/center")
 public class CenterController {
 	@Autowired
 	private CenterRepository centerRepository;
+	@Autowired
+	private ImageService imageService;
 	@Autowired
 	private LocationRepository locationRepository;
 
@@ -49,6 +53,13 @@ public class CenterController {
 	@RequestMapping(path = "/img/{id}", method = RequestMethod.POST)
     public ResponseEntity<Object> loadImg(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
 		Center center = this.centerRepository.findById(id).get();
+		try {
+			Image image = this.imageService.saveImage(file, center);
+			center.getImages().add(image);
+			centerRepository.save(center);
+		} catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		return ResponseEntity.ok("Centro guardado correctamente");
     }
 	

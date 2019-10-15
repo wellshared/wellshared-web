@@ -10,7 +10,7 @@ import { AddModalComponent } from './components/modals/add-modal/add-modal.compo
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AddImageComponent } from './components/add-image/add-image.component';
 import { FileUploadModule } from 'ng2-file-upload';
-
+import { PrivateGuard } from './private.guard';
 
 @NgModule({
   declarations: [CenterComponent, CenterListComponent, PrivateComponent, AddModalComponent, AddImageComponent],
@@ -26,7 +26,8 @@ import { FileUploadModule } from 'ng2-file-upload';
     AddImageComponent
   ], providers: [
     BsModalRef,
-    BsModalService
+    BsModalService,
+    PrivateGuard
   ]
 })
 export class PrivateModule { }

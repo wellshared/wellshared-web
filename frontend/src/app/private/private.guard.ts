@@ -2,6 +2,8 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 import { Injectable } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { User } from '../model/user.model';
 
 @Injectable()
 export class PrivateGuard implements CanActivate {
@@ -11,9 +13,14 @@ export class PrivateGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ) {
-      if (!this.userService.userConected) {
-        return this.router.parseUrl('/login');
-      }
-      return true;
+      return this.userService.userConected.pipe(
+        map((user: User) => {
+          if (user) {
+            return true;
+          } else {
+            return this.router.parseUrl('/login');
+          }
+        })
+      );
   }
 }

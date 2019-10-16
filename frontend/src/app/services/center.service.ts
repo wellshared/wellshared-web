@@ -3,10 +3,6 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Center } from '../model/center.model';
-import { Image } from '../model/image.model';
-import { ContactDto } from '../model/dto/contact-dto.model';
-import { RentDto } from '../model/dto/rent-dto.model';
-import { BookDto } from '../model/dto/book-dto.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -49,13 +45,13 @@ export class CenterService {
   }
 
   loadImg(centerId: number, file: File) {
-    let headers = new HttpHeaders()
+    const headers = new HttpHeaders()
     .append('Content-Type', 'multipart/form-data')
     .append('Accept', 'application/json');
     const img = new FormData();
     img.append('file', file, file.name);
-    return this.http.post(this.url + '/api/center/img/'+centerId, img , {
-      headers, 
+    return this.http.post(this.url + '/api/center/img/' + centerId, img , {
+      headers,
       responseType: 'text',
       reportProgress: true,
       observe: 'events'

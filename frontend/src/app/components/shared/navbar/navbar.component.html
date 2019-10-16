@@ -32,6 +32,9 @@
                   <li><a routerLink="salas">Ver salas</a></li>
                   <li><a routerLink="alquila">¿Quieres alquilar tu sala?</a></li>
                   <li><a routerLink="contacto">Contacto</a></li>
+                  <li><a routerLink="admin/centers" *ngIf="user">Centros</a></li>
+                  <li><a routerLink="admin/books" *ngIf="user">Reservas</a></li>
+                  <li><a class="cursor-pointer" (click)="logout()" *ngIf="user">Logout</a></li>
               </ul>
           </div><!-- /.navbar-collapse -->
       </div>

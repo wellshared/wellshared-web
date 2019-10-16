@@ -32,7 +32,7 @@ export class CenterComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: any) => {
       if (params.id) {
-        this.findCenter(Number(params.id));        
+        this.findCenter(Number(params.id));
       }
     });
     this.findLocations();

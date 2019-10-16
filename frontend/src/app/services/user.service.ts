@@ -3,13 +3,15 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Subject } from 'rxjs';
 import { User } from '../model/user.model';
+import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   userConected: Subject<User> = new Subject<User>();
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   login(username: string, password: string) {
     const headers = new HttpHeaders()
@@ -18,8 +20,21 @@ export class UserService {
     return this.http.post(environment.url + '/login', {}, {headers, params});
   }
 
+  logout() {
+    return this.http.get(environment.url + '/logout').pipe(
+      tap(() => {
+        this.userConected.next(undefined);
+        this.router.navigate(['/']);
+      })
+    );
+  }
+
   getConnectedUser() {
-    return this.http.get(environment.url + '/user/session');
+    return this.http.get(environment.url + '/user/session').pipe(
+      tap((user: User) => {
+        this.userConected.next(user);
+      })
+    );
   }
 
 }

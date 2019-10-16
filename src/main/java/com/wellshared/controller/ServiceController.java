@@ -19,5 +19,5 @@ public class ServiceController {
     public ResponseEntity<Object> getCenters() {
 		return ResponseEntity.ok(this.serviceRepository.findAll());
     }
-	
+
 }

@@ -11,15 +11,26 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AddImageComponent } from './components/add-image/add-image.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { PrivateGuard } from './private.guard';
+import { BookListComponent } from './components/book-list/book-list.component';
+import { BookComponent } from './components/book/book.component';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 
 @NgModule({
-  declarations: [CenterComponent, CenterListComponent, PrivateComponent, AddModalComponent, AddImageComponent],
+  declarations: [
+    CenterComponent,
+    CenterListComponent,
+    PrivateComponent,
+    AddModalComponent,
+    AddImageComponent,
+    BookListComponent,
+    BookComponent],
   imports: [
     CommonModule,
     RouterModule,
     privateRouting,
     ReactiveFormsModule,
     FormsModule,
+    BsDatepickerModule,
     FileUploadModule
   ], entryComponents: [
     AddModalComponent,

@@ -59,7 +59,7 @@ public class MailerController {
 		context.getVariables().put("date", bookData.getDate());
 		context.getVariables().put("timeFrom", bookData.getTimeFrom());
 		context.getVariables().put("timeTo", bookData.getTimeTo());
-		
+		context.getVariables().put("image", "frontend/src/assets/imgs/centros/"+center.getId()+"/"+center.getMainImage());
 		Book book = new Book();
 		book.setBookStatus(bookStatusRepository.findOne(1L));
 		book.setCenter(center);

@@ -164,3 +164,9 @@ button.btn.btn-link {
   display: flex;
   justify-content: space-between;
 }
+.font-bold {
+  font-weight: bold;
+}
+.spacing-15{
+  letter-spacing: 1.5px;
+}

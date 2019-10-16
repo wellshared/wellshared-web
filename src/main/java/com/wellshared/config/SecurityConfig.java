@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -39,17 +40,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().authorizeRequests()
 		.antMatchers("/api/mailer/**").permitAll()
-		.antMatchers("/api/service/**").permitAll()
 		.antMatchers("/api/center/").permitAll()
 		.antMatchers("/api/center/img/{id}").permitAll()
 		.antMatchers("/api/center/location/{locationId}").permitAll()
 		.antMatchers("/api/center/{id}").permitAll()
-		.antMatchers("/api/center/{id}/imgs").permitAll()
-		.antMatchers("/api/locations/").permitAll()
-        .anyRequest().authenticated().and().formLogin()
+        .anyRequest().authenticated().and()
+        .formLogin()
         .successHandler((req,resp,exp) -> resp.setStatus(HttpStatus.OK.value()))
         .failureHandler((req,resp,exp) -> resp.setStatus(HttpStatus.UNAUTHORIZED.value()))
-        .and().logout().logoutSuccessUrl("/").and()
+        .permitAll()
+        .and()
+        .exceptionHandling()
+        	.accessDeniedHandler((req,resp,exp) -> resp.setStatus(HttpStatus.UNAUTHORIZED.value()))
+        	.authenticationEntryPoint((req,resp,exp) -> resp.setStatus(HttpStatus.UNAUTHORIZED.value()))
+        .and()
+        .logout()
+        .deleteCookies("JSESSIONID")
+        .logoutSuccessHandler((req,resp,exp) -> resp.setStatus(HttpStatus.OK.value()))
+        .logoutSuccessUrl("/")
+        .and()
+        .sessionManagement()
+        	.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+        .and()
         .httpBasic();
 
 	}

@@ -21,7 +21,10 @@ import com.wellshared.mailer.BookDto;
 import com.wellshared.mailer.ContactDto;
 import com.wellshared.mailer.Mail;
 import com.wellshared.mailer.RentDto;
+import com.wellshared.model.Book;
 import com.wellshared.model.Center;
+import com.wellshared.repository.BookRepository;
+import com.wellshared.repository.BookStatusRepository;
 import com.wellshared.repository.CenterRepository;
 
 @Controller
@@ -35,7 +38,13 @@ public class MailerController {
 	
 	@Autowired
 	private CenterRepository centerRepository;
+	
+	@Autowired
+	private BookRepository bookRepository;
 
+	@Autowired
+	private BookStatusRepository bookStatusRepository;
+	
 	@RequestMapping(path = "/booking", method = RequestMethod.POST)
 	public ResponseEntity<Object> book(@RequestBody BookDto bookData) {
 		Context context = new Context();
@@ -50,6 +59,16 @@ public class MailerController {
 		context.getVariables().put("date", bookData.getDate());
 		context.getVariables().put("timeFrom", bookData.getTimeFrom());
 		context.getVariables().put("timeTo", bookData.getTimeTo());
+		
+		Book book = new Book();
+		book.setBookStatus(bookStatusRepository.findOne(1L));
+		book.setCenter(center);
+		book.setDate(bookData.getDate());
+		book.setEmail(bookData.getEmail());
+		book.setTimeFrom(bookData.getTimeFrom());
+		book.setTimeTo(bookData.getTimeTo());
+		bookRepository.save(book);
+		
 		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Reserva Wellshared", "");
 		this.prepareAndSend(mail, context, "book");
 		mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Peticion reserva Wellshared", "");
@@ -65,7 +84,7 @@ public class MailerController {
 		context.getVariables().put("phone", rentData.getPhone());
 		context.getVariables().put("email", rentData.getEmail());
 		context.getVariables().put("message", rentData.getMessage());
-		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Peticón alquiler de sala Wellshared", "");
+		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Peticï¿½n alquiler de sala Wellshared", "");
 		this.prepareAndSend(mail, context, "rent");
 		return ResponseEntity.ok("Correo enviado correctamente");
 	}

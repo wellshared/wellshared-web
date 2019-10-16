@@ -15,6 +15,7 @@ import { Constants } from 'src/app/utils/constants';
 import { BookDto } from 'src/app/model/dto/book-dto.model';
 import { MailerService } from 'src/app/services/mailer.service';
 import { DatePipe } from '@angular/common';
+import { Image } from 'src/app/model/image.model';
 
 @Component({
   selector: 'app-rooms-detail',
@@ -37,7 +38,7 @@ export class RoomsDetailComponent implements OnInit {
   };
   calendarApi: any;
   center: Center;
-  imagePosition = 0;
+  selectedImage: Image;
   formGroup: FormGroup;
   horas: string[] = Constants.hours;
   constructor(
@@ -61,7 +62,7 @@ export class RoomsDetailComponent implements OnInit {
       if (params.id) {
         this.centerService.findById(params.id).subscribe((center: Center) => {
           this.center = center;
-          this.imagePosition = 0;
+          this.selectedImage = center.images[0];
           this.lat =  Number(this.center.lat);
           this.lng = Number(this.center.lon);
           this.markers[0] = new Marker(
@@ -89,16 +90,8 @@ export class RoomsDetailComponent implements OnInit {
       this.mailerService.book(bookDto).subscribe(() => window.location.reload());
     }
   }
-  selectImage(index: number) {
-    if (this.imagePosition === (this.center.images.length - 1 )) {
-      this.imagePosition = 0;
-    } else if ((this.imagePosition + index) < 0 ) {
-      this.imagePosition = this.center.images.length - 1;
-    } else if ((this.imagePosition + index) > this.center.images.length) {
-      this.imagePosition = 0;
-    } else {
-      this.imagePosition = this.imagePosition + index;
-    }
+  selectImage(image: Image) {
+    this.selectedImage = image;
   }
   getCalendarEvents() {
     this.centerService.calendarEvents(Constants.CALENDAR_API_KEY, this.center.url).subscribe((calendar: any) => {

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { User } from 'src/app/model/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +11,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   formGroup: FormGroup;
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
     this.formGroup = new FormGroup({
@@ -23,8 +25,17 @@ export class LoginComponent implements OnInit {
       this.userService.login(
         this.formGroup.controls['username'].value,
         this.formGroup.controls['password'].value
-        ).subscribe(console.log);
+        ).subscribe(() => {
+          this.getUserConnected();
+        });
     }
+  }
+
+  getUserConnected() {
+    this.userService.getConnectedUser().subscribe((user: User) => {
+      this.userService.userConected.next(user);
+      this.router.navigate(['/admin/centers']);
+    });
   }
 
 }

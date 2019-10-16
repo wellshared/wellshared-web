@@ -38,6 +38,9 @@ export class HTTPListener implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    req = req.clone({
+      withCredentials: true
+    });
     return next.handle(req).pipe(
       map(event => {
         this.status.setHttpStatus(true);

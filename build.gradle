@@ -34,8 +34,6 @@ node {
     version = '10.9.0'
     npmVersion = '6.5.0'
     download = true
-    workDir = file("${project.buildDir}/node")
-    nodeModulesDir = file("${project.projectDir}")
 }
 
 task webpackBuildDev(type: NpmTask, dependsOn: 'npm_install') {
@@ -60,7 +58,4 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile("org.springframework.boot:spring-boot-starter-data-rest")
 	compile("mysql:mysql-connector-java")
-}
-dependencyManagement {
-    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
 }

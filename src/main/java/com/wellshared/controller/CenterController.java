@@ -1,6 +1,7 @@
 package com.wellshared.controller;
 
 import java.io.File;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.wellshared.model.Center;
 import com.wellshared.model.Image;
 import com.wellshared.model.Location;
+import com.wellshared.model.Service;
 import com.wellshared.model.dto.CenterDto;
 import com.wellshared.repository.CenterRepository;
 import com.wellshared.repository.LocationRepository;
@@ -77,6 +79,7 @@ public class CenterController {
     public ResponseEntity<Object> deleteCenter(@PathVariable Long id) {
 		Optional<Center> center = centerRepository.findById(id);
 		if(center.isPresent()) {
+			center.get().getServices().removeAll(center.get().getServices());
 			centerRepository.delete(id);
 			return ResponseEntity.ok("Centro eliminado correctamente");
 		} else {

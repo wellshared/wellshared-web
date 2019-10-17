@@ -33,7 +33,7 @@ public class Center {
 	@NotNull
 	@JoinColumn(name="location_id")
 	private Location location;
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE}, fetch = FetchType.EAGER)
 	@JoinTable(name="center_service",
 				joinColumns = @JoinColumn(name="center_id"),
 				inverseJoinColumns = @JoinColumn(name="service_id"))

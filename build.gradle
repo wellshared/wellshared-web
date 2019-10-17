@@ -31,7 +31,11 @@ task cleanResources(type: Delete) {
     delete 'build/resources'
 }
 node {
-   // download = true
+    version = '10.9.0'
+    npmVersion = '6.5.0'
+    download = true
+    workDir = file("${project.buildDir}/node")
+    nodeModulesDir = file("${project.projectDir}")
 }
 
 task webpackBuildDev(type: NpmTask, dependsOn: 'npm_install') {

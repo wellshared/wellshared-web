@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().authorizeRequests()
 		.antMatchers("/api/mailer/**").permitAll()
+		.antMatchers("/user/session").permitAll()
 		.antMatchers("/api/center/").permitAll()
 		.antMatchers("/api/center/img/{id}").permitAll()
 		.antMatchers("/api/center/location/{locationId}").permitAll()

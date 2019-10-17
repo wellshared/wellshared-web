@@ -35,6 +35,9 @@ public class UserController {
     }
     @GetMapping("/user/session")
     public ResponseEntity<Object> getConnectedUser() {
+    	if("ROLE_ANONYMOUS".equals(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()[0].toString())) {
+    		return new ResponseEntity<Object>(null, HttpStatus.OK);	
+    	}
     	return new ResponseEntity<Object>(SecurityContextHolder.getContext().getAuthentication(), HttpStatus.OK);
     }
     

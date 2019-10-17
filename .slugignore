@@ -1,2 +1,10 @@
 # dependencies
 /node_modules
+*.psd
+*.pdf
+/test
+/tmp
+/out-tsc
+# IDEs and editors
+/.idea
+/bin

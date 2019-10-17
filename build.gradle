@@ -37,7 +37,6 @@ task copyIntoStatic (type: Copy) {
     from 'dist/ws-web/'
     into 'build/resources/main/static'
 }
-processResources.dependsOn webpackBuildDev
 copyIntoStatic.dependsOn processResources
 
 

@@ -31,10 +31,11 @@ task cleanResources(type: Delete) {
     delete 'build/resources'
 }
 node {
-    version = '10.14.1'
-    npmVersion = '6.4.1'
+    version = '10.9.0'
+    npmVersion = '6.5.0'
     download = true
 }
+
 task webpackBuildDev(type: NpmTask, dependsOn: 'npm_install') {
     args = ["run", "build"]
 }
@@ -46,7 +47,6 @@ task copyIntoStatic (type: Copy) {
     from 'dist/ws-web/'
     into 'build/resources/main/static'
 }
-
 processResources.dependsOn webpackBuildDev
 copyIntoStatic.dependsOn processResources
 

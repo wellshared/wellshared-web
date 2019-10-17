@@ -10,27 +10,36 @@ buildscript {
 	}
 }
 
+plugins {
+	id "com.moowork.node" version "1.2.0"
+}
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.moowork.node'
 apply plugin: 'org.springframework.boot'
 
 group = 'com.segfault16'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
-jar {
-	baseName = 'spring-angular'
-	version = '0.0.1-SNAPSHOT'
-	from('frontend/dist') {
-		into 'public'
-	}
-}
-
 repositories {
 	mavenCentral()
 }
 
-processResources.dependsOn('frontend:build')
+task cleanResources(type: Delete) {
+    delete 'build/resources'
+}
+node {
+   // download = true
+}
+task copyIntoStatic (type: Copy) {
+    from 'dist/ws-web/'
+    into 'build/resources/main/static'
+}
+processResources.dependsOn webpackBuildDev
+copyIntoStatic.dependsOn processResources
+
 
 dependencies {
 	/// SPRING BOOT
@@ -42,4 +51,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile("org.springframework.boot:spring-boot-starter-data-rest")
 	compile("mysql:mysql-connector-java")
+}
+dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
 }

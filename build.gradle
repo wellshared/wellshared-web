@@ -50,7 +50,7 @@ task copyIntoStatic (type: Copy) {
     into 'build/resources/main/static'
 }
 processResources.dependsOn webpackBuildDev
-copyIntoStatic.dependsOn processResources
+copyIntoStatic.dependsOn webpackBuildDev
 
 
 dependencies {

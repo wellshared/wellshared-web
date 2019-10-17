@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ws-web",
+            "outputPath": "build/resources/main/static",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -37,6 +37,9 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "options": {
+                "outputPath": "build/resources/main/static"
+              },
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,

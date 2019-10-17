@@ -40,10 +40,12 @@ task webpackBuildDev(type: NpmTask, dependsOn: 'npm_install') {
     args = ["run", "build"]
 }
 
+compileJava.dependsOn processResources
+processResources.dependsOn cleanResources
 
 task copyIntoStatic (type: Copy) {
     from 'dist/ws-web/'
-    into 'static'
+    into 'build/resources/main/static'
 }
 processResources.dependsOn webpackBuildDev
 copyIntoStatic.dependsOn processResources

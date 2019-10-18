@@ -59,7 +59,7 @@ public class MailerController {
 		context.getVariables().put("date", bookData.getDate());
 		context.getVariables().put("timeFrom", bookData.getTimeFrom());
 		context.getVariables().put("timeTo", bookData.getTimeTo());
-		context.getVariables().put("image", "frontend/src/assets/imgs/centros/"+center.getId()+"/"+center.getMainImage());
+		context.getVariables().put("image", "https://wellshrd.herokuapp.com/assets/imgs/centros/"+center.getId()+"/"+center.getMainImage());
 		Book book = new Book();
 		book.setBookStatus(bookStatusRepository.findOne(1L));
 		book.setCenter(center);
@@ -68,7 +68,6 @@ public class MailerController {
 		book.setTimeFrom(bookData.getTimeFrom());
 		book.setTimeTo(bookData.getTimeTo());
 		bookRepository.save(book);
-		
 		Mail mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Reserva Wellshared", "");
 		this.prepareAndSend(mail, context, "book");
 		mail = new Mail("Wellshared <info@wellshared.es>", "gorteganel@gmail.com", "Peticion reserva Wellshared", "");

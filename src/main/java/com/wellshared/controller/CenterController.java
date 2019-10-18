@@ -57,6 +57,9 @@ public class CenterController {
 		Center center = this.centerRepository.findById(id).get();
 		try {
 			Image image = this.imageService.saveImage(file, center);
+			if(center.getImages().size() == 0) {
+				center.setMainImage(image.getName());
+			}
 			center.getImages().add(image);
 			centerRepository.save(center);
 		} catch(Exception e) {

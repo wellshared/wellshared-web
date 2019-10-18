@@ -10,7 +10,7 @@
           </div>
         </section>
       </div>
-      <div class="col-md-5 u-height300" style="overflow: auto">
+      <div class="col-md-5 u-height300 img-list">
         <div class="row">
           <div class="col-xs-6" *ngFor="let image of center.images">
             <img src="assets/imgs/centros/{{center.id}}/{{image.url}}" class="cursor-pointer" (click)="selectImage(image)" [alt]="image.url" width="100%" height="140px">

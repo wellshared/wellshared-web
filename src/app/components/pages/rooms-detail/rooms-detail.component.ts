@@ -145,7 +145,7 @@ export class RoomsDetailComponent implements OnInit {
             start: from[2]+'-'+from[1]+'-'+from[0]+'T'+book.timeFrom+':00',
             end: from[2]+'-'+from[1]+'-'+from[0]+'T'+book.timeTo+':00',
             allDay: false,
-            color:(book.bookStatus.id === 1) ? '#0b8043' : (book.bookStatus.id === 1) ? '#d20c15' : '' 
+            color:(book.bookStatus.id === 1) ? '#0b8043' : (book.bookStatus.id === 2) ? '#d20c15' : '' 
           });
         }
       });

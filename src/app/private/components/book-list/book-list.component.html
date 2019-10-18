@@ -31,13 +31,13 @@
                         <td>{{book.timeTo}}</td>
                         <td>{{book.bookStatus.name}}</td>
                         <td>
-                            <button style="width: 100%" class="btn btn-danger" (click)="deleteBook(book.id)">
-                                Eliminar
+                            <button class="btn btn-rounded btn-danger" (click)="deleteBook(book.id)">
+                                <i class="fa fa-trash"></i>
                             </button>
                         </td>
                         <td>
-                            <button style="width: 100%" class="btn btn-success" [routerLink]="['/admin/book', book.id]" routerLinkActive="router-link-active" >
-                                Editar
+                            <button class="btn btn-rounded btn-success" [routerLink]="['/admin/book', book.id]" routerLinkActive="router-link-active" >
+                                Edi<i class="fa fa-edit"></i>tar
                             </button>
                         </td>
                 </tr>

@@ -173,3 +173,8 @@ button.btn.btn-link {
 .u-height400 {
   height: 400px;
 }
+.btn-rounded {
+  border-radius: 268px;
+  width: 45px;
+  padding: 0;
+}

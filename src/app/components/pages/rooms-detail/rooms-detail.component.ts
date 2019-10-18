@@ -138,8 +138,6 @@ export class RoomsDetailComponent implements OnInit {
       this.books.forEach((book: Book) => {
         if (this.calendarComponent) {
           const from: any = book.date.split('-');
-          const timeFrom: any = book.timeFrom.split(':');
-          const timeTo: any = book.timeTo.split(':');
           this.calendarComponent.getApi().addEvent({
             title: (book.bookStatus.id === 1) ? 'Reservado' : 'Ocupado',
             start: from[2]+'-'+from[1]+'-'+from[0]+'T'+book.timeFrom+':00',

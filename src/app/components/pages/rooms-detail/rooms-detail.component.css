@@ -5,8 +5,3 @@ agm-map {
 .img-list {
   overflow: auto;
 }
-@media (max-width: 1199px) {
-    .img-list {
-      margin-top: 10px;
-    }
-}

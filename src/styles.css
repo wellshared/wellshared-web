@@ -196,3 +196,9 @@ button.btn.btn-link {
   text-decoration: underline;
   font-weight: 600;
 }
+.u-height150 {
+  height: 150px;
+}
+.u-Maxheight300 {
+  max-height: 300px;
+}

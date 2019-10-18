@@ -45,7 +45,11 @@
               <tr *ngFor="let image of this.center.images">
                 <td>{{image.name}}</td>
                 <td>{{image.url}}</td>
-                <td><button type="button" class="btn btn-danger" style="width: 100%" (click)="removeImage(image.id)">Eliminar</button></td>
+                <td>
+                  <button type="button" class="btn btn-rounded btn-danger"  (click)="removeImage(image.id)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -104,7 +108,9 @@
         <div class="form-group">
           <div class="inline-items space-between">
             <p>Servicios</p>
-            <button type="button" class="btn btn-primary" (click)="addService()">Añadir</button>
+            <button type="button" class="btn btn-rounded btn-primary" (click)="addService()">
+              <i class="fa fa-plus"></i>
+            </button>
           </div>
           <table class="table">
             <thead>
@@ -118,7 +124,11 @@
               <tr *ngFor="let service of center.services">
                 <td>{{service.name}}</td>
                 <td>{{service.url}}</td>
-                <td><button  type="button" class="btn btn-danger" style="width: 100%" (click)="removeService(service.id)">Eliminar</button></td>
+                <td>
+                  <button  type="button" class="btn btn-rounded btn-danger" (click)="removeService(service.id)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>

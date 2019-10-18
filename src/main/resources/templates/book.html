@@ -20,7 +20,7 @@
 <body style="margin: 0; padding: 0;">
 	<div class="example-wrapper">
 		<h1 style='text-align: center; width: 100%'>¡Gracias <span th:text="${name}"></span>! Tu reserva en <span th:text="${center}"> </span>está confirmada.</h1>
-		<img th:src="${image}" alt="center-image" width="200px" />
+		<img th:src="${image}" alt="center-image" width="100%" height="270px"/>
 	    <p>Fecha: <span th:text="${date}"></span></p>
 	    <p>Hora desde: <span th:text="${timeFrom}"></span></p>
 	    <p>Hora hasta: <span th:text="${timeTo}"></span></p>

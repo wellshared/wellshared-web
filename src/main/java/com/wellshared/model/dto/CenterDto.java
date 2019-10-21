@@ -75,6 +75,7 @@ public class CenterDto {
 		for (ImageDto imageDto : this.getImages()) {
 			center.getImages().add(imageDto.populateEntity(center));
 		}
+		center.setServices(this.getServices());
 		return center;
 	}
 	

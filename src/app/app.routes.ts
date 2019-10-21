@@ -8,6 +8,7 @@ import { PrivacityComponent } from './components/pages/privacity/privacity.compo
 import { RoomsDetailComponent } from './components/pages/rooms-detail/rooms-detail.component';
 import { LoginComponent } from './components/pages/login/login.component';
 import { RentComponent } from './components/pages/rent/rent.component';
+import { LoginGuard } from './login.guard';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -16,7 +17,7 @@ const routes: Routes = [
     { path: 'alquila', component: RentComponent },
     { path: 'contacto', component: ContactComponent },
     { path: 'faq', component: FaqComponent },
-    { path: 'login', component: LoginComponent },
+    { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
     { path: 'cookies', component: CookiesComponent },
     { path: 'privacidad', component: PrivacityComponent },
     { path: 'centers', component: PrivacityComponent },

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HTTPStatus } from './services/HTTPListener.interceptor';
 import { UserService } from './services/user.service';
-
+import { BsLocaleService, defineLocale, esLocale } from 'ngx-bootstrap';
+defineLocale('es', esLocale);
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

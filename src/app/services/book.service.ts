@@ -15,6 +15,10 @@ export class BookService {
     return this.http.get(this.url + '/api/book/');
   }
 
+  findByCenter(id: number) {
+    return this.http.get(this.url + '/api/book/center/' + id);
+  }
+
   findById(id: number) {
     return this.http.get(this.url + '/api/book/' + id);
   }

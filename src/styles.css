@@ -147,29 +147,61 @@ button.btn.btn-link {
   align-items: center;
   justify-content: center;
 }
+
 .position-right {
   display: flex;
   justify-content: flex-end;
 }
+
 .position-flex-bottom {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
 }
+
 .admin-section {
   margin-top: 80px;
   height: 130px;
 }
+
 .space-between {
   display: flex;
   justify-content: space-between;
 }
+
 .font-bold {
   font-weight: bold;
 }
-.spacing-15{
+
+.spacing-15 {
   letter-spacing: 1.5px;
 }
+
 .u-height400 {
   height: 400px;
+}
+
+.btn-rounded {
+  border-radius: 268px;
+  width: 45px;
+  padding: 0;
+}
+
+.bs-datepicker-container {
+  padding: 0px;
+}
+
+.back-link {
+  color: #3a887a;
+  text-decoration: underline;
+  font-weight: 600;
+}
+.u-height150 {
+  height: 150px;
+}
+.u-Maxheight300 {
+  max-height: 300px;
+}
+.display-none {
+  display: none;
 }

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
 
   getUserConnected() {
     this.userService.getConnectedUser().subscribe((user: User) => {
-      this.router.navigate(['/admin/centers']);
+      this.router.navigate(['/']);
     });
   }
 

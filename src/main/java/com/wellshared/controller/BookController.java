@@ -1,5 +1,8 @@
 package com.wellshared.controller;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wellshared.model.Book;
+import com.wellshared.model.Center;
 import com.wellshared.repository.BookRepository;
 import com.wellshared.repository.BookStatusRepository;
+import com.wellshared.repository.CenterRepository;
 
 @RestController
 @RequestMapping("api/book")
@@ -19,14 +24,27 @@ public class BookController {
 	private BookRepository bookRepository;
 	@Autowired
 	private BookStatusRepository bookStatusRepository;
+	@Autowired
+	private CenterRepository centerRepository;
+	
 	@RequestMapping(path = "/", method = RequestMethod.GET)
     public ResponseEntity<Object> getBooks() {
 		return ResponseEntity.ok(this.bookRepository.findAll());
     }
 	
+	@RequestMapping(path = "/center/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getBooksByCenter(@PathVariable Long id) {
+		Optional<Center> center = centerRepository.findById(id);
+		if(center.isPresent()) {
+			return ResponseEntity.ok(bookRepository.findAllByCenter(center.get()));
+		} else {
+			return ResponseEntity.ok(new ArrayList<Object>());
+		}
+    }
+	
 	@RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteCenters(@PathVariable Long id) {
-		this.bookRepository.delete(id);
+		this.bookRepository.findOne(id);
 		return ResponseEntity.ok("Registro eliminado correctamente");
     }
 	

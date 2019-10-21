@@ -1,45 +1,51 @@
 <!--header start-->
 <header>
-  <!-- Start Navigation -->
-  <nav id="mainNav" class="navbar navbar-default navbar-fixed bootsnav">
+    <!-- Start Navigation -->
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed bootsnav">
 
-      <!-- Start Top Search -->
-      <div class="top-search">
-          <div class="container">
-              <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                  <input type="text" class="form-control" placeholder="Search">
-                  <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
-              </div>
-          </div>
-      </div>
-      <!-- End Top Search -->
+        <!-- Start Top Search -->
+        <div class="top-search">
+            <div class="container">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Search">
+                    <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+                </div>
+            </div>
+        </div>
+        <!-- End Top Search -->
 
-      <div class="container">
+        <div class="container">
 
-          <!-- Start Header Navigation -->
-          <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
-                  <i class="fa fa-bars"></i>
-              </button>
-              <a class="navbar-brand" routerLink=""><img src="assets/imgs/logo_h.png" class="logo logo-scrolled" style="width: 140px; height: auto" alt=""></a>
-          </div>
-          <!-- End Header Navigation -->
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" routerLink=""><img src="assets/imgs/logo_h.png" class="logo logo-scrolled"
+                        style="width: 140px; height: auto" alt=""></a>
+            </div>
+            <!-- End Header Navigation -->
 
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="navbar-menu">
-              <ul class="nav navbar-nav navbar-right" data-in="" data-out="">
-                  <li><a routerLink="salas">Ver salas</a></li>
-                  <li><a routerLink="alquila">¿Quieres alquilar tu sala?</a></li>
-                  <li><a routerLink="contacto">Contacto</a></li>
-                  <li><a routerLink="admin/centers" *ngIf="user">Centros</a></li>
-                  <li><a routerLink="admin/books" *ngIf="user">Reservas</a></li>
-                  <li><a class="cursor-pointer" (click)="logout()" *ngIf="user">Logout</a></li>
-              </ul>
-          </div><!-- /.navbar-collapse -->
-      </div>
-  </nav>
-  <!-- End Navigation -->
-  <div class="clearfix"></div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right" data-in="" data-out="">
+                    <li><a routerLink="salas">Ver salas</a></li>
+                    <li><a routerLink="alquila">¿Quieres alquilar tu sala?</a></li>
+                    <li><a routerLink="contacto">Contacto</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" *ngIf="user">Admin</a>
+                        <ul class="dropdown-menu animated" style="display: none; opacity: 1;">
+                            <li><a routerLink="admin/centers" *ngIf="user">Centros</a></li>
+                            <li><a routerLink="admin/books" *ngIf="user">Reservas</a></li>
+                            <li><a class="cursor-pointer" (click)="logout()" *ngIf="user">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+    </nav>
+    <!-- End Navigation -->
+    <div class="clearfix"></div>
 </header>
 <!--header end-->

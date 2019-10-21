@@ -1,5 +1,6 @@
 package com.wellshared.service;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,7 +16,7 @@ import com.wellshared.repository.ImageRepository;
 
 @Service
 public class ImageService {
-	private final static String FILE_DIRECTORY = "frontend/src/assets/imgs/centros";
+	private final static String FILE_DIRECTORY = "src/assets/imgs/centros";
 	
 	@Autowired
 	private ImageRepository imageRepository;
@@ -23,6 +24,11 @@ public class ImageService {
 	public Image saveImage(MultipartFile file, Center center) throws Exception{
 		Image image;
 		try {
+
+			File dir = new File(FILE_DIRECTORY + "/" + center.getId());
+			if(!dir.exists()) {
+				dir.mkdir();
+			}
 			Path filePath = Paths.get(FILE_DIRECTORY + "/" + center.getId() + "/" + file.getOriginalFilename());
 			Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 			image = new Image(center, file.getOriginalFilename(), filePath.getFileName().toString());

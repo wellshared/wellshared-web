@@ -70,7 +70,7 @@ export class CenterComponent implements OnInit {
       lon: new FormControl(null, Validators.required),
       individual: new FormControl(0, Validators.required),
       activities: new FormControl(0, Validators.required),
-      url: new FormControl(null, Validators.required),
+      url: new FormControl(null),
     });
   }
 

@@ -17,17 +17,24 @@ import com.wellshared.repository.ImageRepository;
 @Service
 public class ImageService {
 	private final static String FILE_DIRECTORY = "src/assets/imgs/centros";
-	
+	private final static String BUILD_DIRECTORY = "build/resources/main/static/assets/imgs/centros";
 	@Autowired
 	private ImageRepository imageRepository;
 	
 	public Image saveImage(MultipartFile file, Center center) throws Exception{
 		Image image;
 		try {
-
+			
 			File dir = new File(FILE_DIRECTORY + "/" + center.getId());
 			if(!dir.exists()) {
 				dir.mkdir();
+			}
+			File build = new File("build");
+			if(build.exists()) {
+				dir = new File(BUILD_DIRECTORY + "/" + center.getId());
+				if(!dir.exists()) {
+					dir.mkdir();
+				}
 			}
 			Path filePath = Paths.get(FILE_DIRECTORY + "/" + center.getId() + "/" + file.getOriginalFilename());
 			Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);

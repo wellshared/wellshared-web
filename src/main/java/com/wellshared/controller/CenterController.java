@@ -61,7 +61,7 @@ public class CenterController {
 				center.setMainImage(image.getName());
 			}
 			center.getImages().add(image);
-			center.setMainImage(center.getImages().iterator().next().getName());
+			center.setMainImage(center.getImages().iterator().next().getUrl());
 			centerRepository.save(center);
 		} catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

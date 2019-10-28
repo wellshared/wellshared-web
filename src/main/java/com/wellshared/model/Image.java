@@ -21,18 +21,18 @@ public class Image {
 	@JoinColumn(name="center_id")
 	private Center center;
 	private String name;
-	private String url;
+	private byte[] bytes;
 	
 	
 	
 	public Image() {
 		super();
 	}
-	public Image(Center center, String name, String url) {
+	public Image(Center center, String name, byte[] bytes) {
 		super();
 		this.center = center;
 		this.name = name;
-		this.url = url;
+		this.bytes = bytes;
 	}
 	public Long getId() {
 		return id;
@@ -52,11 +52,11 @@ public class Image {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getUrl() {
-		return url;
+	public byte[] getBytes() {
+		return bytes;
 	}
-	public void setUrl(String url) {
-		this.url = url;
+	public void setBytes(byte[] bytes) {
+		this.bytes = bytes;
 	}
 	
 	

@@ -1,6 +1,7 @@
 package com.wellshared.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +37,15 @@ public class CenterController {
 
 	@RequestMapping(path = "/", method = RequestMethod.GET)
     public ResponseEntity<Object> getCenters() {
-		return ResponseEntity.ok(this.centerRepository.findAll());
+		List<CenterDto> centers = new ArrayList<>();
+		List<Center> centerJpa = this.centerRepository.findAll();
+		CenterDto centerDto;
+		for (Center center : centerJpa) {
+			centerDto = new CenterDto();
+			centerDto.populate(center);
+			centers.add(centerDto);
+		}
+		return ResponseEntity.ok(centers);
     }
 	
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
@@ -57,11 +66,7 @@ public class CenterController {
 		Center center = this.centerRepository.findById(id).get();
 		try {
 			Image image = this.imageService.saveImage(file, center);
-			if(center.getImages().size() == 0) {
-				center.setMainImage(image.getName());
-			}
-			center.getImages().add(image);
-			center.setMainImage(center.getImages().iterator().next().getUrl());
+			center.getImages().add(image);			
 			centerRepository.save(center);
 		} catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

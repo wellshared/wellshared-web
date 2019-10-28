@@ -6,13 +6,13 @@ import com.wellshared.model.Image;
 public class ImageDto {
 	private Long id;
 	private String name;
-	private String url;
+	private byte[] bytes;
 	private Long centerId;
 
 	public void populate(Image image) {
 		this.setId(image.getId());
 		this.setName(image.getName());
-		this.setUrl(image.getUrl());
+		this.setBytes(image.getBytes());
 		this.setCenterId(image.getCenter().getId());
 	}
 	
@@ -20,7 +20,7 @@ public class ImageDto {
 		Image image = new Image();
 		image.setId(this.getId());
 		image.setName(this.getName());
-		image.setUrl(this.getUrl());
+		image.setBytes(this.getBytes());
 		image.setCenter(center);
 		return image;
 	}
@@ -41,11 +41,13 @@ public class ImageDto {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getUrl() {
-		return url;
+
+	public byte[] getBytes() {
+		return bytes;
 	}
-	public void setUrl(String url) {
-		this.url = url;
+
+	public void setBytes(byte[] bytes) {
+		this.bytes = bytes;
 	}
 
 	public Long getCenterId() {

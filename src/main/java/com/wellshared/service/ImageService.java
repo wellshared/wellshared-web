@@ -38,7 +38,7 @@ public class ImageService {
 			}
 			Path filePath = Paths.get(FILE_DIRECTORY + "/" + center.getId() + "/" + file.getOriginalFilename());
 			Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-			image = new Image(center, file.getOriginalFilename(), filePath.getFileName().toString());
+			image = new Image(center, file.getOriginalFilename(), file.getBytes());
 			imageRepository.save(image);
 		} catch(Exception e) {
 			throw new Exception("No se ha encontrado la ruta del fichero");

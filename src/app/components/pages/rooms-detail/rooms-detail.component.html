@@ -3,21 +3,13 @@
     <a class="back-link" [routerLink]="['/salas']" routerLinkActive="router-link-active" ><i class="fa fa-arrow-left"></i> Volver a la lista</a>
     <div class="row u-MarginTop20">
       <div class="col-md-6 u-MarginTop10">
-        <section class="u-height300 ImageBackground js-minusHeader" data-overlay="3">
-          <div class="ImageBackground__holder" *ngIf="selectedImage"
-            [ngStyle]="{'background-image': 'url(assets/imgs/centros/'+center.id+'/'+selectedImage.url+')'}">
-            
-          </div>
-        </section>
+        <img [src]="getImageUrl(selectedImage)" alt="image main" class="u-height300" style="width: 100%;">
       </div>
       <div class="col-md-6 u-Maxheight300 u-MarginTop10 img-list">
         <div class="row">
           <div class="col-xs-6" *ngFor="let image of center.images">
             <section class="u-height150 ImageBackground js-minusHeader" data-overlay="3">
-              <div class="ImageBackground__holder cursor-pointer" *ngIf="selectedImage" (click)="selectImage(image)"
-                [ngStyle]="{'background-image': 'url(assets/imgs/centros/'+center.id+'/'+image.url+')'}">
-                
-              </div>
+              <img [src]="getImageUrl(image)" alt="image main" style="width: 100%; height: 145px;">
             </section>
           </div>
         </div>
@@ -84,7 +76,7 @@
             <agm-info-window>
               <div>
                 <img class="img-responsive" width="1000%" style="margin: 0px;"
-                  [src]="'assets/imgs/centros/'+m.centerid+'/'+m.img" alt="...">
+                  [src]="getImageUrl(m.img)" alt="...">
                 <div class="centro-text">
                   <h5 style="font-weight: bold" class="text-left" style="margin: 10px 0px;">
                     {{m.label}}

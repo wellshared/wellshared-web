@@ -5,6 +5,7 @@ import {
 import { CenterService } from 'src/app/services/center.service';
 import { Center } from 'src/app/model/center.model';
 import { Marker } from 'src/app/model/marker.model';
+import { ImageConverter } from '../../../services/image-converter.service';
 
 @Component({
   selector: 'app-rooms',
@@ -19,7 +20,7 @@ export class RoomsComponent implements OnInit {
   centers: Center[] = [];
   centerSel = '0';
   previous: any;
-  constructor(private centerService: CenterService) {}
+  constructor(private centerService: CenterService, private imageConverter: ImageConverter) {}
 
   ngOnInit() {
     this.getCenters();
@@ -51,12 +52,19 @@ export class RoomsComponent implements OnInit {
     });
   }
 
+  getImageUrl(center: Center) {
+    if(center.images) {
+      return this.imageConverter.createImageUrl(center.images[0].bytes);
+    }
+    return '';
+  }
+
   getMarkers() {
     this.markers = [];
     this.centers.forEach((center: Center) => {
       const marker: Marker = new Marker(
         center.lat, center.lon, false, center.name,
-        center.adress, center.price, center.mainImage, center.id);
+        center.adress, center.price, center.images[0], center.id);
       this.markers[this.markers.length] = marker;
     });
   }

@@ -46,7 +46,7 @@ import {
 import {
   Book
 } from '../../../model/book.model';
-
+import { ImageConverter } from 'src/app/services/image-converter.service';
 @Component({
   selector: 'app-rooms-detail',
   templateUrl: './rooms-detail.component.html',
@@ -76,7 +76,8 @@ export class RoomsDetailComponent implements OnInit {
   books: Book[] = [];
   constructor(
     private centerService: CenterService, private mailerService: MailerService,
-    private route: ActivatedRoute, private datePipe: DatePipe, private bookService: BookService) {}
+    private route: ActivatedRoute, private datePipe: DatePipe, private bookService: BookService,
+    private imageConverter: ImageConverter) {}
 
   ngOnInit() {
     this.formGroup = new FormGroup({
@@ -106,13 +107,15 @@ export class RoomsDetailComponent implements OnInit {
           this.lng = Number(this.center.lon);
           this.markers[0] = new Marker(
             this.center.lat, this.center.lon, false, this.center.name,
-            this.center.adress, this.center.price, this.center.mainImage, this.center.id);
+            this.center.adress, this.center.price, this.center.images[0], this.center.id);
           this.getCalendarEvents();
         });
       }
     });
   }
-
+  getImageUrl(image: Image) {
+    return this.imageConverter.createImageUrl(image.bytes);
+  }
   submit() {
     if (this.formGroup.valid) {
       const bookDto = new BookDto(

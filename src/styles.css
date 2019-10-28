@@ -200,6 +200,7 @@ button.btn.btn-link {
   height: 150px;
 }
 .u-Maxheight300 {
+  min-height: 150px;
   max-height: 300px;
 }
 .display-none {

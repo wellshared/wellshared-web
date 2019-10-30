@@ -113,9 +113,6 @@ export class RoomsDetailComponent implements OnInit {
       }
     });
   }
-  getImageUrl(image: Image) {
-    return this.imageConverter.createImageUrl(image.bytes);
-  }
   submit() {
     if (this.formGroup.valid) {
       const bookDto = new BookDto(

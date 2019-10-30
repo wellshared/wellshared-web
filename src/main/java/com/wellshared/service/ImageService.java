@@ -29,25 +29,25 @@ public class ImageService {
 	public Image saveImage(MultipartFile file, Center center) throws Exception {
 		Image image;
 		try {
-			image = new Image(center, file.getOriginalFilename(), null);
-			// imageRepository.save(image);
-			this.uploadImage(file);
+			image = new Image(center, file.getOriginalFilename(), file.getOriginalFilename());
+			imageRepository.save(image);
+			this.uploadImage(file, center);
 		} catch (Exception e) {
 			throw new Exception("No se ha encontrado la ruta del fichero");
 		}
 		return image;
 	}
 
-	public void uploadImage(MultipartFile file) {
+	public void uploadImage(MultipartFile file, Center center) {
 		try {
-			AWSCredentials credentials = new BasicAWSCredentials("wellshared", "wellshared");
+			AWSCredentials credentials = new BasicAWSCredentials("AKIATJDKBTMDO7GETMJA", "zNQs+22yjpFQPZvKBFrijfLDxQBvhUIL0jdR251X");
 			AmazonS3 s3client = AmazonS3ClientBuilder.standard()
 					.withCredentials(new AWSStaticCredentialsProvider(credentials)).withRegion(Regions.EU_WEST_3)
 					.build();
-			String bucketName = "wellshrd-assets";
+			String bucketName = "wellshared-assets";
 
 			// Upload a file as a new object with ContentType and title specified.
-			PutObjectRequest request = new PutObjectRequest(bucketName, "vobpr8zqxnhy/" + file.getName(),
+			PutObjectRequest request = new PutObjectRequest(bucketName, "centers/"+center.getId()+"/"+file.getOriginalFilename(),
 					this.convert(file));
 			s3client.putObject(request);
 		} catch (AmazonServiceException e) {
@@ -63,7 +63,9 @@ public class ImageService {
 
 	public File convert(MultipartFile file) throws IOException {
 		File convFile = new File(file.getOriginalFilename());
-		convFile.createNewFile();
+		if(convFile.exists()) {
+			convFile.delete();
+		}
 		try (InputStream is = file.getInputStream()) {
 			Files.copy(is, convFile.toPath());
 		}

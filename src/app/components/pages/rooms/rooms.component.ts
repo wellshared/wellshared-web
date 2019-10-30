@@ -51,14 +51,6 @@ export class RoomsComponent implements OnInit {
       this.getMarkers();
     });
   }
-
-  getImageUrl(center: Center) {
-    if(center.images) {
-      return this.imageConverter.createImageUrl(center.images[0].bytes);
-    }
-    return '';
-  }
-
   getMarkers() {
     this.markers = [];
     this.centers.forEach((center: Center) => {

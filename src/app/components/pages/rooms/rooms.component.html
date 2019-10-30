@@ -26,7 +26,7 @@
             <div class="row cursor-pointer" [routerLink]="['/salas', center.id]" style="margin: 0px; width: 100%;">
               <div class="col-md-6" style="padding: 0px">
                   <a [routerLink]="['/salas', center.id]">
-                    <img style="height: 178px; width: 100%" class="img-responsive" [src]="getImageUrl(center)" alt="...">
+                    <img style="height: 178px; width: 100%" class="img-responsive" [src]="'http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/'+center.id+'/'+center.images[0].url" alt="...">
                   </a>
               </div>
               <div class="col-md-6">
@@ -76,7 +76,7 @@
 
               <agm-info-window #infowindow>
                   <div  [routerLink]="['/salas', m.centerid]" class="cursor-pointer">
-                      <img class="img-responsive" width="1000%" style="margin: 0px;" [src]="getImageUrl(m.img)" alt="...">
+                      <img class="img-responsive" width="1000%" style="margin: 0px;" [src]="'http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/'+m.centerid+'/'+m.img.url" alt="...">
                       <div class="centro-text">
                           <h5 style="font-weight: bold" class="text-left" style="margin: 10px 0px;">
                               {{m.label}}

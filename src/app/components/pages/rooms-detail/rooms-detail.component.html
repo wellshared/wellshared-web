@@ -3,13 +3,13 @@
     <a class="back-link" [routerLink]="['/salas']" routerLinkActive="router-link-active" ><i class="fa fa-arrow-left"></i> Volver a la lista</a>
     <div class="row u-MarginTop20">
       <div class="col-md-6 u-MarginTop10">
-        <img [src]="getImageUrl(selectedImage)" alt="image main" class="u-height300" style="width: 100%;">
+        <img [src]="'http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/'+center.id+'/'+selectedImage.url" alt="image main" class="u-height300" style="width: 100%;">
       </div>
       <div class="col-md-6 u-Maxheight300 u-MarginTop10 img-list">
         <div class="row">
           <div class="col-xs-6" *ngFor="let image of center.images">
-            <section class="u-height150 ImageBackground js-minusHeader" data-overlay="3">
-              <img [src]="getImageUrl(image)" alt="image main" style="width: 100%; height: 145px;">
+            <section class="u-height150 ImageBackground js-minusHeader cursor-pointer" data-overlay="3" (click)="selectImage(image)">
+              <img [src]="'http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/'+center.id+'/'+image.url" alt="image main" style="width: 100%; height: 145px;">
             </section>
           </div>
         </div>
@@ -76,7 +76,7 @@
             <agm-info-window>
               <div>
                 <img class="img-responsive" width="1000%" style="margin: 0px;"
-                  [src]="getImageUrl(m.img)" alt="...">
+                  [src]="'http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/'+center.id+'/'+m.img.url" alt="...">
                 <div class="centro-text">
                   <h5 style="font-weight: bold" class="text-left" style="margin: 10px 0px;">
                     {{m.label}}

@@ -1,6 +1,6 @@
 export class Image {
     id: number;
     name: string;
-    bytes: any[];
+    url: string;
     centerId: number;
 }

@@ -24,6 +24,7 @@ import com.wellshared.mailer.Mail;
 import com.wellshared.mailer.RentDto;
 import com.wellshared.model.Book;
 import com.wellshared.model.Center;
+import com.wellshared.model.Image;
 import com.wellshared.repository.BookRepository;
 import com.wellshared.repository.BookStatusRepository;
 import com.wellshared.repository.CenterRepository;
@@ -50,6 +51,7 @@ public class MailerController {
 	public ResponseEntity<Object> book(@RequestBody BookDto bookData) {
 		Context context = new Context();
 		Center center = centerRepository.findById(bookData.getCenterId()).get();
+		Image i = (Image) center.getImages().toArray()[0];
 		context.getVariables().put("center", center.getName());
 		context.getVariables().put("adress", center.getAdress());
 		context.getVariables().put("name", bookData.getName());
@@ -60,7 +62,7 @@ public class MailerController {
 		context.getVariables().put("date", bookData.getDate());
 		context.getVariables().put("timeFrom", bookData.getTimeFrom());
 		context.getVariables().put("timeTo", bookData.getTimeTo());
-		context.getVariables().put("image", "https://wellshrd.herokuapp.com/assets/imgs/centros/"+center.getId()+"/"+center.getMainImage());
+		context.getVariables().put("image", "http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/"+center.getId()+"/"+i.getUrl());
 		Book book = new Book();
 		book.setBookStatus(bookStatusRepository.findOne(1L));
 		book.setCenter(center);

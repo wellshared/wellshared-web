@@ -26,7 +26,7 @@ public class AppCorsFilter implements Filter {
 	public final void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain)
 			throws IOException, ServletException {
 		final HttpServletResponse response = (HttpServletResponse) res;
-		response.setHeader("Access-Control-Allow-Origin", "wellshared.es, www.wellshared.es, http://wwww.wellshared.es,https://wwww.wellshared.es");
+		response.setHeader("Access-Control-Allow-Origin", "*.wellshared.es");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
 		response.setHeader("Access-Control-Max-Age", "3600");

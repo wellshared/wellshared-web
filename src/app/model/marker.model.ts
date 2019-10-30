@@ -1,3 +1,4 @@
+import { Image } from './image.model';
 export class Marker {
     lat: number;
     lng: number;
@@ -5,7 +6,7 @@ export class Marker {
     description: string;
     label?: string;
     price: string;
-    img: string;
+    img: Image;
     centerid: number;
     constructor(lat, lng, draggable, label, description, price, img, centerid) {
         this.lat = lat;

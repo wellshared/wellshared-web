@@ -51,12 +51,10 @@ public class ImageService {
 					this.convert(file));
 			s3client.putObject(request);
 		} catch (AmazonServiceException e) {
-			// The call was transmitted successfully, but Amazon S3 couldn't process
-			// it, so it returned an error response.
+			System.err.print(e.getMessage());
 			e.printStackTrace();
 		} catch (Exception e) {
-			// Amazon S3 couldn't be contacted for a response, or the client
-			// couldn't parse the response from Amazon S3.
+			System.err.print(e.getMessage());
 			e.printStackTrace();
 		}
 	}

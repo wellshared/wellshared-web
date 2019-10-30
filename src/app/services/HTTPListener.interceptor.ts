@@ -49,6 +49,7 @@ export class HTTPListener implements HttpInterceptor {
         this.status.setHttpStatus(true);
         return event;
       }), catchError((error: HttpErrorResponse) => {
+        console.log(error);
         if (error.status === 401) {
           this.userService.logout();
           this.router.navigate(['login']);

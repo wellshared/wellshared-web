@@ -79,7 +79,7 @@ public class CenterController {
 		Optional<Location> location = locationRepository.findById(locationId);
 		if(location.isPresent()) {
 			List<CenterDto> centers = new ArrayList<>();
-			List<Center> centerJpa = (this.centerRepository.findAllByLocation(location.get());
+			List<Center> centerJpa = this.centerRepository.findAllByLocation(location.get());
 			CenterDto centerDto;
 			for (Center center : centerJpa) {
 				centerDto = new CenterDto();

@@ -78,7 +78,15 @@ public class CenterController {
     public ResponseEntity<Object> getCentersByLocation(@PathVariable Long locationId) {
 		Optional<Location> location = locationRepository.findById(locationId);
 		if(location.isPresent()) {
-			return ResponseEntity.ok(this.centerRepository.findAllByLocation(location.get()));
+			List<CenterDto> centers = new ArrayList<>();
+			List<Center> centerJpa = this.centerRepository.findAllByLocation(location.get());
+			CenterDto centerDto;
+			for (Center center : centerJpa) {
+				centerDto = new CenterDto();
+				centerDto.populate(center);
+				centers.add(centerDto);
+			}
+			return ResponseEntity.ok(centers);
 		} else {
 			return new ResponseEntity<Object>("La localidad introducida no existe", HttpStatus.BAD_REQUEST);
 		}

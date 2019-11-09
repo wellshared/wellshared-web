@@ -1,5 +1,6 @@
 package com.wellshared.config;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.sql.DataSource;
@@ -19,6 +20,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import groovyjarjarantlr.collections.List;
 
 @EnableWebSecurity
 @Configuration
@@ -84,8 +87,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
+		ArrayList<String> corsOrigin = new ArrayList<String>();
+		corsOrigin.add("https://www.wellshared.es");
+		corsOrigin.add("http://www.wellshared.es");
+		corsOrigin.add("www.wellshared.es");
+		corsOrigin.add("wellshared.es");
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedOrigins(corsOrigin);
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));
 		configuration.setAllowCredentials(true);

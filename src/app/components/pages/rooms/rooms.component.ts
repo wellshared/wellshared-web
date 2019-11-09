@@ -6,6 +6,8 @@ import { CenterService } from 'src/app/services/center.service';
 import { Center } from 'src/app/model/center.model';
 import { Marker } from 'src/app/model/marker.model';
 import { ImageConverter } from '../../../services/image-converter.service';
+import { LocationService } from 'src/app/services/location.service';
+import { Location } from 'src/app/model/location.model';
 
 @Component({
   selector: 'app-rooms',
@@ -20,11 +22,15 @@ export class RoomsComponent implements OnInit {
   centers: Center[] = [];
   centerSel = '0';
   previous: any;
-  constructor(private centerService: CenterService, private imageConverter: ImageConverter) {}
+  locations: Location[];
+  constructor(private centerService: CenterService, private imageConverter: ImageConverter, private locationService: LocationService) {}
 
   ngOnInit() {
     this.getCenters();
     window.scrollTo(0, 0);
+    this.locationService.findAll().subscribe((locations: Location[]) => {
+      this.locations = locations;
+    });
   }
 
   clickedMarker(infowindow) {

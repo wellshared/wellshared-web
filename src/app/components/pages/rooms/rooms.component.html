@@ -5,12 +5,12 @@
       <div class="row ">
         <div class="col-md-6 col-xs-12">
           <div class="form-group select-wrapper" style="width: 250px">
-              <select class="form-control" id="localidad" [(ngModel)]="centerSel" (change)="selectionChange()">
-                  <option value="0">Todos los barrios</option>
-                  <option value="1">Gràcia</option>
-                  <option value="2">Eixample</option>
-                  <option value="4">Horta-Guinardó</option>
-                  <option value="3">Sants-Montjuic</option>
+              <select class="form-control" id="localidad" [(ngModel)]="centerSel" (change)="selectionChange()" *ngFor="let location of locations">
+                  <option [value]="location.id">Todos los barrios</option>
+                  <option [value]="location.id">Gràcia</option>
+                  <option [value]="location.id">Eixample</option>
+                  <option [value]="location.id">Horta-Guinardó</option>
+                  <option [value]="location.id">Sants-Montjuic</option>
                 </select>
           </div>
         </div>

@@ -71,9 +71,9 @@ public class MailerController {
 		book.setTimeFrom(bookData.getTimeFrom());
 		book.setTimeTo(bookData.getTimeTo());
 		bookRepository.save(book);
-		Mail mail = new Mail("Wellshared <info@wellshared.es>", bookData.getEmail(), "Reserva Wellshared", "");
+		Mail mail = new Mail("Wellshared <wellshrd@gmail.com>", bookData.getEmail(), "Reserva Wellshared", "");
 		this.prepareAndSend(mail, context, "book");
-		mail = new Mail("Wellshared <info@wellshared.es>", "wellshrd@gmail.com", "Peticion reserva Wellshared", "");
+		mail = new Mail("Wellshared <wellshrd@gmail.com>", "wellshrd@gmail.com", "Peticion reserva Wellshared", "");
 		this.prepareAndSend(mail, context, "book-ws");
 		return ResponseEntity.ok("Correo enviado correctamente");
 	}
@@ -86,7 +86,7 @@ public class MailerController {
 		context.getVariables().put("phone", rentData.getPhone());
 		context.getVariables().put("email", rentData.getEmail());
 		context.getVariables().put("message", rentData.getMessage());
-		Mail mail = new Mail("Wellshared <info@wellshared.es>", "wellshrd@gmail.com", "Petic�n alquiler de sala Wellshared", "");
+		Mail mail = new Mail("Wellshared <wellshrd@gmail.com>", "wellshrd@gmail.com", "Petic�n alquiler de sala Wellshared", "");
 		this.prepareAndSend(mail, context, "rent");
 		return ResponseEntity.ok("Correo enviado correctamente");
 	}
@@ -98,7 +98,7 @@ public class MailerController {
 		context.getVariables().put("phone", contactData.getPhone());
 		context.getVariables().put("email", contactData.getEmail());
 		context.getVariables().put("message", contactData.getMessage());
-		Mail mail = new Mail("Wellshared <info@wellshared.es>", "wellshrd@gmail.com", "Contacto Wellshared", "");
+		Mail mail = new Mail("Wellshared <wellshrd@gmail.com>", "wellshrd@gmail.com", "Contacto Wellshared", "");
 		this.prepareAndSend(mail, context, "contact");
 		return ResponseEntity.ok("Correo enviado correctamente");
 	}

@@ -11,7 +11,7 @@ export class AddModalComponent implements OnInit {
   @Input() list: any[];
   id: number;
   public onClose: Subject<number> = new Subject();
-  constructor(private bsmodalRef: BsModalRef) { }
+  constructor(public bsmodalRef: BsModalRef) { }
 
   ngOnInit() {
   }

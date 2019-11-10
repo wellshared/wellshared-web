@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/api/book/center/{id}").permitAll()
 		.antMatchers("/user/session").permitAll()
 		.antMatchers("/api/center/").permitAll()
+		.antMatchers("/api/locations/**").permitAll()
 		.antMatchers("/api/center/img/{id}").permitAll()
 		.antMatchers("/api/center/location/{locationId}").permitAll()
 		.antMatchers("/api/center/{id}").permitAll()
@@ -88,6 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		ArrayList<String> corsOrigin = new ArrayList<String>();
+		corsOrigin.add("http://localhost:4200");
 		corsOrigin.add("https://www.wellshared.es");
 		corsOrigin.add("http://www.wellshared.es");
 		corsOrigin.add("www.wellshared.es");

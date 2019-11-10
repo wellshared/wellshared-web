@@ -4,7 +4,7 @@ public class BookDto {
 	private Long centerId;
 	private String name;
 	private String sname;
-	private String number;
+	private Long number;
 	private String email;
 	private String phone;
 	private String date;
@@ -29,10 +29,10 @@ public class BookDto {
 	public void setSname(String sname) {
 		this.sname = sname;
 	}
-	public String getNumber() {
+	public Long getNumber() {
 		return number;
 	}
-	public void setNumber(String number) {
+	public void setNumber(Long number) {
 		this.number = number;
 	}
 	public String getEmail() {

@@ -19,6 +19,7 @@ public class CenterDto {
 	private String description;
 	private String description2;
 	private String phone;
+	private String email;	
 	private String mainImage;
 	private String price;
 	private String lat;
@@ -49,6 +50,7 @@ public class CenterDto {
 		this.setPrice(center.getPrice());
 		this.setLat(center.getLat());
 		this.setLon(center.getLon());
+		this.setEmail(center.getEmail());
 		this.setIndividual(center.getIndividual());
 		this.setActivities(center.getActivities());
 		this.setUrl(center.getUrl());
@@ -68,6 +70,7 @@ public class CenterDto {
 		center.setPrice(this.getPrice());
 		center.setLat(this.getLat());
 		center.setLon(this.getLon());
+		center.setEmail(this.getEmail());
 		center.setIndividual(this.getIndividual());
 		center.setActivities(this.getActivities());
 		center.setUrl(this.getUrl());
@@ -176,6 +179,13 @@ public class CenterDto {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 }

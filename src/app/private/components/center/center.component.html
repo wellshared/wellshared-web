@@ -1,10 +1,11 @@
 <div class="container">
-  <section class="admin-section position-flex-bottom u-PaddingBottom50">
+  <section class="admin-section position-flex-bottom u-PaddingBottom40">
     <div class="row">
       <div class="col-md-8 col-xs-12">
         <h1 class=" u-Margin0 u-Weight300">Administración del centro</h1>
       </div>
     </div>
+    <a class="back-link u-MarginTop10" [routerLink]="['/admin/centers']" routerLinkActive="router-link-active" ><i class="fa fa-arrow-left"></i> Volver a la lista</a>
   </section>
   <section class="u-PaddingBottom50">
     <form [formGroup]="formGroup" (ngSubmit)="submit()">
@@ -26,8 +27,16 @@
             placeholder="Descripción secundaria">
         </div>
         <div class="form-group">
-          <input type="text" class="form-control form-control--shadow" name="url" formControlName="url"
-            placeholder="URL Google Calendar">
+          <input type="email" class="form-control form-control--shadow" name="email" formControlName="email"
+            placeholder="Correo">
+        </div>
+        <div class="form-group inline-items">
+          <p class="vertical-align-center u-MarginRight10">Imagen: </p>
+          <div class="select-wrapper" style="width: 100%">
+            <select class="form-control" id="mainImage" formControlName="mainImage" name="mainImage">
+              <option *ngFor="let image of center.images" [value]="image.url">{{ image.name }}</option>
+            </select>
+          </div>
         </div>
         <div class="form-group">
           <div class="inline-items space-between">

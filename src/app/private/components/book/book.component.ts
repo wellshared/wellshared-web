@@ -51,6 +51,7 @@ export class BookComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.findCenters();
     this.findBookStatus();
     this.activatedRoute.params.subscribe((params: any) => {
@@ -82,6 +83,9 @@ export class BookComponent implements OnInit {
   createEmptyForGroup() {
     this.formGroup = new FormGroup({
       center: new FormControl(null, Validators.required),
+      name: new FormControl(null, Validators.required),
+      sname: new FormControl(null, Validators.required),
+      phone: new FormControl(null, Validators.required),
       adress: new FormControl(null, Validators.required),
       date: new FormControl(new Date(), Validators.required),
       timeTo: new FormControl(null, Validators.required),
@@ -96,6 +100,9 @@ export class BookComponent implements OnInit {
     this.formGroup = new FormGroup({
       center: new FormControl(this.book.center.id, Validators.required),
       adress: new FormControl(this.book.email, Validators.required),
+      name: new FormControl(this.book.name, Validators.required),
+      sname: new FormControl(this.book.sname, Validators.required),
+      phone: new FormControl(this.book.phone, Validators.required),
       date: new FormControl(date, Validators.required),
       timeTo: new FormControl(this.book.timeTo, Validators.required),
       timeFrom: new FormControl(this.book.timeFrom, Validators.required),
@@ -110,9 +117,12 @@ export class BookComponent implements OnInit {
         this.centers.find(center => center.id === Number(this.formGroup.value.center)),
         this.formGroup.value.adress,
         this.datePipe.transform(this.formGroup.value.date, 'dd-MM-yyyy'),
+        this.formGroup.value.name,
+        this.formGroup.value.sname,
         this.formGroup.value.timeTo,
         this.formGroup.value.timeFrom,
-        this.status.find(state => state.id === Number(this.formGroup.value.status))
+        this.status.find(state => state.id === Number(this.formGroup.value.status)),
+        this.formGroup.value.phone
       );
       this.bookService.saveBook(book).subscribe(() => {
         this.router.navigate(['/admin/books']);

@@ -18,7 +18,10 @@ public class Book {
 	@NotNull
 	@JoinColumn(name="center_id")
 	private Center center;
+	private String name;
+	private String sname;
 	private String email;
+	private String phone;
 	private String date;
 	private String timeTo;
 	private String timeFrom;
@@ -72,6 +75,23 @@ public class Book {
 	public void setBookStatus(BookStatus bookStatus) {
 		this.bookStatus = bookStatus;
 	}
-	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getSname() {
+		return sname;
+	}
+	public void setSname(String sname) {
+		this.sname = sname;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	
 }

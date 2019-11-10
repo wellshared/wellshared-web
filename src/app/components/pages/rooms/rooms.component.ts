@@ -15,9 +15,9 @@ import { Location } from 'src/app/model/location.model';
   styleUrls: ['./rooms.component.css']
 })
 export class RoomsComponent implements OnInit {
-  zoom = 12;
-  lat = 41.410182;
-  lng = 2.200003;
+  zoom = 13;
+  lat = 41.415182;
+  lng = 2.180003;
   markers: Marker[] = [];
   centers: Center[] = [];
   centerSel = '0';
@@ -26,9 +26,10 @@ export class RoomsComponent implements OnInit {
   constructor(private centerService: CenterService, private imageConverter: ImageConverter, private locationService: LocationService) {}
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.getCenters();
     window.scrollTo(0, 0);
-    this.locationService.findAll().subscribe((locations: Location[]) => {
+    this.locationService.findWithAllWithCenters().subscribe((locations: Location[]) => {
       this.locations = locations;
     });
   }
@@ -47,6 +48,7 @@ export class RoomsComponent implements OnInit {
       this.centerService.find(this.centerSel).subscribe((centers: Center[]) => {
         this.centers = centers;
         this.getMarkers();
+        this.getMiddleLatAndLon();
       });
     }
   }
@@ -55,7 +57,19 @@ export class RoomsComponent implements OnInit {
     this.centerService.find(undefined).subscribe((centers: Center[]) => {
       this.centers = centers;
       this.getMarkers();
+      this.getMiddleLatAndLon();
     });
+  }
+
+  getMiddleLatAndLon() {
+    let lat = 0;
+    let lon = 0;
+    this.centers.forEach(center => {
+      lat += Number(center.lat);
+      lon += Number(center.lon);
+    });
+    this.lat = lat / this.centers.length;
+    this.lng = lon / this.centers.length;
   }
   getMarkers() {
     this.markers = [];

@@ -5,12 +5,9 @@
       <div class="row ">
         <div class="col-md-6 col-xs-12">
           <div class="form-group select-wrapper" style="width: 250px">
-              <select class="form-control" id="localidad" [(ngModel)]="centerSel" (change)="selectionChange()" *ngFor="let location of locations">
-                  <option [value]="location.id">Todos los barrios</option>
-                  <option [value]="location.id">Gràcia</option>
-                  <option [value]="location.id">Eixample</option>
-                  <option [value]="location.id">Horta-Guinardó</option>
-                  <option [value]="location.id">Sants-Montjuic</option>
+              <select class="form-control" id="localidad" [(ngModel)]="centerSel" (change)="selectionChange()">
+                  <option [value]="0" selected>Todos los barrios</option>
+                  <option [value]="location.id" *ngFor="let location of locations">{{ location.name }}</option>
                 </select>
           </div>
         </div>
@@ -26,7 +23,7 @@
             <div class="row cursor-pointer" [routerLink]="['/salas', center.id]" style="margin: 0px; width: 100%;">
               <div class="col-md-6" style="padding: 0px">
                   <a [routerLink]="['/salas', center.id]">
-                    <img style="height: 178px; width: 100%" class="img-responsive" [src]="'http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/'+center.id+'/'+center.images[0].url" alt="...">
+                    <img style="height: 178px; width: 100%" class="img-responsive" [src]="'http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/'+center.id+'/'+ center.mainImage" alt="...">
                   </a>
               </div>
               <div class="col-md-6">
@@ -45,7 +42,7 @@
                     <div class="card-section">
                       <div>
                           <div class="card-square" *ngIf="center.individual == 1">Individual</div>
-                          <div class="card-square" *ngIf="center.activites == 1">Actividades</div>
+                          <div class="card-square" *ngIf="center.activities == 1">Actividades</div>
                       </div>
                       <div>
                           <p style="    margin-bottom: 0px;">Por hora</p>
@@ -71,7 +68,6 @@
                 [latitude]="m.lat"
                 [longitude]="m.lng"
                 (markerClick)="clickedMarker(infowindow)"
-                [label]="m.label"
                 [markerDraggable]="m.draggable">
 
               <agm-info-window #infowindow>

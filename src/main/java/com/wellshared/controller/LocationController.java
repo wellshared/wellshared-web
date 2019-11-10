@@ -15,8 +15,13 @@ public class LocationController {
 	@Autowired
 	private LocationRepository locationRepository;
 	
+	@RequestMapping(path = "/all", method = RequestMethod.GET)
+    public ResponseEntity<Object> getAllLocations() {
+		return ResponseEntity.ok(this.locationRepository.findAll());
+    }
+	
 	@RequestMapping(path = "/", method = RequestMethod.GET)
     public ResponseEntity<Object> getLocations() {
-		return ResponseEntity.ok(this.locationRepository.findAll());
+		return ResponseEntity.ok(this.locationRepository.findAllWithCenters());
     }
 }

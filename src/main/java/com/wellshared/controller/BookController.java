@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,8 +45,13 @@ public class BookController {
 	
 	@RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteCenters(@PathVariable Long id) {
-		this.bookRepository.findOne(id);
-		return ResponseEntity.ok("Registro eliminado correctamente");
+		Book book = this.bookRepository.findOne(id);
+		if (book != null) {
+			this.bookRepository.delete(id);
+			return ResponseEntity.ok("Registro eliminado correctamente");
+		} else {
+			return new ResponseEntity<Object>("El registro no existe", null, HttpStatus.NOT_ACCEPTABLE);
+		}
     }
 	
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)

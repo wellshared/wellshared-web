@@ -12,6 +12,7 @@ export class CenterListComponent implements OnInit {
   constructor(private centerService: CenterService) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.findAll();
   }
 

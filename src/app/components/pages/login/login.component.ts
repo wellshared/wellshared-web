@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.formGroup = new FormGroup({
       username: new FormControl(undefined, Validators.required),
       password: new FormControl(undefined, Validators.required),

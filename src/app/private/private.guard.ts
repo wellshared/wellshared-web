@@ -18,7 +18,7 @@ export class PrivateGuard implements CanActivate {
           if (user) {
             return true;
           } else {
-            return this.router.parseUrl('/login');
+            return this.router.parseUrl('/');
           }
         })
       );

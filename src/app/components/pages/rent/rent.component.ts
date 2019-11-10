@@ -14,6 +14,7 @@ export class RentComponent implements OnInit {
 
   ngOnInit() {
     window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     this.formGroup = new FormGroup({
       center: new FormControl(undefined, Validators.required),
       name: new FormControl(undefined, Validators.required),

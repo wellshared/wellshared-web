@@ -12,7 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
-
+import Swal from 'sweetalert2';
 @Injectable({
   providedIn: 'root'
 })
@@ -53,6 +53,8 @@ export class HTTPListener implements HttpInterceptor {
         if (error.status === 401) {
           this.userService.logout();
           this.router.navigate(['login']);
+        } else if(error.status === 406){
+          Swal.fire('', error.error, 'warning');
         }
         return throwError(error);
       }),

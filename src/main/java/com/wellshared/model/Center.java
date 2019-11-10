@@ -39,6 +39,7 @@ public class Center {
 				inverseJoinColumns = @JoinColumn(name="service_id"))
 	private List<Service> services;
 	private String adress;
+	private String email;
 	private String description;
 	private String description2;
 	private String phone;
@@ -146,5 +147,12 @@ public class Center {
 	public void setServices(List<Service> services) {
 		this.services = services;
 	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 
 }

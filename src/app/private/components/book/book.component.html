@@ -1,33 +1,34 @@
-<div class="container u-MarginBottom50">
+<div class="container u-MarginBottom40">
     <section class="admin-section position-flex-bottom u-PaddingBottom50">
         <div class="row">
             <div class="col-md-8 col-xs-12">
                 <h1 class=" u-Margin0 u-Weight300">Administración de la reserva</h1>
             </div>
         </div>
+        <a class="back-link u-MarginTop10" [routerLink]="['/admin/books']" routerLinkActive="router-link-active" ><i class="fa fa-arrow-left"></i> Volver a la lista</a>
     </section>
     <section class="u-PaddingBottom50 u-height400">
         <form [formGroup]="formGroup" (ngSubmit)="submit()">
             <div class="col-md-6">
-                    <div class="form-group inline-items">
-                            <p class="vertical-align-center u-MarginRight10">Centro: </p>
-                            <div class="select-wrapper" style="width: 100%">
-                                <select class="form-control" id="center" formControlName="center">
-                                    <option *ngFor="let center of centers" [value]="center.id">{{ center.name }}</option>
-                                </select>
-                            </div>
-                        </div>
+                <div class="form-group inline-items">
+                    <p class="vertical-align-center u-MarginRight10">Centro: </p>
+                    <div class="select-wrapper" style="width: 100%">
+                        <select class="form-control" id="center" formControlName="center">
+                            <option *ngFor="let center of centers" [value]="center.id">{{ center.name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control form-control--shadow" name="name" formControlName="name"
+                        placeholder="Nombre fisioterapeuta">
+                </div>
                 <div class="form-group">
                     <input type="email" class="form-control form-control--shadow" name="adress" formControlName="adress"
                         placeholder="Correo fisioterapeuta">
                 </div>
-                <div class="form-group inline-items">
-                        <p class="vertical-align-center u-MarginRight10">Estado: </p>
-                        <div class="select-wrapper" style="width: 100%">
-                            <select class="form-control" id="status" formControlName="status">
-                                <option *ngFor="let state of status" [value]="state.id">{{ state.name }}</option>
-                            </select>
-                        </div>
+                <div class="form-group">
+                        <input type="phone" class="form-control form-control--shadow" name="phone" formControlName="phone"
+                            placeholder="Teléfono fisioterapeuta">
                     </div>
             </div>
             <div class="col-md-6">
@@ -40,6 +41,10 @@
                         </button>
                     </div>
                 </div>
+                <div class="form-group">
+                        <input type="text" class="form-control form-control--shadow" name="sname" formControlName="sname"
+                            placeholder="Apellido fisioterapeuta">
+                    </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group inline-items" style="width: 250px">
@@ -62,6 +67,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group inline-items">
+                        <p class="vertical-align-center u-MarginRight10">Estado: </p>
+                        <div class="select-wrapper" style="width: 100%">
+                            <select class="form-control" id="status" formControlName="status">
+                                <option *ngFor="let state of status" [value]="state.id">{{ state.name }}</option>
+                            </select>
+                        </div>
+                    </div>
             </div>
             <button type="submit" [disabled]="!formGroup.valid"
                 class="btn btn-primary btn--alien btn-block">Enviar</button>

@@ -12,6 +12,7 @@ export class BookListComponent implements OnInit {
   constructor(private bookService: BookService) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.findBooks();
   }
 

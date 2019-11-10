@@ -1,6 +1,5 @@
 package com.wellshared.controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.wellshared.model.Center;
 import com.wellshared.model.Image;
 import com.wellshared.model.Location;
-import com.wellshared.model.Service;
 import com.wellshared.model.dto.CenterDto;
 import com.wellshared.repository.CenterRepository;
 import com.wellshared.repository.LocationRepository;

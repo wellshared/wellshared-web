@@ -12,9 +12,20 @@ export class AppComponent implements OnInit {
   HTTPActivity: boolean;
   title = 'app';
   acceptCookies = false;
-  constructor(private httpStatus: HTTPStatus, private userService: UserService) {}
-  ngOnInit(): void {
+  constructor(private httpStatus: HTTPStatus, private userService: UserService, private localeService: BsLocaleService) {
     this.userService.getConnectedUser().subscribe();
+  }
+  ngOnInit(): void {
+    this.localeService.use('es');
+    const cookTmp = sessionStorage.getItem('cooktmps');
+    if (cookTmp && cookTmp === new Date().getUTCDay().toString()) {
+      this.acceptCookies = true;
+    }
     this.httpStatus.getHttpStatus().subscribe((status: boolean) => this.HTTPActivity = status);
+  }
+
+  accept() {
+    this.acceptCookies = true;
+    sessionStorage.setItem('cooktmps', new Date().getUTCDay().toString());
   }
 }

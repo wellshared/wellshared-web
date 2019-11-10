@@ -53,7 +53,6 @@ import { ImageConverter } from 'src/app/services/image-converter.service';
   styleUrls: ['./rooms-detail.component.css']
 })
 export class RoomsDetailComponent implements OnInit {
-  zoom = 8;
   lat = 41.406413;
   lng = 2.162171;
   markers: Marker[] = [];
@@ -74,12 +73,32 @@ export class RoomsDetailComponent implements OnInit {
   formGroup: FormGroup;
   horas: string[] = Constants.hours;
   books: Book[] = [];
+  responseMsg: string;
   constructor(
     private centerService: CenterService, private mailerService: MailerService,
     private route: ActivatedRoute, private datePipe: DatePipe, private bookService: BookService,
     private imageConverter: ImageConverter) {}
 
   ngOnInit() {
+    window.scrollTo(0, 0);
+    this.initFormGroup();
+    this.route.params.subscribe(params => {
+      if (params.id) {
+        this.centerService.findById(params.id).subscribe((center: Center) => {
+          this.center = center;
+          this.selectedImage = center.images[0];
+          this.lat = Number(this.center.lat);
+          this.lng = Number(this.center.lon);
+          this.markers[0] = new Marker(
+            this.center.lat, this.center.lon, false, this.center.name,
+            this.center.adress, this.center.price, this.center.images[0], this.center.id);
+          this.getCalendarEvents();
+        });
+      }
+    });
+  }
+
+  initFormGroup() {
     this.formGroup = new FormGroup({
       name: new FormControl(undefined, Validators.required),
       sname: new FormControl(undefined, Validators.required),
@@ -97,21 +116,6 @@ export class RoomsDetailComponent implements OnInit {
       }, Validators.required),
       cookies: new FormControl(false, Validators.required)
     });
-
-    this.route.params.subscribe(params => {
-      if (params.id) {
-        this.centerService.findById(params.id).subscribe((center: Center) => {
-          this.center = center;
-          this.selectedImage = center.images[0];
-          this.lat = Number(this.center.lat);
-          this.lng = Number(this.center.lon);
-          this.markers[0] = new Marker(
-            this.center.lat, this.center.lon, false, this.center.name,
-            this.center.adress, this.center.price, this.center.images[0], this.center.id);
-          this.getCalendarEvents();
-        });
-      }
-    });
   }
   submit() {
     if (this.formGroup.valid) {
@@ -126,7 +130,10 @@ export class RoomsDetailComponent implements OnInit {
         this.formGroup.value.timeFrom,
         this.formGroup.value.timeTo
       );
-      this.mailerService.book(bookDto).subscribe(() => window.location.reload());
+      this.mailerService.book(bookDto).subscribe((response: string) => {
+          this.responseMsg = response;
+          this.initFormGroup();
+      });
     }
   }
   selectImage(image: Image) {
@@ -139,11 +146,11 @@ export class RoomsDetailComponent implements OnInit {
         if (this.calendarComponent) {
           const from: any = book.date.split('-');
           this.calendarComponent.getApi().addEvent({
-            title: (book.bookStatus.id === 1) ? 'Reservado' : 'Ocupado',
-            start: from[2]+'-'+from[1]+'-'+from[0]+'T'+book.timeFrom+':00',
-            end: from[2]+'-'+from[1]+'-'+from[0]+'T'+book.timeTo+':00',
+            title: (book.bookStatus.id === 1 || book.bookStatus.id === 2) ? 'Reservado' : 'Libre',
+            start: from[2] + '-' + from[1] + '-' + from[0] + 'T' + book.timeFrom + ':00',
+            end: from[2] + '-' + from[1] + '-' + from[0] + 'T' + book.timeTo + ':00',
             allDay: false,
-            color:(book.bookStatus.id === 1) ? '#0b8043' : (book.bookStatus.id === 2) ? '#d20c15' : '' 
+            color: (book.bookStatus.id === 1 || book.bookStatus.id === 2) ? '#e61e1e' : '#97d027'
           });
         }
       });

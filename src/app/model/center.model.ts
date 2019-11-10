@@ -10,12 +10,14 @@ export class Center {
     location: Location;
     adress: string;
     description2: string;
+    email: string;
+    mainImage: string;
     phone: string;
     price: string;
     lat: string;
     lon: string;
     individual: number;
-    activites: number;
+    activities: number;
     services: Service[] = [];
     url: string;
 }

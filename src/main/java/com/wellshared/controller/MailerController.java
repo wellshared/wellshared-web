@@ -1,12 +1,17 @@
 package com.wellshared.controller;
 
-import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Optional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -24,10 +29,14 @@ import com.wellshared.mailer.Mail;
 import com.wellshared.mailer.RentDto;
 import com.wellshared.model.Book;
 import com.wellshared.model.Center;
+import com.wellshared.model.Collegiate;
 import com.wellshared.model.Image;
 import com.wellshared.repository.BookRepository;
 import com.wellshared.repository.BookStatusRepository;
 import com.wellshared.repository.CenterRepository;
+import com.wellshared.repository.CollegiateRepository;
+
+import groovyjarjarcommonscli.ParseException;
 
 @Controller
 @RequestMapping("api/mailer")
@@ -45,12 +54,44 @@ public class MailerController {
 	private BookRepository bookRepository;
 
 	@Autowired
+	private CollegiateRepository collegiateRepository;
+	
+	@Autowired
 	private BookStatusRepository bookStatusRepository;
 	
 	@RequestMapping(path = "/booking", method = RequestMethod.POST)
 	public ResponseEntity<Object> book(@RequestBody BookDto bookData) {
 		Context context = new Context();
 		Center center = centerRepository.findById(bookData.getCenterId()).get();
+		Optional<Collegiate> col = collegiateRepository.findByNumber(bookData.getNumber());
+		try {
+			DateFormat sourceFormat = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = sourceFormat.parse(bookData.getDate());
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);	
+			if(cal.get(Calendar.DAY_OF_WEEK)== 1) {
+				return new ResponseEntity<Object>("No es posible hacer reservas para el día indicado", null, HttpStatus.NOT_ACCEPTABLE);	
+			}
+		}catch (Exception e) {
+			return new ResponseEntity<Object>("El formato de fecha enviado no es válido", null, HttpStatus.NOT_ACCEPTABLE);
+		}
+		
+		if(bookData.getTimeFrom().equals(bookData.getTimeTo())) {
+			return new ResponseEntity<Object>("La hora de inicio y de fin no pueden coincidir", null, HttpStatus.NOT_ACCEPTABLE);
+		
+		}
+		if(bookData.getTimeFrom().equals(bookData.getTimeTo())) {
+			return new ResponseEntity<Object>("La hora de inicio y de fin no pueden coincidir", null, HttpStatus.NOT_ACCEPTABLE);
+		
+		}
+		if(!col.isPresent()) {
+			return new ResponseEntity<Object>("El número de colegiado no es válido", null, HttpStatus.NOT_ACCEPTABLE);
+		
+		}
+		Optional<Book> bookTmp = bookRepository.findByDateAndTimeFrom(bookData.getDate(), bookData.getTimeFrom());
+		if(bookTmp.isPresent()) {
+			return new ResponseEntity<Object>("La hora indicada ya está ocupada", null, HttpStatus.NOT_ACCEPTABLE);
+		}
 		Image i = (Image) center.getImages().toArray()[0];
 		context.getVariables().put("center", center.getName());
 		context.getVariables().put("adress", center.getAdress());
@@ -66,14 +107,17 @@ public class MailerController {
 		Book book = new Book();
 		book.setBookStatus(bookStatusRepository.findOne(1L));
 		book.setCenter(center);
+		book.setName(bookData.getName());
+		book.setSname(bookData.getSname());
 		book.setDate(bookData.getDate());
 		book.setEmail(bookData.getEmail());
+		book.setPhone(bookData.getPhone());
 		book.setTimeFrom(bookData.getTimeFrom());
 		book.setTimeTo(bookData.getTimeTo());
 		bookRepository.save(book);
-		Mail mail = new Mail("Wellshared <wellshrd@gmail.com>", bookData.getEmail(), "Reserva Wellshared", "");
+		Mail mail = new Mail("info@wellshared.es", bookData.getEmail(), "Reserva Wellshared", "");
 		this.prepareAndSend(mail, context, "book");
-		mail = new Mail("Wellshared <wellshrd@gmail.com>", "wellshrd@gmail.com", "Peticion reserva Wellshared", "");
+		mail = new Mail("info@wellshared.es", "info@wellshared.es", "Peticion reserva Wellshared", "");
 		this.prepareAndSend(mail, context, "book-ws");
 		return ResponseEntity.ok("Correo enviado correctamente");
 	}
@@ -86,7 +130,7 @@ public class MailerController {
 		context.getVariables().put("phone", rentData.getPhone());
 		context.getVariables().put("email", rentData.getEmail());
 		context.getVariables().put("message", rentData.getMessage());
-		Mail mail = new Mail("Wellshared <wellshrd@gmail.com>", "wellshrd@gmail.com", "Petic�n alquiler de sala Wellshared", "");
+		Mail mail = new Mail("info@wellshared.es", "info@wellshared.es", "Petición alquiler de sala Wellshared", "");
 		this.prepareAndSend(mail, context, "rent");
 		return ResponseEntity.ok("Correo enviado correctamente");
 	}
@@ -98,7 +142,7 @@ public class MailerController {
 		context.getVariables().put("phone", contactData.getPhone());
 		context.getVariables().put("email", contactData.getEmail());
 		context.getVariables().put("message", contactData.getMessage());
-		Mail mail = new Mail("Wellshared <wellshrd@gmail.com>", "wellshrd@gmail.com", "Contacto Wellshared", "");
+		Mail mail = new Mail("info@wellshared.es", "info@wellshared.es", "Contacto Wellshared", "");
 		this.prepareAndSend(mail, context, "contact");
 		return ResponseEntity.ok("Correo enviado correctamente");
 	}

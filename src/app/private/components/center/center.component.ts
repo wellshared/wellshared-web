@@ -23,13 +23,14 @@ export class CenterComponent implements OnInit {
   services: Service[] = [];
   constructor(
     private activatedRoute: ActivatedRoute, private centerService: CenterService,
-    private locationService: LocationService, private router: Router, 
+    private locationService: LocationService, private router: Router,
     private modalService: BsModalService, private serviceService: ServiceService
     ) {
       this.createEmptyForGroup();
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.activatedRoute.params.subscribe((params: any) => {
       if (params.id) {
         this.findCenter(Number(params.id));
@@ -66,11 +67,12 @@ export class CenterComponent implements OnInit {
       description1: new FormControl(null, Validators.required),
       description2: new FormControl(null),
       price: new FormControl(null, Validators.required),
+      email: new FormControl(null, Validators.required),
       lat: new FormControl(null, Validators.required),
       lon: new FormControl(null, Validators.required),
       individual: new FormControl(0, Validators.required),
       activities: new FormControl(0, Validators.required),
-      url: new FormControl(null),
+      mainImage: new FormControl(null),
     });
   }
 
@@ -78,14 +80,15 @@ export class CenterComponent implements OnInit {
     this.formGroup.controls.name.setValue(this.center.name);
     this.formGroup.controls.adress.setValue(this.center.adress);
     this.formGroup.controls.location.setValue(this.center.location.id);
+    this.formGroup.controls.email.setValue(this.center.email);
     this.formGroup.controls.description1.setValue(this.center.description);
     this.formGroup.controls.description2.setValue(this.center.description2);
     this.formGroup.controls.price.setValue(this.center.price);
     this.formGroup.controls.lat.setValue(this.center.lat);
     this.formGroup.controls.lon.setValue(this.center.lon);
     this.formGroup.controls.individual.setValue((this.center.individual) ? this.center.individual : 0);
-    this.formGroup.controls.activities.setValue((this.center.activites) ? this.center.activites : 0);
-    this.formGroup.controls.url.setValue(this.center.url);
+    this.formGroup.controls.activities.setValue((this.center.activities) ? this.center.activities : 0);
+    this.formGroup.controls.mainImage.setValue(this.center.mainImage);
   }
 
   updateCenterModel() {
@@ -93,13 +96,14 @@ export class CenterComponent implements OnInit {
     this.center.adress = this.formGroup.controls.adress.value;
     this.center.location = this.locations.find((location: Location) => location.id === Number(this.formGroup.controls.location.value));
     this.center.description = this.formGroup.controls.description1.value;
+    this.center.email = this.formGroup.controls.email.value;
     this.center.description2 = this.formGroup.controls.description2.value;
     this.center.price = this.formGroup.controls.price.value;
     this.center.lat = this.formGroup.controls.lat.value;
     this.center.lon = this.formGroup.controls.lon.value;
     this.center.individual = this.formGroup.controls.individual.value;
-    this.center.activites = this.formGroup.controls.activities.value;
-    this.center.url = this.formGroup.controls.url.value;
+    this.center.activities = this.formGroup.controls.activities.value;
+    this.center.mainImage = this.formGroup.controls.mainImage.value;
   }
 
   removeImage(id: number) {

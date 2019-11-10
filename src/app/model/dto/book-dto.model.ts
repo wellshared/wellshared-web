@@ -2,7 +2,7 @@ export class BookDto {
     centerId: number;
     name: string;
     sname: string;
-    number: number;
+    number: string;
     email: string;
     phone: string;
     date: string;

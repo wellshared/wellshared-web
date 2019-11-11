@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import javax.mail.MessagingException;
@@ -30,13 +31,10 @@ import com.wellshared.mailer.RentDto;
 import com.wellshared.model.Book;
 import com.wellshared.model.Center;
 import com.wellshared.model.Collegiate;
-import com.wellshared.model.Image;
 import com.wellshared.repository.BookRepository;
 import com.wellshared.repository.BookStatusRepository;
 import com.wellshared.repository.CenterRepository;
 import com.wellshared.repository.CollegiateRepository;
-
-import groovyjarjarcommonscli.ParseException;
 
 @Controller
 @RequestMapping("api/mailer")
@@ -88,8 +86,8 @@ public class MailerController {
 			return new ResponseEntity<Object>("El número de colegiado no es válido", null, HttpStatus.NOT_ACCEPTABLE);
 		
 		}
-		Optional<Book> bookTmp = bookRepository.findByDateAndCenterAndTimeFrom(center.getId(), bookData.getDate(), bookData.getTimeFrom());
-		if(bookTmp.isPresent()) {
+		List<Book> bookTmpList = bookRepository.findByDateAndCenterAndTimeFrom(center.getId(), bookData.getDate(), bookData.getTimeFrom());
+		if(bookTmpList.size() > 0) {
 			return new ResponseEntity<Object>("La hora indicada ya está ocupada", null, HttpStatus.NOT_ACCEPTABLE);
 		}
 		context.getVariables().put("center", center.getName());

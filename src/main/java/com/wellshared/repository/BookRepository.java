@@ -18,6 +18,7 @@ public interface BookRepository extends JpaRepository<Book, Long>{
 			"where center_id = ?1 " + 
 			"and date = ?2 " + 
 			"and SUBSTR(?3, 1, 2) between SUBSTR(time_from, 1, 2) " +
-			"and SUBSTR(time_to, 1, 2) ", nativeQuery = true)
-	Optional<Book> findByDateAndCenterAndTimeFrom(Long centerId, String date, String timeFrom);
+			"and SUBSTR(time_to, 1, 2) " +
+			"and book_status_id in (1,2) ", nativeQuery = true)
+	List<Book> findByDateAndCenterAndTimeFrom(Long centerId, String date, String timeFrom);
 }

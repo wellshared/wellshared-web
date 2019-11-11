@@ -96,8 +96,6 @@ public class MailerController {
 		} else {
 			int freeToInt = Integer.parseInt(freeBook.get().getTimeTo().substring(0, 2));
 			int bookToInt = Integer.parseInt(bookData.getTimeTo().substring(0, 2));
-			freeBook.get().setTimeTo(bookData.getTimeFrom());
-			bookRepository.save(freeBook.get());
 			if(freeToInt > bookToInt) {
 				Book newBook = new Book();
 				newBook.setBookStatus(freeBook.get().getBookStatus());
@@ -111,6 +109,8 @@ public class MailerController {
 				newBook.setPhone(freeBook.get().getPhone());
 				bookRepository.save(newBook);	
 			}
+			freeBook.get().setTimeTo(bookData.getTimeFrom());
+			bookRepository.save(freeBook.get());
 		}
 		context.getVariables().put("center", center.getName());
 		context.getVariables().put("adress", center.getAdress());

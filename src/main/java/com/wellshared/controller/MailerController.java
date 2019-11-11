@@ -11,6 +11,7 @@ import java.util.Optional;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.joda.time.DateTimeComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,9 +63,10 @@ public class MailerController {
 		Context context = new Context();
 		Center center = centerRepository.findById(bookData.getCenterId()).get();
 		Optional<Collegiate> col = collegiateRepository.findByNumber(bookData.getNumber());
+		Date date;
 		try {
 			DateFormat sourceFormat = new SimpleDateFormat("dd-MM-yyyy");
-			Date date = sourceFormat.parse(bookData.getDate());
+			 date = sourceFormat.parse(bookData.getDate());
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);	
 			if(cal.get(Calendar.DAY_OF_WEEK)== 1) {
@@ -84,19 +86,29 @@ public class MailerController {
 		}
 		if(!col.isPresent()) {
 			return new ResponseEntity<Object>("El número de colegiado no es válido", null, HttpStatus.NOT_ACCEPTABLE);
+		}
 		
+		if(DateTimeComparator.getDateOnlyInstance().compare(date, new Date()) < 0) {
+			return new ResponseEntity<Object>("No se pueden hacer reservas en fechas ya pasadas", null, HttpStatus.NOT_ACCEPTABLE);
 		}
-		List<Book> bookTmpList = bookRepository.findByDateAndCenterAndTimeFrom(center.getId(), bookData.getDate(), bookData.getTimeFrom());
-		if(bookTmpList.size() > 0) {
-			return new ResponseEntity<Object>("La hora indicada ya está ocupada", null, HttpStatus.NOT_ACCEPTABLE);
-		}
-		Optional<Book> freeBook = bookRepository.findFreeByDateAndCenterAndTimeFrom(center.getId(), bookData.getDate(), bookData.getTimeFrom());
+		Optional<Book> freeBook = bookRepository.findFreeByDateAndCenterAndTimeFrom(center.getId(), bookData.getDate(), bookData.getTimeFrom(), bookData.getTimeTo());
 		if(!freeBook.isPresent()) {
-			return new ResponseEntity<Object>("No hay ninguna hora libre en la franja horaria indicada", null, HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<Object>("La franja horaria indicada no está disponible", null, HttpStatus.NOT_ACCEPTABLE);
 		} else {
+			int freeFromInt = Integer.parseInt(freeBook.get().getTimeFrom().substring(0, 2));
+			int bookFromInt = Integer.parseInt(bookData.getTimeFrom().substring(0, 2));
 			int freeToInt = Integer.parseInt(freeBook.get().getTimeTo().substring(0, 2));
 			int bookToInt = Integer.parseInt(bookData.getTimeTo().substring(0, 2));
-			if(freeToInt > bookToInt) {
+			if(bookFromInt > bookToInt) {
+				return new ResponseEntity<Object>("La fecha final no puede ser superior a la inicial", null, HttpStatus.NOT_ACCEPTABLE);
+			}
+			if(freeFromInt == bookFromInt && freeToInt == bookToInt) {
+				bookRepository.delete(freeBook.get());
+			}else if(freeFromInt == bookFromInt) {
+				freeBook.get().setTimeFrom(bookData.getTimeTo());
+			} else if (freeToInt == bookToInt) {
+				freeBook.get().setTimeTo(bookData.getTimeFrom());
+			}else if(freeToInt > bookToInt) {
 				Book newBook = new Book();
 				newBook.setBookStatus(freeBook.get().getBookStatus());
 				newBook.setCenter(center);
@@ -107,10 +119,9 @@ public class MailerController {
 				newBook.setName(freeBook.get().getName());
 				newBook.setSname(freeBook.get().getSname());
 				newBook.setPhone(freeBook.get().getPhone());
-				bookRepository.save(newBook);	
-			}
-			freeBook.get().setTimeTo(bookData.getTimeFrom());
-			bookRepository.save(freeBook.get());
+				bookRepository.save(newBook);
+				freeBook.get().setTimeTo(bookData.getTimeFrom());
+			}	
 		}
 		context.getVariables().put("center", center.getName());
 		context.getVariables().put("adress", center.getAdress());

@@ -88,7 +88,7 @@ public class MailerController {
 			return new ResponseEntity<Object>("El número de colegiado no es válido", null, HttpStatus.NOT_ACCEPTABLE);
 		
 		}
-		Optional<Book> bookTmp = bookRepository.findByDateAndCenterAndTimeFrom(bookData.getDate(), center, bookData.getTimeFrom());
+		Optional<Book> bookTmp = bookRepository.findByDateAndCenterAndTimeFrom(center.getId(), bookData.getDate(), bookData.getTimeFrom());
 		if(bookTmp.isPresent()) {
 			return new ResponseEntity<Object>("La hora indicada ya está ocupada", null, HttpStatus.NOT_ACCEPTABLE);
 		}

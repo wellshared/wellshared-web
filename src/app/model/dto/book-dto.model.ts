@@ -12,7 +12,7 @@ export class BookDto {
     constructor(
         centerId: number, name: string, sname: string,
         email: string, phone: string, numb: string,
-        date: string, timeTo: string, timeFrom: string
+        date: string, timeFrom: string, timeTo: string
         ) {
         this.centerId = centerId;
         this.name = name;

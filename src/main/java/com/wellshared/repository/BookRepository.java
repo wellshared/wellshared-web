@@ -12,4 +12,6 @@ public interface BookRepository extends JpaRepository<Book, Long>{
 	List<Book> findAllByCenter(Center center);
 	
 	Optional<Book> findByDateAndTimeFrom(String date, String timeFrom);
+
+	Optional<Book> findByDateAndCenterAndTimeFrom(String date, Center center, String timeFrom);
 }

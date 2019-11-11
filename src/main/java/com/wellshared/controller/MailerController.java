@@ -88,11 +88,10 @@ public class MailerController {
 			return new ResponseEntity<Object>("El número de colegiado no es válido", null, HttpStatus.NOT_ACCEPTABLE);
 		
 		}
-		Optional<Book> bookTmp = bookRepository.findByDateAndTimeFrom(bookData.getDate(), bookData.getTimeFrom());
+		Optional<Book> bookTmp = bookRepository.findByDateAndCenterAndTimeFrom(bookData.getDate(), center, bookData.getTimeFrom());
 		if(bookTmp.isPresent()) {
 			return new ResponseEntity<Object>("La hora indicada ya está ocupada", null, HttpStatus.NOT_ACCEPTABLE);
 		}
-		Image i = (Image) center.getImages().toArray()[0];
 		context.getVariables().put("center", center.getName());
 		context.getVariables().put("adress", center.getAdress());
 		context.getVariables().put("name", bookData.getName());
@@ -103,7 +102,7 @@ public class MailerController {
 		context.getVariables().put("date", bookData.getDate());
 		context.getVariables().put("timeFrom", bookData.getTimeFrom());
 		context.getVariables().put("timeTo", bookData.getTimeTo());
-		context.getVariables().put("image", "http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/"+center.getId()+"/"+i.getUrl());
+		context.getVariables().put("image", "http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/"+center.getId()+"/"+center.getMainImage());
 		Book book = new Book();
 		book.setBookStatus(bookStatusRepository.findOne(1L));
 		book.setCenter(center);
@@ -115,7 +114,7 @@ public class MailerController {
 		book.setTimeFrom(bookData.getTimeFrom());
 		book.setTimeTo(bookData.getTimeTo());
 		bookRepository.save(book);
-		Mail mail = new Mail("info@wellshared.es", bookData.getEmail(), "Reserva Wellshared", "");
+		Mail mail = new Mail("info@wellshared.es", bookData.getEmail(), "Wellshared - Salas de fisioterapia", "");
 		this.prepareAndSend(mail, context, "book");
 		mail = new Mail("info@wellshared.es", "info@wellshared.es", "Peticion reserva Wellshared", "");
 		this.prepareAndSend(mail, context, "book-ws");

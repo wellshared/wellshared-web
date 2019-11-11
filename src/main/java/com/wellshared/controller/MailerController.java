@@ -90,6 +90,28 @@ public class MailerController {
 		if(bookTmpList.size() > 0) {
 			return new ResponseEntity<Object>("La hora indicada ya está ocupada", null, HttpStatus.NOT_ACCEPTABLE);
 		}
+		Optional<Book> freeBook = bookRepository.findFreeByDateAndCenterAndTimeFrom(center.getId(), bookData.getDate(), bookData.getTimeFrom());
+		if(!freeBook.isPresent()) {
+			return new ResponseEntity<Object>("No hay ninguna hora libre en la franja horaria indicada", null, HttpStatus.NOT_ACCEPTABLE);
+		} else {
+			int freeToInt = Integer.parseInt(freeBook.get().getTimeTo().substring(0, 2));
+			int bookToInt = Integer.parseInt(bookData.getTimeTo().substring(0, 2));
+			freeBook.get().setTimeTo(bookData.getTimeFrom());
+			bookRepository.save(freeBook.get());
+			if(freeToInt > bookToInt) {
+				Book newBook = new Book();
+				newBook.setBookStatus(freeBook.get().getBookStatus());
+				newBook.setCenter(center);
+				newBook.setDate(freeBook.get().getDate());
+				newBook.setTimeFrom(bookData.getTimeTo());
+				newBook.setTimeTo(freeBook.get().getTimeTo());
+				newBook.setEmail(freeBook.get().getEmail());
+				newBook.setName(freeBook.get().getName());
+				newBook.setSname(freeBook.get().getSname());
+				newBook.setPhone(freeBook.get().getPhone());
+				bookRepository.save(newBook);	
+			}
+		}
 		context.getVariables().put("center", center.getName());
 		context.getVariables().put("adress", center.getAdress());
 		context.getVariables().put("name", bookData.getName());

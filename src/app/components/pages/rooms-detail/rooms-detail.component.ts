@@ -106,14 +106,8 @@ export class RoomsDetailComponent implements OnInit {
       email: new FormControl(undefined, Validators.required),
       phone: new FormControl(undefined, Validators.required),
       date: new FormControl(new Date(), Validators.required),
-      timeFrom: new FormControl({
-        hour: 0,
-        minute: 0
-      }, Validators.required),
-      timeTo: new FormControl({
-        hour: 0,
-        minute: 0
-      }, Validators.required),
+      timeFrom: new FormControl(undefined, Validators.required),
+      timeTo: new FormControl(undefined, Validators.required),
       cookies: new FormControl(false, Validators.required)
     });
   }

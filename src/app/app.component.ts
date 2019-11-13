@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HTTPStatus } from './services/HTTPListener.interceptor';
 import { UserService } from './services/user.service';
 import { BsLocaleService, defineLocale, esLocale } from 'ngx-bootstrap';
+import { Meta, Title } from '@angular/platform-browser';
+import { CanonicalService } from './services/canonical.service';
 defineLocale('es', esLocale);
 @Component({
   selector: 'app-root',
@@ -10,9 +12,10 @@ defineLocale('es', esLocale);
 })
 export class AppComponent implements OnInit {
   HTTPActivity: boolean;
-  title = 'app';
+  title = 'Wellshared - Salas de fisioterapia en Barcelona';
   acceptCookies = false;
-  constructor(private httpStatus: HTTPStatus, private userService: UserService, private localeService: BsLocaleService) {
+  constructor(private httpStatus: HTTPStatus, private userService: UserService, private localeService: BsLocaleService, 
+    private meta: Meta, private titleService: Title, private canonicalService: CanonicalService) {
     this.userService.getConnectedUser().subscribe();
   }
   ngOnInit(): void {
@@ -22,6 +25,16 @@ export class AppComponent implements OnInit {
       this.acceptCookies = true;
     }
     this.httpStatus.getHttpStatus().subscribe((status: boolean) => this.HTTPActivity = status);
+    this.titleService.setTitle(this.title);
+    this.meta.addTags([
+      { name: 'keywords', content: 'reserva, reservar, alquila, alquiler, salas, espacios, fisioterapia, fisioterapeuta, barcelona, bcn, fisios, salas bcn, alquiler fisio bcn' },
+      { name: 'robots', content: 'index, salas, contacto, alquila, faq, cookies, privacidad' },
+      { name: 'author', content: 'Gerard Ortega' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'date', content: '2019-11-13', scheme: 'YYYY-MM-DD' },
+      { charset: 'UTF-8' }
+    ]);
+    this.canonicalService.setCanonicalURL();
   }
 
   accept() {

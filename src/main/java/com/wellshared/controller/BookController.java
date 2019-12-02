@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +18,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import com.wellshared.mailer.BookDto;
 import com.wellshared.model.Book;
 import com.wellshared.model.Center;
-import com.wellshared.model.ChargeRequest;
 import com.wellshared.model.Collegiate;
 import com.wellshared.repository.BookRepository;
 import com.wellshared.repository.BookStatusRepository;
 import com.wellshared.repository.CenterRepository;
 import com.wellshared.repository.CollegiateRepository;
 import com.wellshared.service.MailerService;
-import com.wellshared.service.StripeService;
 
 @RestController
 @RequestMapping("api/book")
@@ -42,9 +44,6 @@ public class BookController {
 	private CenterRepository centerRepository;
 	@Autowired
 	private MailerService mailerService;
-	@Autowired
-	private StripeService stripeService;
-	
 	@RequestMapping(path = "/", method = RequestMethod.GET)
     public ResponseEntity<Object> getBooks() {
 		return ResponseEntity.ok(this.bookRepository.findAll());
@@ -115,9 +114,7 @@ public class BookController {
 			return new ResponseEntity<Object>("El número de colegiado no es válido", null, HttpStatus.NOT_ACCEPTABLE);
 		}
 		
-		if(date.compareTo(new Date())< 0) {
-			return new ResponseEntity<Object>("No se pueden hacer reservas en fechas ya pasadas", null, HttpStatus.NOT_ACCEPTABLE);
-		}
+
 		Optional<Book> freeBook = bookRepository.findFreeByDateAndCenterAndTimeFrom(center.getId(), bookData.getDate(), bookData.getTimeFrom(), bookData.getTimeTo());
 		if(!freeBook.isPresent()) {
 			return new ResponseEntity<Object>("La franja horaria indicada no está disponible", null, HttpStatus.NOT_ACCEPTABLE);
@@ -149,11 +146,22 @@ public class BookController {
 				bookRepository.save(newBook);
 				freeBook.get().setTimeTo(bookData.getTimeFrom());
 			}	
-		}
-		ChargeRequest chargeRequest = new ChargeRequest();
+		}		
+		try {
+			Stripe.apiKey = "pk_test_aeUUjYYcx4XNfKVW60pmHTtI";
+    		Map<String, Object> chargeParams = new HashMap<>();
+            chargeParams.put("amount", bookData.getAmount());
+            chargeParams.put("currency", bookData.getCurrency());
+            chargeParams.put("description", "Cargo test centro " + center.getName());
+            chargeParams.put("source", bookData.getStripeToken());
+            Charge charge = Charge.create(chargeParams);
+            mailerService.sendBook(center, bookData);
+    	} catch(StripeException e) {
+    		e.printStackTrace();
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
 		
-		Charge charge = stripeService.doCharge(chargeRequest);
-		mailerService.sendBook(center, bookData);
 		return ResponseEntity.ok("Correo enviado correctamente");
 	}
 	

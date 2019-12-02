@@ -10,10 +10,9 @@ public class BookDto {
 	private String date;
 	private String timeFrom;
 	private String timeTo;
-	private String cardUser;
-	private String cardNumber;
-	private int month;
-	private int year;
+	private int amount;
+	private String currency;
+	private String stripeToken;
 	
 	
 	public Long getCenterId() {
@@ -70,35 +69,30 @@ public class BookDto {
 	public void setHourTo(String timeTo) {
 		this.timeTo = timeTo;
 	}
-	public String getCardUser() {
-		return cardUser;
-	}
-	public void setCardUser(String cardUser) {
-		this.cardUser = cardUser;
-	}
-	public String getCardNumber() {
-		return cardNumber;
-	}
-	public void setCardNumber(String cardNumber) {
-		this.cardNumber = cardNumber;
-	}
-	public int getMonth() {
-		return month;
-	}
-	public void setMonth(int month) {
-		this.month = month;
-	}
-	public int getYear() {
-		return year;
-	}
-	public void setYear(int year) {
-		this.year = year;
-	}
 	public void setTimeFrom(String timeFrom) {
 		this.timeFrom = timeFrom;
 	}
 	public void setTimeTo(String timeTo) {
 		this.timeTo = timeTo;
 	}
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	public String getCurrency() {
+		return currency;
+	}
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+	public String getStripeToken() {
+		return stripeToken;
+	}
+	public void setStripeToken(String stripeToken) {
+		this.stripeToken = stripeToken;
+	}
+	
 	 
 }

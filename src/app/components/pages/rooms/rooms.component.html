@@ -72,7 +72,7 @@
 
               <agm-info-window #infowindow>
                   <div  [routerLink]="['/salas', m.centerid]" class="cursor-pointer">
-                      <img class="img-responsive" width="1000%" style="margin: 0px;" [src]="'http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/'+m.centerid+'/'+m.img.url" alt="...">
+                      <img class="img-responsive" style="margin: 0px; height: 180px; width: 100%;" [src]="'http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/'+m.centerid+'/'+m.img" alt="Center map image">
                       <div class="centro-text">
                           <h5 style="font-weight: bold" class="text-left" style="margin: 10px 0px;">
                               {{m.label}}

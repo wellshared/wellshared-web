@@ -1,0 +1,107 @@
+<ng-container *ngIf="center">
+    <div class="container" style="margin-top: 100px;">
+        <a class="back-link" [routerLink]="['/salas', center.id]" routerLinkActive="router-link-active"><i
+                class="fa fa-arrow-left"></i> Volver al centro</a>
+        <div class="row u-MarginLeft5">
+            <h3>Reserva para {{ center.name }}</h3>
+        </div>
+        <div class="row u-MarginBottom20">
+            <form [formGroup]="formGroup" (ngSubmit)="submit()" class="u-Padding10">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control form-control--shadow" name="name"
+                                formControlName="name" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Apellidos</label>
+                            <input type="text" class="form-control form-control--shadow" name="sname"
+                                formControlName="sname" placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Número de colegiado</label>
+                            <input type="number" class="form-control form-control--shadow" name="number"
+                                formControlName="number" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control form-control--shadow" name="email"
+                                formControlName="email" placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <label class="form-label">Fecha de reserva</label><br>
+                            <div class="input-group">
+                                <input class="form-control form-control--shadow" formControlName="date" placeholder=""
+                                    name="dp" #dp="bsDatepicker" bsDatepicker [daysDisabled]="[0]">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" (click)="dp.toggle()" type="button">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="form-label">Hora desde</label>
+                            <div class="select-wrapper">
+                                <select class="form-control" id="timeFrom" formControlName="timeFrom">
+                                    <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="form-label">Hora hasta</label>
+                            <div class="select-wrapper">
+                                <select class="form-control" id="timeTo" formControlName="timeTo">
+                                    <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Teléfono</label>
+                            <input type="tel" class="form-control form-control--shadow" name="phone"
+                                formControlName="phone" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-right u-PaddingTop10">
+                        <label class="form-label"></label>
+                        <div class="form-group">
+                            <input type="checkbox" style="margin-right: 10px" name="cookies" formControlName="cookies">
+                            <label>Acepto la <a routerLink="/privacidad">Política de privacidad</a> de
+                                wellshared.es</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 position-right">
+                    <button type="submit" [disabled]="!formGroup.valid || !formGroup.controls['cookies'].value"
+                        class="btn btn-primary btn--alien">Enviar</button>
+                    <div class="alert alert-primary u-MarginTop20" role="alert" *ngIf="responseMsg">
+                        {{responseMsg}}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <button (click)="pay()">pay</button>
+</ng-container>

@@ -80,8 +80,6 @@ export class RoomsDetailComponent implements OnInit {
     private imageConverter: ImageConverter) {}
 
   ngOnInit() {
-    window.scrollTo(0, 0);
-    this.initFormGroup();
     this.route.params.subscribe(params => {
       if (params.id) {
         this.centerService.findById(params.id).subscribe((center: Center) => {
@@ -91,44 +89,11 @@ export class RoomsDetailComponent implements OnInit {
           this.lng = Number(this.center.lon);
           this.markers[0] = new Marker(
             this.center.lat, this.center.lon, false, this.center.name,
-            this.center.adress, this.center.price, this.center.images[0], this.center.id);
+            this.center.adress, this.center.price, this.center.mainImage, this.center.id);
           this.getCalendarEvents();
         });
       }
     });
-  }
-
-  initFormGroup() {
-    this.formGroup = new FormGroup({
-      name: new FormControl(undefined, Validators.required),
-      sname: new FormControl(undefined, Validators.required),
-      number: new FormControl(undefined, Validators.required),
-      email: new FormControl(undefined, Validators.required),
-      phone: new FormControl(undefined, Validators.required),
-      date: new FormControl(new Date(), Validators.required),
-      timeFrom: new FormControl(undefined, Validators.required),
-      timeTo: new FormControl(undefined, Validators.required),
-      cookies: new FormControl(false, Validators.required)
-    });
-  }
-  submit() {
-    if (this.formGroup.valid) {
-      const bookDto = new BookDto(
-        this.center.id,
-        this.formGroup.value.name,
-        this.formGroup.value.sname,
-        this.formGroup.value.email,
-        this.formGroup.value.phone,
-        this.formGroup.value.number,
-        this.datePipe.transform(this.formGroup.value.date, 'dd-MM-yyyy'),
-        this.formGroup.value.timeFrom,
-        this.formGroup.value.timeTo
-      );
-      this.mailerService.book(bookDto).subscribe((response: string) => {
-          this.responseMsg = response;
-          this.initFormGroup();
-      });
-    }
   }
   selectImage(image: Image) {
     this.selectedImage = image;

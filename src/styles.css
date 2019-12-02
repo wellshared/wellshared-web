@@ -66,7 +66,7 @@ Heading-wing::after,
 .centro-card {
   display: flex;
   flex-direction: row;
-  border: 1px solid #77c9b0;
+  border: 1px solid #2D6555;
   box-shadow: 0 3px 6px rgba(0, 0, 0, .16);
   margin-bottom: 30px;
 }
@@ -105,19 +105,34 @@ Heading-wing::after,
   justify-content: center;
   position: absolute;
   color: #fff;
-  background: #207667;
+  background: #2D6555;
   right: 0;
   top: 10%;
   padding: 10px;
   font-weight: 700;
   opacity: .9;
 }
-
+.fc-button-primary, fc-today-button {
+  background-color: #2D6555;
+  border: none;
+}
+.fc-button-primary:hover{
+  background-color: rgb(35, 83, 70);
+}
 .input-group {
   width: 100%;
   display: flex;
 }
-
+.btn-primary {
+  background-color: #2D6555;
+  color: white;
+  border: none;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active,
+.btn-primary:active:focus, .btn-primary:active:hover {
+  background-color: rgb(35, 83, 70);
+  color: white;
+}
 button.btn.btn-link {
   display: none !important;
 }
@@ -205,4 +220,16 @@ button.btn.btn-link {
 }
 .display-none {
   display: none;
+}
+.form-label {
+  font-size: 0.7em;
+  color: #076a58;
+}
+.position-bottom-right {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-content: flex-end;
+  align-items: flex-end;
 }

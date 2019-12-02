@@ -36,20 +36,6 @@
 
 
     /*==============================================
-     Retina support added
-     ===============================================*/
-    if (window.devicePixelRatio > 1) {
-        $(".retina, .navbar-brand img, .logo img").imagesLoaded(function () {
-            $(".retina, .navbar-brand img, .logo img").each(function () {
-                var src = $(this).attr("src").replace(".", "@2x.");
-                var h = $(this).height();
-                $(this).attr("src", src).css({height: h, width: "auto"});
-            });
-        });
-    }
-
-
-    /*==============================================
      Returns height of browser viewport
      ===============================================*/
     $window.on('resize.windowscreen', function() {

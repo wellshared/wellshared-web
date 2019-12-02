@@ -23,26 +23,31 @@
       <form [formGroup]="formGroup" (ngSubmit)="submit()">
         <div class="col-md-6">
           <div class="form-group">
+              <label class="form-label">Nombre</label>
             <input type="text" class="form-control form-control--shadow" name="name" formControlName="name"
-              placeholder="Nombre">
+              placeholder="">
           </div>
           <div class="form-group">
+              <label class="form-label">Apellidos</label>
             <input type="text" class="form-control form-control--shadow" name="sname" formControlName="sname"
-              placeholder="Apellidos">
+              placeholder="">
           </div>
           <div class="form-group">
+              <label class="form-label">Correo electrónico</label>
             <input type="email" class="form-control form-control--shadow" name="email" formControlName="email"
-              placeholder="Correo electrónico">
+              placeholder="">
           </div>
           <div class="form-group">
+              <label class="form-label">Teléfono</label>
             <input type="tel" class="form-control form-control--shadow" name="phone" formControlName="phone"
-              placeholder="Teléfono">
+              placeholder="">
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
+              <label class="form-label">Mensaje</label>
             <textarea class="form-control form-control--shadow" rows="6" name="message" formControlName="message"
-              placeholder="Mensaje"></textarea>
+              placeholder=""></textarea>
           </div>
           <div class="form-group">
             <input type="checkbox" style="margin-right: 10px" name="cookies" formControlName="cookies">

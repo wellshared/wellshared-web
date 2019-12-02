@@ -9,11 +9,13 @@ import { RoomsDetailComponent } from './components/pages/rooms-detail/rooms-deta
 import { LoginComponent } from './components/pages/login/login.component';
 import { RentComponent } from './components/pages/rent/rent.component';
 import { LoginGuard } from './login.guard';
+import { RoomFormComponent } from './components/pages/room-form/room-form.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'salas', component: RoomsComponent },
     { path: 'salas/:id', component: RoomsDetailComponent },
+    { path: 'reserva/:id', component: RoomFormComponent },
     { path: 'alquila', component: RentComponent },
     { path: 'contacto', component: ContactComponent },
     { path: 'faq', component: FaqComponent },

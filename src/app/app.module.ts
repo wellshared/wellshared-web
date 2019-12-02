@@ -26,6 +26,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
 import { CommonModule, DatePipe } from '@angular/common';
 import { LoginGuard } from './login.guard';
+import { RoomFormComponent } from './components/pages/room-form/room-form.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +41,8 @@ import { LoginGuard } from './login.guard';
     PrivacityComponent,
     RoomsDetailComponent,
     LoaderComponent,
-    LoginComponent
+    LoginComponent,
+    RoomFormComponent
   ],
   imports: [
     CommonModule,

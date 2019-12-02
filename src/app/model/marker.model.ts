@@ -6,7 +6,7 @@ export class Marker {
     description: string;
     label?: string;
     price: string;
-    img: Image;
+    img: string;
     centerid: number;
     constructor(lat, lng, draggable, label, description, price, img, centerid) {
         this.lat = lat;

@@ -6,6 +6,9 @@ agm-map {
   height: 75vh;
   overflow: auto;
 }
+.card-square {
+  background-color: #2D6555;
+}
 .centros-section {
   padding: 30px 0px;
 }

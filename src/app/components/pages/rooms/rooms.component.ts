@@ -76,7 +76,7 @@ export class RoomsComponent implements OnInit {
     this.centers.forEach((center: Center) => {
       const marker: Marker = new Marker(
         center.lat, center.lon, false, center.name,
-        center.adress, center.price, center.images[0], center.id);
+        center.adress, center.price, center.mainImage, center.id);
       this.markers[this.markers.length] = marker;
     });
   }

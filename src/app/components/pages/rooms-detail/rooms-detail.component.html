@@ -56,8 +56,7 @@
     </div>
   </section>
   <section class="u-PaddingTop20 u-PaddingBottom20 u-xs-PaddingTo20 u-xs-PaddingBottom0 container text-center">
-    <button type="button" class="btn btn-lg btn-primary u-Rounded" data-toggle="modal"
-      data-target=".bd-modal-lg">Reserva ya</button>
+    <button type="button" class="btn btn-lg btn-primary u-Rounded" [routerLink]="['/reserva', center.id]">Reserva ya</button>
   </section>
   <section class="u-PaddingTop70 u-PaddingBottom50 u-xs-PaddingTo50 u-xs-PaddingBottom0 container">
     <div class="row">
@@ -75,8 +74,8 @@
 
             <agm-info-window>
               <div>
-                <img class="img-responsive" width="1000%" style="margin: 0px;"
-                  [src]="'http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/'+center.id+'/'+m.img.url" alt="...">
+                <img class="img-responsive" style="margin: 0px; height: 180px; width: 100%;"
+                  [src]="'http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/'+center.id+'/'+m.img" alt="Main center image">
                 <div class="centro-text">
                   <h5 style="font-weight: bold" class="text-left" style="margin: 10px 0px;">
                     {{m.label}}
@@ -97,109 +96,4 @@
       </div>
     </div>
   </section>
-  <div class="modal fade bd-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title" id="exampleModalLabel" style="float: left; width: 90%">Reserva para {{center.name}}
-          </h3>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <form [formGroup]="formGroup" (ngSubmit)="submit()" class="u-Padding10">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input type="text" class="form-control form-control--shadow" name="name" formControlName="name"
-                      placeholder="Nombre">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input type="text" class="form-control form-control--shadow" name="sname" formControlName="sname"
-                      placeholder="Apellidos">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input type="number" class="form-control form-control--shadow" name="number" formControlName="number"
-                      placeholder="Número de colegiado">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input type="email" class="form-control form-control--shadow" name="email" formControlName="email"
-                      placeholder="Correo electrónico">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input class="form-control form-control--shadow" formControlName="date"
-                        placeholder="Fecha y hora de reserva" name="dp" #dp="bsDatepicker" bsDatepicker
-                        [daysDisabled]="[0]">
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button">
-                          <i class="fa fa-calendar"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group inline-items" style="width: 250px">
-                    <p class="vertical-align-center u-MarginRight10">Desde: </p>
-                    <div class="select-wrapper" style="width: 100px">
-                      <select class="form-control" id="timeFrom" formControlName="timeFrom">
-                        <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group inline-items" style="width: 250px">
-                    <p class="vertical-align-center u-MarginRight10">Hasta: </p>
-                    <div class="select-wrapper" style="width: 100px">
-                      <select class="form-control" id="timeTo" formControlName="timeTo">
-                        <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input type="tel" class="form-control form-control--shadow" name="phone" formControlName="phone"
-                      placeholder="Teléfono">
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="form-group">
-                  <input type="checkbox" style="margin-right: 10px" name="cookies" formControlName="cookies">
-                  <label>Acepto la <a routerLink="/privacidad">Política de privacidad</a> de wellshared.es</label>
-                </div>
-              </div>
-              <div class="col-md-12">
-                <button type="submit" [disabled]="!formGroup.valid || !formGroup.controls['cookies'].value"
-                  class="btn btn-primary btn--alien btn-block">Enviar</button>
-                  <div class="alert alert-primary u-MarginTop20" role="alert" *ngIf="responseMsg">
-                    {{responseMsg}}
-                  </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </ng-container>

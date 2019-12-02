@@ -14,8 +14,8 @@ export class AppComponent implements OnInit {
   HTTPActivity: boolean;
   title = 'Wellshared - Salas de fisioterapia en Barcelona';
   acceptCookies = false;
-  constructor(private httpStatus: HTTPStatus, private userService: UserService, private localeService: BsLocaleService, 
-    private meta: Meta, private titleService: Title, private canonicalService: CanonicalService) {
+  constructor(private httpStatus: HTTPStatus, private userService: UserService, private localeService: BsLocaleService,
+              private meta: Meta, private titleService: Title, private canonicalService: CanonicalService) {
     this.userService.getConnectedUser().subscribe();
   }
   ngOnInit(): void {
@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
     this.httpStatus.getHttpStatus().subscribe((status: boolean) => this.HTTPActivity = status);
     this.titleService.setTitle(this.title);
     this.meta.addTags([
+      // tslint:disable-next-line:max-line-length
       { name: 'keywords', content: 'reserva, reservar, alquila, alquiler, salas, espacios, fisioterapia, fisioterapeuta, barcelona, bcn, fisios, salas bcn, alquiler fisio bcn' },
       { name: 'robots', content: 'index, salas, contacto, alquila, faq, cookies, privacidad' },
       { name: 'author', content: 'Gerard Ortega' },
@@ -35,6 +36,21 @@ export class AppComponent implements OnInit {
       { charset: 'UTF-8' }
     ]);
     this.canonicalService.setCanonicalURL();
+    this.loadStripe();
+  }
+
+  loadStripe() {
+    if (!window.document.getElementById('stripe-custom-form-script')) {
+      const s = window.document.createElement('script');
+      s.id = 'stripe-custom-form-script';
+      s.type = 'text/javascript';
+      s.src = 'https://js.stripe.com/v2/';
+      s.onload = () => {
+        // tslint:disable-next-line:no-string-literal
+        window['Stripe'].setPublishableKey('pk_test_aeUUjYYcx4XNfKVW60pmHTtI');
+      };
+      window.document.body.appendChild(s);
+    }
   }
 
   accept() {

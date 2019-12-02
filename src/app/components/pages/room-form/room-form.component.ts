@@ -1,12 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { Center } from '../../../model/center.model';
-import { ActivatedRoute } from '@angular/router';
-import { CenterService } from '../../../services/center.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { BookDto } from '../../../model/dto/book-dto.model';
-import { MailerService } from '../../../services/mailer.service';
-import { DatePipe } from '@angular/common';
-import { Constants } from '../../../utils/constants';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  Center
+} from '../../../model/center.model';
+import {
+  ActivatedRoute
+} from '@angular/router';
+import {
+  CenterService
+} from '../../../services/center.service';
+import {
+  FormGroup,
+  FormControl,
+  Validators
+} from '@angular/forms';
+import {
+  BookDto
+} from '../../../model/dto/book-dto.model';
+import {
+  MailerService
+} from '../../../services/mailer.service';
+import {
+  DatePipe
+} from '@angular/common';
+import {
+  Constants
+} from '../../../utils/constants';
+import {
+  BookService
+} from 'src/app/services/book.service';
 
 @Component({
   selector: 'app-room-form',
@@ -18,8 +42,10 @@ export class RoomFormComponent implements OnInit {
   responseMsg: string;
   formGroup: FormGroup;
   horas: string[] = Constants.hours;
+  years: number[] = Constants.years;
+  months: number[] = Constants.months;
   constructor(private route: ActivatedRoute, private centerService: CenterService,
-    private mailerService: MailerService, private datePipe: DatePipe) { }
+    private bookService: BookService, private datePipe: DatePipe) {}
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -33,25 +59,6 @@ export class RoomFormComponent implements OnInit {
     });
   }
 
-  pay() {    
-    let amount = 20;
-    var handler = (<any>window).StripeCheckout.configure({
-      key: 'pk_test_aeUUjYYcx4XNfKVW60pmHTtI',
-      locale: 'ES',
-      token: function (token: any) {
-        console.log(token)
-        alert('Token Created!!');
-      }
-    });
- 
-    handler.open({
-      name: 'Datos de pago de reserva',
-      description: '',
-      amount: amount * 100
-    });
- 
-}
-  
   initFormGroup() {
     this.formGroup = new FormGroup({
       name: new FormControl(undefined, Validators.required),
@@ -62,27 +69,63 @@ export class RoomFormComponent implements OnInit {
       date: new FormControl(new Date(), Validators.required),
       timeFrom: new FormControl(undefined, Validators.required),
       timeTo: new FormControl(undefined, Validators.required),
+      cardNumber: new FormControl('', Validators.required),
+      cardMonth: new FormControl(this.months[0], Validators.required),
+      cardYear: new FormControl(this.years[0], Validators.required),
+      cvv: new FormControl(undefined, Validators.required),
       cookies: new FormControl(false, Validators.required)
     });
   }
+
+  getPrice() {
+    let num = 0;
+    if (this.formGroup.value.timeTo && this.formGroup.value.timeFrom) {
+      const to = this.formGroup.value.timeTo.split(':')[0];
+      const from = this.formGroup.value.timeFrom.split(':')[0];
+      const dif = to - from;
+      num = dif * Number(this.center.price);
+    }
+    return num + '€';
+  }
+
   submit() {
     if (this.formGroup.valid) {
-      const bookDto = new BookDto(
-        this.center.id,
-        this.formGroup.value.name,
-        this.formGroup.value.sname,
-        this.formGroup.value.email,
-        this.formGroup.value.phone,
-        this.formGroup.value.number,
-        this.datePipe.transform(this.formGroup.value.date, 'dd-MM-yyyy'),
-        this.formGroup.value.timeFrom,
-        this.formGroup.value.timeTo
-      );
-      this.mailerService.book(bookDto).subscribe((response: string) => {
-          this.responseMsg = response;
-          this.pay();
-          this.initFormGroup();
+      const card = this.formGroup.value.cardNumber.replace(/\s/g, '');
+      (window as any).Stripe.card.createToken({
+        number: card,
+        exp_month: this.formGroup.value.cardMonth,
+        exp_year: this.formGroup.value.cardYear,
+        cvc: this.formGroup.value.cvv
+      }, (status: number, response: any) => {
+        if(status === 200) {
+          console.log(response.id);
+          this.prepareDateToSend(response.id);
+        } else {
+          this.responseMsg = 'La tarjeta introducida no es válida';
+        }
       });
     }
+  }
+
+  prepareDateToSend(token: string) {
+    const bookDto = new BookDto(
+      this.center.id,
+      this.formGroup.value.name,
+      this.formGroup.value.sname,
+      this.formGroup.value.email,
+      this.formGroup.value.phone,
+      this.formGroup.value.number,
+      this.datePipe.transform(this.formGroup.value.date, 'dd-MM-yyyy'),
+      this.formGroup.value.timeFrom,
+      this.formGroup.value.timeTo,
+      this.center.name,
+      20,
+      'EUR',
+      token
+    );
+    this.bookService.send(bookDto).subscribe((response: string) => {
+      this.responseMsg = response;
+      this.initFormGroup();
+    });
   }
 }

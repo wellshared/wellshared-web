@@ -8,11 +8,17 @@ export class BookDto {
     date: string;
     timeFrom: string;
     timeTo: string;
+    paymentDescription: string;
+    amount: number;
+    currency: string;
+    stripeToken: string;
 
     constructor(
         centerId: number, name: string, sname: string,
         email: string, phone: string, numb: string,
-        date: string, timeFrom: string, timeTo: string
+        date: string, timeFrom: string, timeTo: string,
+        paymentDescription: string, amount: number, currency: string,
+        stripeToken: string
         ) {
         this.centerId = centerId;
         this.name = name;
@@ -23,5 +29,9 @@ export class BookDto {
         this.date = date;
         this.timeFrom = timeFrom;
         this.timeTo = timeTo;
+        this.paymentDescription = paymentDescription;
+        this.amount = amount;
+        this.currency = currency;
+        this.stripeToken = stripeToken;
     }
 }

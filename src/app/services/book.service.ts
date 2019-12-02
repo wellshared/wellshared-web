@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Book } from '../model/book.model';
+import { BookDto } from '../model/dto/book-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,9 @@ export class BookService {
 
   deleteBook(id: number) {
     return this.http.delete(this.url + '/api/book/' + id, {responseType: 'text'});
+  }
+
+  send(bookData: BookDto) {
+    return this.http.post(this.url + '/api/book/create', bookData, {responseType: 'text'});
   }
 }

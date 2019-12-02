@@ -1,8 +1,13 @@
 package com.wellshared.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 
+import org.joda.time.DateTimeComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wellshared.mailer.BookDto;
 import com.wellshared.model.Book;
 import com.wellshared.model.Center;
+import com.wellshared.model.ChargeRequest;
+import com.wellshared.model.Collegiate;
 import com.wellshared.repository.BookRepository;
 import com.wellshared.repository.BookStatusRepository;
 import com.wellshared.repository.CenterRepository;
+import com.wellshared.repository.CollegiateRepository;
+import com.wellshared.service.MailerService;
+import com.wellshared.service.StripeService;
 
 @RestController
 @RequestMapping("api/book")
@@ -24,9 +35,15 @@ public class BookController {
 	@Autowired
 	private BookRepository bookRepository;
 	@Autowired
+	private CollegiateRepository collegiateRepository;
+	@Autowired
 	private BookStatusRepository bookStatusRepository;
 	@Autowired
 	private CenterRepository centerRepository;
+	@Autowired
+	private MailerService mailerService;
+	@Autowired
+	private StripeService stripeService;
 	
 	@RequestMapping(path = "/", method = RequestMethod.GET)
     public ResponseEntity<Object> getBooks() {
@@ -68,6 +85,77 @@ public class BookController {
 		return ResponseEntity.ok(bookStatusRepository.findAll());
     }
 	
+	
+	@RequestMapping(path = "/create", method = RequestMethod.POST)
+    public ResponseEntity<Object> saveBook(@RequestBody BookDto bookData) {
+		Center center = centerRepository.findById(bookData.getCenterId()).get();
+		Optional<Collegiate> col = collegiateRepository.findByNumber(bookData.getNumber());
+		Date date;
+		try {
+			DateFormat sourceFormat = new SimpleDateFormat("dd-MM-yyyy");
+			 date = sourceFormat.parse(bookData.getDate());
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);	
+			if(cal.get(Calendar.DAY_OF_WEEK)== 1) {
+				return new ResponseEntity<Object>("No es posible hacer reservas para el día indicado", null, HttpStatus.NOT_ACCEPTABLE);	
+			}
+		}catch (Exception e) {
+			return new ResponseEntity<Object>("El formato de fecha enviado no es válido", null, HttpStatus.NOT_ACCEPTABLE);
+		}
+		
+		if(bookData.getTimeFrom().equals(bookData.getTimeTo())) {
+			return new ResponseEntity<Object>("La hora de inicio y de fin no pueden coincidir", null, HttpStatus.NOT_ACCEPTABLE);
+		
+		}
+		if(bookData.getTimeFrom().equals(bookData.getTimeTo())) {
+			return new ResponseEntity<Object>("La hora de inicio y de fin no pueden coincidir", null, HttpStatus.NOT_ACCEPTABLE);
+		
+		}
+		if(!col.isPresent()) {
+			return new ResponseEntity<Object>("El número de colegiado no es válido", null, HttpStatus.NOT_ACCEPTABLE);
+		}
+		
+		if(DateTimeComparator.getDateOnlyInstance().compare(date, new Date()) < 0) {
+			return new ResponseEntity<Object>("No se pueden hacer reservas en fechas ya pasadas", null, HttpStatus.NOT_ACCEPTABLE);
+		}
+		Optional<Book> freeBook = bookRepository.findFreeByDateAndCenterAndTimeFrom(center.getId(), bookData.getDate(), bookData.getTimeFrom(), bookData.getTimeTo());
+		if(!freeBook.isPresent()) {
+			return new ResponseEntity<Object>("La franja horaria indicada no está disponible", null, HttpStatus.NOT_ACCEPTABLE);
+		} else {
+			int freeFromInt = Integer.parseInt(freeBook.get().getTimeFrom().substring(0, 2));
+			int bookFromInt = Integer.parseInt(bookData.getTimeFrom().substring(0, 2));
+			int freeToInt = Integer.parseInt(freeBook.get().getTimeTo().substring(0, 2));
+			int bookToInt = Integer.parseInt(bookData.getTimeTo().substring(0, 2));
+			if(bookFromInt > bookToInt) {
+				return new ResponseEntity<Object>("La fecha final no puede ser superior a la inicial", null, HttpStatus.NOT_ACCEPTABLE);
+			}
+			if(freeFromInt == bookFromInt && freeToInt == bookToInt) {
+				bookRepository.delete(freeBook.get());
+			}else if(freeFromInt == bookFromInt) {
+				freeBook.get().setTimeFrom(bookData.getTimeTo());
+			} else if (freeToInt == bookToInt) {
+				freeBook.get().setTimeTo(bookData.getTimeFrom());
+			}else if(freeToInt > bookToInt) {
+				Book newBook = new Book();
+				newBook.setBookStatus(freeBook.get().getBookStatus());
+				newBook.setCenter(center);
+				newBook.setDate(freeBook.get().getDate());
+				newBook.setTimeFrom(bookData.getTimeTo());
+				newBook.setTimeTo(freeBook.get().getTimeTo());
+				newBook.setEmail(freeBook.get().getEmail());
+				newBook.setName(freeBook.get().getName());
+				newBook.setSname(freeBook.get().getSname());
+				newBook.setPhone(freeBook.get().getPhone());
+				bookRepository.save(newBook);
+				freeBook.get().setTimeTo(bookData.getTimeFrom());
+			}	
+		}
+		ChargeRequest chargeRequest = new ChargeRequest();
+		
+		stripeService.charge(chargeRequest);
+		mailerService.sendBook(center, bookData);
+		return ResponseEntity.ok("Correo enviado correctamente");
+	}
 	
 	@RequestMapping(path = "/", method = RequestMethod.POST)
     public ResponseEntity<Object> addCenter(@RequestBody Book book) {

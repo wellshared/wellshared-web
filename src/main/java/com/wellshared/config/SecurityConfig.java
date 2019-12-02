@@ -21,8 +21,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import groovyjarjarantlr.collections.List;
-
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -58,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/").permitAll()
 		.antMatchers("/api/mailer/**").permitAll()
 		.antMatchers("/api/book/center/{id}").permitAll()
+		.antMatchers("/api/book/create").permitAll()
 		.antMatchers("/user/session").permitAll()
 		.antMatchers("/api/center/").permitAll()
 		.antMatchers("/api/locations/**").permitAll()

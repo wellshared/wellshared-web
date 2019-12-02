@@ -17,4 +17,18 @@ export class Constants {
         '21:00',
         '22:00'
     ];
+
+    public static months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+    public static get years() {
+        const list = [];
+        const current: number = (new Date()).getFullYear();
+        for (let index = 0; index < 6; index++) {
+            list.push(current + index);
+        }
+        return list;
+    }
+
+
+
 }

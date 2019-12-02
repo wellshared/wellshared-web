@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
-import org.joda.time.DateTimeComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stripe.model.Charge;
 import com.wellshared.mailer.BookDto;
 import com.wellshared.model.Book;
 import com.wellshared.model.Center;
@@ -115,7 +115,7 @@ public class BookController {
 			return new ResponseEntity<Object>("El número de colegiado no es válido", null, HttpStatus.NOT_ACCEPTABLE);
 		}
 		
-		if(DateTimeComparator.getDateOnlyInstance().compare(date, new Date()) < 0) {
+		if(date.compareTo(new Date())< 0) {
 			return new ResponseEntity<Object>("No se pueden hacer reservas en fechas ya pasadas", null, HttpStatus.NOT_ACCEPTABLE);
 		}
 		Optional<Book> freeBook = bookRepository.findFreeByDateAndCenterAndTimeFrom(center.getId(), bookData.getDate(), bookData.getTimeFrom(), bookData.getTimeTo());
@@ -152,7 +152,7 @@ public class BookController {
 		}
 		ChargeRequest chargeRequest = new ChargeRequest();
 		
-		stripeService.charge(chargeRequest);
+		Charge charge = stripeService.doCharge(chargeRequest);
 		mailerService.sendBook(center, bookData);
 		return ResponseEntity.ok("Correo enviado correctamente");
 	}

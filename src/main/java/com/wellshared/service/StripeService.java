@@ -23,7 +23,7 @@ public class StripeService {
     public void init() {
         Stripe.apiKey = secretKey;
     }
-    public Charge charge(ChargeRequest chargeRequest)  {
+    public Charge doCharge(ChargeRequest chargeRequest)  {
     	try {
     		Map<String, Object> chargeParams = new HashMap<>();
             chargeParams.put("amount", chargeRequest.getAmount());

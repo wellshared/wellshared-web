@@ -9,7 +9,14 @@ export class ExpiryDatePipe implements PipeTransform {
     const str = String(value);
     if (str.length > 2) {
       const first = str.substr(0, 2);
-      return first + '/' + str.substr(2, str.length);
+      const thrd = str.substr(2, 1);
+      let result = first;
+      if (thrd !== '/') {
+        result += '/' + str.substr(2, str.length);
+      } else {
+        result += '/' + str.substr(3, str.length);
+      }
+      return result;
     }
     return value;
   }

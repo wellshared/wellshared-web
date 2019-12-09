@@ -84,69 +84,83 @@
                                 formControlName="phone" placeholder="">
                         </div>
                     </div>
-                </div>
-                <hr>
-                <h4>Datos bancarios</h4>
-                <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Nombre del propietario</label>
-                            <input type="text" class="form-control form-control--shadow" name="cardUser" placeholder="Nombre">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Número de tarjeta</label>
-                            <input type="text" class="form-control form-control--shadow"
-                                [value]="formGroup.get('cardNumber').value | creditCardMask" name="cardNumber"
-                                formControlName="cardNumber" placeholder="1111 1111 1111 1111" maxlength="19">
+                        <div class="form-group u-MarginTop20">
+                            <label class="form-label"></label>
+                            <input type="checkbox" style="margin-right: 10px" name="cookies" formControlName="cookies">
+                            <label>Acepto la <a routerLink="/privacidad">Política de privacidad</a> de
+                                wellshared.es</label>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label class="form-label">Mes</label>
-                            <div class="select-wrapper">
-                                <select class="form-control" id="cardMonth" formControlName="cardMonth">
-                                    <option *ngFor="let moth of months" [value]="moth">{{ moth }}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label class="form-label">Año</label>
-                            <div class="select-wrapper">
-                                <select class="form-control" id="cardYear" formControlName="cardYear">
-                                    <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label class="form-label">CVV</label>
-                            <input type="number" class="form-control form-control--shadow" formControlName="cvv" name="cvv"
-                                placeholder="123" maxlength="3">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                            <div class="form-group u-MarginTop20">
-                                    <label class="form-label"></label>
-                                    <input type="checkbox" style="margin-right: 10px" name="cookies" formControlName="cookies">
-                                    <label>Acepto la <a routerLink="/privacidad">Política de privacidad</a> de
-                                        wellshared.es</label>
+                    <div class="col-xs-12 col-md-8 col-md-offset-2">
+                        <!-- CREDIT CARD FORM STARTS HERE -->
+                        <div class="panel panel-default credit-card-box">
+                            <div class="panel-heading display-table">
+                                <div class="row display-tr">
+                                    <div class="col-md-6">
+                                        <h4 class="pay-title u-MarginLeft10">Información de pago</h4>
+                                    </div>
+                                    <div class="col-md-6 u-MarginTop20">
+                                        <img class="img-responsive pull-right u-MarginRight10"
+                                            src="http://i76.imgup.net/accepted_c22e0.png">
+                                    </div>
                                 </div>
-                    </div>
-                </div>
-                <div class="col-md-12 u-MarginTop20 u-MarginBottom20 text-center">
-                        <button type="submit" [disabled]="!formGroup.valid || !formGroup.controls['cookies'].value"
-                        class="btn btn-lg btn-primary btn--alien">Reservar {{getPrice()}}</button>
-                </div>
-                <div class="col-12">
-                    <div class="alert alert-primary u-MarginTop20" role="alert" *ngIf="responseMsg">
-                        {{responseMsg}}
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Nombre del propietario</label>
+                                            <input type="text" class="form-control form-control--shadow" name="cardUser"
+                                                placeholder="Nombre">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Número de tarjeta</label>
+                                            <input type="text" class="form-control form-control--shadow"
+                                                [value]="formGroup.get('cardNumber').value | creditCardMask"
+                                                name="cardNumber" formControlName="cardNumber"
+                                                placeholder="4242 4242 4242 4242" maxlength="19">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="form-label">F. Cad.</label>
+                                            <input type="number" class="form-control form-control--shadow" [value]=" formGroup.get('expiryDate').value |  expiryDate" 
+                                                formControlName="expiryDate" name="expiryDate" placeholder="12/21"
+                                                maxlength="5">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="form-label">CVC</label>
+                                            <input type="number" class="form-control form-control--shadow"
+                                                formControlName="cvv" name="cvv" placeholder="123" maxlength="3">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 u-MarginTop20 u-MarginBottom20">
+                                        <button type="submit"
+                                            [disabled]="!formGroup.valid || !formGroup.controls['cookies'].value"
+                                            class="btn btn-block btn-primary btn--alien">Reservar
+                                            {{getPrice()}}</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="alert alert-primary u-MarginTop20" role="alert" *ngIf="responseMsg">
+                                            {{responseMsg}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>

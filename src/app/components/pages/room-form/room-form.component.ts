@@ -45,7 +45,7 @@ export class RoomFormComponent implements OnInit {
   years: number[] = Constants.years;
   months: number[] = Constants.months;
   constructor(private route: ActivatedRoute, private centerService: CenterService,
-    private bookService: BookService, private datePipe: DatePipe) {}
+              private bookService: BookService, private datePipe: DatePipe) {}
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -70,8 +70,7 @@ export class RoomFormComponent implements OnInit {
       timeFrom: new FormControl(undefined, Validators.required),
       timeTo: new FormControl(undefined, Validators.required),
       cardNumber: new FormControl('', Validators.required),
-      cardMonth: new FormControl(this.months[0], Validators.required),
-      cardYear: new FormControl(this.years[0], Validators.required),
+      expiryDate: new FormControl(this.months[0], Validators.required),
       cvv: new FormControl(undefined, Validators.required),
       cookies: new FormControl(false, Validators.required)
     });

@@ -93,7 +93,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row u-MarginTop20">
                     <div class="col-xs-12 col-md-8 col-md-offset-2">
                         <!-- CREDIT CARD FORM STARTS HERE -->
                         <div class="panel panel-default credit-card-box">
@@ -113,7 +113,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Nombre del propietario</label>
-                                            <input type="text" class="form-control form-control--shadow" name="cardUser"
+                                            <input type="text" class="form-control form-control--shadow" name="cardUser" formControlName="cardUser"
                                                 placeholder="Nombre">
                                         </div>
                                     </div>
@@ -143,13 +143,16 @@
                                                 formControlName="cvv" name="cvv" placeholder="123" maxlength="3">
                                         </div>
                                     </div>
+                                    <div class="col-md-6 col-md-offset-2">
+                                            <re-captcha (resolved)="resolved($event)" [siteKey]="apiCaptcha"></re-captcha>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 u-MarginTop20 u-MarginBottom20">
                                         <button type="submit"
-                                            [disabled]="!formGroup.valid || !formGroup.controls['cookies'].value"
+                                            [disabled]="!formGroup.valid || !formGroup.controls['cookies'].value || !recaptchaToken"
                                             class="btn btn-block btn-primary btn--alien">Reservar
-                                            {{getPrice()}}</button>
+                                            {{getPrice()}} €</button>
                                     </div>
                                 </div>
                                 <div class="row">

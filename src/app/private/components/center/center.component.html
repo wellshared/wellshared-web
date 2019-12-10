@@ -1,8 +1,11 @@
 <div class="container">
   <section class="admin-section position-flex-bottom u-PaddingBottom40">
-    <div class="row">
-      <div class="col-md-8 col-xs-12">
+    <div class="row u-MarginTop20">
+      <div class="col-md-8">
         <h1 class=" u-Margin0 u-Weight300">Administración del centro</h1>
+      </div>
+      <div class="col-md-4 text-right">
+        <button class="btn btn-default u-MarginRight10" [routerLink]="['/admin/center/time', center.id]" >Establecer horarios</button>
       </div>
     </div>
     <a class="back-link u-MarginTop10" [routerLink]="['/admin/centers']" routerLinkActive="router-link-active" ><i class="fa fa-arrow-left"></i> Volver a la lista</a>

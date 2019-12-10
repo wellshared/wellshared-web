@@ -5,6 +5,7 @@ import { CenterComponent } from './components/center/center.component';
 import { PrivateGuard } from './private.guard';
 import { BookListComponent } from './components/book-list/book-list.component';
 import { BookComponent } from './components/book/book.component';
+import { CenterTimeFormComponent } from './components/center-time-form/center-time-form.component';
 
 const routes: Routes = [
     {
@@ -23,6 +24,10 @@ const routes: Routes = [
             {
                 path: 'center/:id',
                 component: CenterComponent
+            },
+            {
+                path: 'center/time/:id',
+                component: CenterTimeFormComponent
             },
             {
                 path: 'books',

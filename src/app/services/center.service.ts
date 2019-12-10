@@ -58,6 +58,10 @@ export class CenterService {
     });
   }
 
+  findTimeIntervals(id: number) {
+    return this.http.get(`${this.url}/api/center/${id}/intervals`);
+  }
+
   getServicios(centroid: number) {
     return this.http.get(this.url + '/servicios/' + centroid);
   }

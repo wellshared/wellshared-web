@@ -109,16 +109,15 @@ public class CenterController {
 		}
     }
 	
-	@RequestMapping(path = "/{id}", method = RequestMethod.POST)
-    public ResponseEntity<Object> addTimeInterval(@PathVariable Long id, @RequestBody RoomTimeIntervalHeader timeInterval) {
-		roomTimeIntervalHeaderRepository.save(timeInterval);
-		return ResponseEntity.ok("Zona horaria creada correctamente");
-    }
-	
-	@RequestMapping(path = "/{id}", method = RequestMethod.POST)
-    public ResponseEntity<Object> addTimeDetailInterval(@PathVariable Long id, @RequestBody RoomTimeIntervalDetail timeInterval) {
-		roomTimeIntervalDetailRepository.save(timeInterval);
-		return ResponseEntity.ok("Zona horaria creada correctamente");
+	@RequestMapping(path = "/{id}/intervals", method = RequestMethod.GET)
+    public ResponseEntity<Object> findAllByCenter(@PathVariable Long id) {
+		Optional<Center> center = centerRepository.findById(id);
+		if(center.isPresent()) {
+			List<RoomTimeIntervalHeader> list = this.roomTimeIntervalHeaderRepository.findAllByCenter(id);
+			return ResponseEntity.ok(list);
+		} else {
+			return new ResponseEntity<Object>("El centro indicado no existe", HttpStatus.BAD_REQUEST);
+		}
     }
 	
 }

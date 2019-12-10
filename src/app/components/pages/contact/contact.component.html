@@ -46,14 +46,15 @@
         <div class="col-md-6">
           <div class="form-group">
               <label class="form-label">Mensaje</label>
-            <textarea class="form-control form-control--shadow" rows="6" name="message" formControlName="message"
+            <textarea class="form-control form-control--shadow" rows="3" name="message" formControlName="message"
               placeholder=""></textarea>
           </div>
           <div class="form-group">
             <input type="checkbox" style="margin-right: 10px" name="cookies" formControlName="cookies">
             <label>Acepto la <a routerLink="/privacidad">Política de privacidad</a> de wellshared.es</label>
           </div>
-          <button type="submit" [disabled]="!formGroup.valid || !formGroup.controls['cookies'].value" class="btn btn-primary btn--alien btn-block">Enviar</button>
+          <re-captcha (resolved)="resolved($event)" [siteKey]="apiCaptcha"></re-captcha>
+          <button type="submit" [disabled]="!formGroup.valid || !formGroup.controls['cookies'].value || !recaptchaToken" class="btn btn-primary btn--alien btn-block u-MarginTop20">Enviar</button>
         </div>
       </form>
     </div>

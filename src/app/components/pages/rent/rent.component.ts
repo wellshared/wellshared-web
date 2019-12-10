@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MailerService } from 'src/app/services/mailer.service';
 import { RentDto } from 'src/app/model/dto/rent-dto.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-rent',
@@ -10,6 +11,8 @@ import { RentDto } from 'src/app/model/dto/rent-dto.model';
 })
 export class RentComponent implements OnInit {
   formGroup: FormGroup;
+  apiCaptcha = environment.recaptcha;
+  recaptchaToken: string;
   constructor(private mailerService: MailerService) { }
 
   ngOnInit() {
@@ -23,6 +26,10 @@ export class RentComponent implements OnInit {
       message: new FormControl(undefined, Validators.required),
       cookies: new FormControl(false, Validators.required)
     });
+  }
+
+  resolved(captchaResponse: string) {
+    this.recaptchaToken = captchaResponse;
   }
 
   submit() {

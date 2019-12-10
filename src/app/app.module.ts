@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RecaptchaModule } from 'ng-recaptcha';
+import { RecaptchaModule, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { HomeComponent } from './components/pages/home/home.component';
@@ -58,12 +58,12 @@ import { ExpiryDatePipe } from './pipes/expiry-date.pipe';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    RecaptchaModule,
     PrivateModule,
     ModalModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDgygXyg6jch1M0qaBmilfsO0Sb1LPP6tQ'
-    })
+    }),
+    RecaptchaModule,
   ],
   providers: [
     DatePipe,

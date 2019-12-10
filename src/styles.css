@@ -128,6 +128,21 @@ Heading-wing::after,
   color: white;
   border: none;
 }
+.btn-default:active:focus, .btn-default:active:hover {
+  color: #fff;
+  border-color: #2D6555;
+  background-color: #2D6555;
+}
+.btn-default.focus, .btn-default:focus, .btn-default:hover {
+  color: #fff;
+  border-color: #2D6555;
+  background-color: #2D6555;
+}
+.btn-default.active, .btn-default:active {
+  color: #fff;
+  border-color: #2D6555;
+  background-color: #2D6555;
+}
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active,
 .btn-primary:active:focus, .btn-primary:active:hover {
   background-color: rgb(35, 83, 70);
@@ -175,8 +190,7 @@ button.btn.btn-link {
 }
 
 .admin-section {
-  margin-top: 80px;
-  height: 130px;
+  margin-top: 100px;
 }
 
 .space-between {
@@ -242,4 +256,15 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance:textfield; /* Firefox */
+}
+.panel-shadow .panel-title>a {
+  text-align: left;
+}
+a:active, a:focus, a:hover {
+  text-decoration: underline;
+  color: #2D6555;
+}
+.panel-shadow .panel-title>a[aria-expanded=true] {
+  color: #2D6555;
+  background-color: #fff;
 }

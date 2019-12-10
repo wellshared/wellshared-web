@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
+import com.stripe.net.RequestOptions;
 import com.wellshared.mailer.BookDto;
 import com.wellshared.model.Book;
 import com.wellshared.model.Center;
@@ -148,13 +149,16 @@ public class BookController {
 			}	
 		}		
 		try {
-			Stripe.apiKey = "pk_test_aeUUjYYcx4XNfKVW60pmHTtI";
     		Map<String, Object> chargeParams = new HashMap<>();
-            chargeParams.put("amount", bookData.getAmount());
+            chargeParams.put("amount", bookData.getAmount() * 100);
             chargeParams.put("currency", bookData.getCurrency());
-            chargeParams.put("description", "Cargo test centro " + center.getName());
+            chargeParams.put("description", "Wellshared - Espacios sanitarios por horas");
             chargeParams.put("source", bookData.getStripeToken());
-            Charge charge = Charge.create(chargeParams);
+            RequestOptions requestOptions = RequestOptions.builder()
+            		  .setApiKey("sk_test_o4odb7JTdH1MCiY9FmhYT7TP00jPfNBRsU")
+            		  .build();
+
+            Charge.create(chargeParams, requestOptions);
             mailerService.sendBook(center, bookData);
     	} catch(StripeException e) {
     		e.printStackTrace();

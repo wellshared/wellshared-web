@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ContactDto } from 'src/app/model/dto/contact-dto.model';
 import { MailerService } from 'src/app/services/mailer.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-contact',
@@ -10,6 +11,8 @@ import { MailerService } from 'src/app/services/mailer.service';
 })
 export class ContactComponent implements OnInit {
   formGroup: FormGroup;
+  apiCaptcha = environment.recaptcha;
+  recaptchaToken: string;
   constructor(private mailerService: MailerService) { }
 
   ngOnInit() {
@@ -31,11 +34,16 @@ export class ContactComponent implements OnInit {
         this.formGroup.value.email,
         this.formGroup.value.phone,
         this.formGroup.value.message
-      )
+      );
+
       this.mailerService.contact(contactDto).subscribe(() => {
         window.location.reload();
       });
     }
   }
+
+  resolved(captchaResponse: string) {
+        this.recaptchaToken = captchaResponse;
+    }
 
 }

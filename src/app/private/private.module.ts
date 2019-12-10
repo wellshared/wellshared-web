@@ -14,6 +14,7 @@ import { PrivateGuard } from './private.guard';
 import { BookListComponent } from './components/book-list/book-list.component';
 import { BookComponent } from './components/book/book.component';
 import { BsDatepickerModule } from 'ngx-bootstrap';
+import { CenterTimeFormComponent } from './components/center-time-form/center-time-form.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     AddModalComponent,
     AddImageComponent,
     BookListComponent,
-    BookComponent],
+    BookComponent,
+    CenterTimeFormComponent],
   imports: [
     CommonModule,
     RouterModule,

@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
       s.src = 'https://js.stripe.com/v2/';
       s.onload = () => {
         // tslint:disable-next-line:no-string-literal
-        window['Stripe'].setPublishableKey('pk_test_aeUUjYYcx4XNfKVW60pmHTtI');
+        window['Stripe'].setPublishableKey('pk_test_RJs6LNejtYLOKeJFhBEJckhc00RNu6006x');
       };
       window.document.body.appendChild(s);
     }

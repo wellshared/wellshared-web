@@ -31,6 +31,7 @@ import {
 import {
   BookService
 } from 'src/app/services/book.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-room-form',
@@ -44,6 +45,8 @@ export class RoomFormComponent implements OnInit {
   horas: string[] = Constants.hours;
   years: number[] = Constants.years;
   months: number[] = Constants.months;
+  apiCaptcha = environment.recaptcha;
+  recaptchaToken: string;
   constructor(private route: ActivatedRoute, private centerService: CenterService,
               private bookService: BookService, private datePipe: DatePipe) {}
 
@@ -69,13 +72,16 @@ export class RoomFormComponent implements OnInit {
       date: new FormControl(new Date(), Validators.required),
       timeFrom: new FormControl(undefined, Validators.required),
       timeTo: new FormControl(undefined, Validators.required),
+      cardUser: new FormControl(undefined, Validators.required),
       cardNumber: new FormControl('', Validators.required),
       expiryDate: new FormControl('', Validators.required),
       cvv: new FormControl(undefined, Validators.required),
       cookies: new FormControl(false, Validators.required)
     });
   }
-
+  resolved(captchaResponse: string) {
+    this.recaptchaToken = captchaResponse;
+}
   getPrice() {
     let num = 0;
     if (this.formGroup.value.timeTo && this.formGroup.value.timeFrom) {
@@ -84,7 +90,7 @@ export class RoomFormComponent implements OnInit {
       const dif = to - from;
       num = dif * Number(this.center.price);
     }
-    return num + '€';
+    return num;
   }
 
   submit() {
@@ -92,11 +98,11 @@ export class RoomFormComponent implements OnInit {
       const card = this.formGroup.value.cardNumber.replace(/\s/g, '');
       (window as any).Stripe.card.createToken({
         number: card,
-        exp_month: this.formGroup.value.cardMonth,
-        exp_year: this.formGroup.value.cardYear,
+        exp_month: this.formGroup.value.expiryDate.split('/')[0],
+        exp_year: '20' + this.formGroup.value.expiryDate.split('/')[1],
         cvc: this.formGroup.value.cvv
       }, (status: number, response: any) => {
-        if(status === 200) {
+        if (status === 200) {
           console.log(response.id);
           this.prepareDateToSend(response.id);
         } else {
@@ -118,7 +124,7 @@ export class RoomFormComponent implements OnInit {
       this.formGroup.value.timeFrom,
       this.formGroup.value.timeTo,
       this.center.name,
-      20,
+      this.getPrice(),
       'EUR',
       token
     );

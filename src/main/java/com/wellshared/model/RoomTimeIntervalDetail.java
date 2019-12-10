@@ -20,7 +20,7 @@ public class RoomTimeIntervalDetail {
 	private RoomTimeIntervalHeader roomTimeIntervalHeader;
 	private String timeFrom;
 	private String timeTo;
-	private Boolean active;
+	private Byte active;
 	public Long getId() {
 		return id;
 	}
@@ -45,10 +45,10 @@ public class RoomTimeIntervalDetail {
 	public void setTimeTo(String timeTo) {
 		this.timeTo = timeTo;
 	}
-	public Boolean getActive() {
+	public Byte getActive() {
 		return active;
 	}
-	public void setActive(Boolean active) {
+	public void setActive(Byte active) {
 		this.active = active;
 	}
 	

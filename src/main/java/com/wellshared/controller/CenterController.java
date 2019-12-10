@@ -18,9 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.wellshared.model.Center;
 import com.wellshared.model.Image;
 import com.wellshared.model.Location;
+import com.wellshared.model.RoomTimeIntervalDetail;
+import com.wellshared.model.RoomTimeIntervalHeader;
 import com.wellshared.model.dto.CenterDto;
 import com.wellshared.repository.CenterRepository;
 import com.wellshared.repository.LocationRepository;
+import com.wellshared.repository.RoomTimeIntervalDetailRepository;
+import com.wellshared.repository.RoomTimeIntervalHeaderRepository;
 import com.wellshared.service.ImageService;
 
 @RestController
@@ -32,7 +36,10 @@ public class CenterController {
 	private ImageService imageService;
 	@Autowired
 	private LocationRepository locationRepository;
-
+	@Autowired
+	private RoomTimeIntervalHeaderRepository roomTimeIntervalHeaderRepository;
+	@Autowired
+	private RoomTimeIntervalDetailRepository roomTimeIntervalDetailRepository;
 	@RequestMapping(path = "/", method = RequestMethod.GET)
     public ResponseEntity<Object> getCenters() {
 		List<CenterDto> centers = new ArrayList<>();
@@ -100,6 +107,18 @@ public class CenterController {
 		} else {
 			return new ResponseEntity<Object>("El centro indicado no existe", HttpStatus.BAD_REQUEST);
 		}
+    }
+	
+	@RequestMapping(path = "/{id}", method = RequestMethod.POST)
+    public ResponseEntity<Object> addTimeInterval(@PathVariable Long id, @RequestBody RoomTimeIntervalHeader timeInterval) {
+		roomTimeIntervalHeaderRepository.save(timeInterval);
+		return ResponseEntity.ok("Zona horaria creada correctamente");
+    }
+	
+	@RequestMapping(path = "/{id}", method = RequestMethod.POST)
+    public ResponseEntity<Object> addTimeDetailInterval(@PathVariable Long id, @RequestBody RoomTimeIntervalDetail timeInterval) {
+		roomTimeIntervalDetailRepository.save(timeInterval);
+		return ResponseEntity.ok("Zona horaria creada correctamente");
     }
 	
 }

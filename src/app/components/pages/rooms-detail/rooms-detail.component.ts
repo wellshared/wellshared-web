@@ -105,22 +105,28 @@ export class RoomsDetailComponent implements OnInit {
     this.selectedImage = image;
   }
   getCalendarEvents() {
-    
     this.centerService.findTimeIntervals(this.center.id).subscribe((headers: RoomTimeIntervalHeader[]) => {
       this.intervals = headers;
-      if (this.calendarComponent) {
-        this.calendarComponent.getApi().addEvent({
-          title: 'Libre',
-          ranges: [{
-            start: '2019-12-12', //next two weeks
-            end: '2019-12-22'
-          }],
-          start: '12:00:00',
-          end: '11:00:00',
-          allDay: false,
-          dow: [1, 4],
+      headers.forEach(header => {
+        header.roomTimeIntervalDetails.forEach(detail => {
+          let diff = new Date(header.dayTo).valueOf() - new Date(header.dayFrom).valueOf();
+          diff = Math.ceil(diff / (1000 * 3600 * 24));
+          for (let index = 0; index < diff; index++) {
+            if (this.calendarComponent) {
+
+              const date = new Date(header.dayFrom);
+              date.setDate(date.getDate() + index);
+              const day = this.datePipe.transform(date, 'yyyy-MM-dd');
+              this.calendarComponent.getApi().addEvent({
+                title: 'Libre',
+                start: `${day}T${detail.timeFrom}:00`,
+                end: `${day}T${detail.timeTo}:00`,
+                allDay: false,
+              });
+            }
+          }
         });
-      }
+      });
       this.bookService.findByCenter(this.center.id).subscribe((books: Book[]) => {
         this.books = books;
         this.books.forEach((book: Book) => {

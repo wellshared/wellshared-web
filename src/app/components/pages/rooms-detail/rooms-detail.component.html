@@ -61,10 +61,7 @@
   <section class="u-PaddingTop70 u-PaddingBottom50 u-xs-PaddingTo50 u-xs-PaddingBottom0 container">
     <div class="row">
       <div class="col-md-6 u-PaddingBottom50">
-        <full-calendar #calendar defaultView="timeGridWeek" [buttonText]="buttonText" [weekends]="true"
-          [header]="header" [timeZone]="'CEST'" [allDaySlot]="false" [firstDay]="1" [displayEventTime]="true"
-          [locale]="'es'" [minTime]="'08:00:00'" [maxTime]="'22:00:00'" [hiddenDays]="[0]" [businessHours]="true" [plugins]="calendarPlugins">
-        </full-calendar>
+        <app-calendar *ngIf="center" [center]="center"></app-calendar>
       </div>
       <div class="col-md-6 u-PaddingBottom50">
         <agm-map [latitude]="lat" [longitude]="lng" [zoom]="15" [disableDefaultUI]="false" [zoomControl]="false">

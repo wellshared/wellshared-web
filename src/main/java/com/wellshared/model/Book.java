@@ -1,5 +1,7 @@
 package com.wellshared.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,7 +24,7 @@ public class Book {
 	private String sname;
 	private String email;
 	private String phone;
-	private String date;
+	private Date date;
 	private String timeTo;
 	private String timeFrom;
 	@ManyToOne
@@ -51,10 +53,10 @@ public class Book {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	public String getTimeTo() {

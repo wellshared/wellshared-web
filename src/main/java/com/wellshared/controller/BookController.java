@@ -1,10 +1,7 @@
 package com.wellshared.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import com.stripe.net.RequestOptions;
@@ -26,10 +22,12 @@ import com.wellshared.mailer.BookDto;
 import com.wellshared.model.Book;
 import com.wellshared.model.Center;
 import com.wellshared.model.Collegiate;
+import com.wellshared.model.RoomTimeIntervalDetail;
 import com.wellshared.repository.BookRepository;
 import com.wellshared.repository.BookStatusRepository;
 import com.wellshared.repository.CenterRepository;
 import com.wellshared.repository.CollegiateRepository;
+import com.wellshared.repository.RoomTimeIntervalDetailRepository;
 import com.wellshared.service.MailerService;
 
 @RestController
@@ -41,6 +39,8 @@ public class BookController {
 	private CollegiateRepository collegiateRepository;
 	@Autowired
 	private BookStatusRepository bookStatusRepository;
+	@Autowired
+	private RoomTimeIntervalDetailRepository roomTimeIntervalDetailRepository;
 	@Autowired
 	private CenterRepository centerRepository;
 	@Autowired
@@ -90,12 +90,9 @@ public class BookController {
     public ResponseEntity<Object> saveBook(@RequestBody BookDto bookData) {
 		Center center = centerRepository.findById(bookData.getCenterId()).get();
 		Optional<Collegiate> col = collegiateRepository.findByNumber(bookData.getNumber());
-		Date date;
 		try {
-			DateFormat sourceFormat = new SimpleDateFormat("dd-MM-yyyy");
-			 date = sourceFormat.parse(bookData.getDate());
 			Calendar cal = Calendar.getInstance();
-			cal.setTime(date);	
+			cal.setTime(bookData.getDate());	
 			if(cal.get(Calendar.DAY_OF_WEEK)== 1) {
 				return new ResponseEntity<Object>("No es posible hacer reservas para el día indicado", null, HttpStatus.NOT_ACCEPTABLE);	
 			}
@@ -107,64 +104,53 @@ public class BookController {
 			return new ResponseEntity<Object>("La hora de inicio y de fin no pueden coincidir", null, HttpStatus.NOT_ACCEPTABLE);
 		
 		}
-		if(bookData.getTimeFrom().equals(bookData.getTimeTo())) {
-			return new ResponseEntity<Object>("La hora de inicio y de fin no pueden coincidir", null, HttpStatus.NOT_ACCEPTABLE);
-		
-		}
 		if(!col.isPresent()) {
 			return new ResponseEntity<Object>("El número de colegiado no es válido", null, HttpStatus.NOT_ACCEPTABLE);
 		}
-		
-
-		Optional<Book> freeBook = bookRepository.findFreeByDateAndCenterAndTimeFrom(center.getId(), bookData.getDate(), bookData.getTimeFrom(), bookData.getTimeTo());
+		Optional<RoomTimeIntervalDetail> freeBook = roomTimeIntervalDetailRepository.findFreeByDateAndCenterAndTimeFrom(center.getId(), bookData.getDate(), bookData.getTimeFrom(), bookData.getTimeTo());
 		if(!freeBook.isPresent()) {
 			return new ResponseEntity<Object>("La franja horaria indicada no está disponible", null, HttpStatus.NOT_ACCEPTABLE);
 		} else {
-			int freeFromInt = Integer.parseInt(freeBook.get().getTimeFrom().substring(0, 2));
 			int bookFromInt = Integer.parseInt(bookData.getTimeFrom().substring(0, 2));
-			int freeToInt = Integer.parseInt(freeBook.get().getTimeTo().substring(0, 2));
 			int bookToInt = Integer.parseInt(bookData.getTimeTo().substring(0, 2));
 			if(bookFromInt > bookToInt) {
 				return new ResponseEntity<Object>("La fecha final no puede ser superior a la inicial", null, HttpStatus.NOT_ACCEPTABLE);
 			}
-			if(freeFromInt == bookFromInt && freeToInt == bookToInt) {
-				bookRepository.delete(freeBook.get());
-			}else if(freeFromInt == bookFromInt) {
-				freeBook.get().setTimeFrom(bookData.getTimeTo());
-			} else if (freeToInt == bookToInt) {
-				freeBook.get().setTimeTo(bookData.getTimeFrom());
-			}else if(freeToInt > bookToInt) {
-				Book newBook = new Book();
-				newBook.setBookStatus(freeBook.get().getBookStatus());
-				newBook.setCenter(center);
-				newBook.setDate(freeBook.get().getDate());
-				newBook.setTimeFrom(bookData.getTimeTo());
-				newBook.setTimeTo(freeBook.get().getTimeTo());
-				newBook.setEmail(freeBook.get().getEmail());
-				newBook.setName(freeBook.get().getName());
-				newBook.setSname(freeBook.get().getSname());
-				newBook.setPhone(freeBook.get().getPhone());
-				bookRepository.save(newBook);
-				freeBook.get().setTimeTo(bookData.getTimeFrom());
-			}	
+				Optional<Book> book = bookRepository.findByDateAndCenterAndTimeFrom(center.getId(), bookData.getDate(), bookData.getTimeFrom(), bookData.getTimeTo());
+				if(book.isPresent()) {
+					return new ResponseEntity<Object>("La hora indicada de reserva ya está ocupada", null, HttpStatus.NOT_ACCEPTABLE);
+				} else {
+					Book newBook = new Book();
+					newBook.setCenter(center);
+					newBook.setDate(bookData.getDate());
+					newBook.setTimeFrom(bookData.getTimeTo());
+					newBook.setTimeTo(freeBook.get().getTimeTo());
+					newBook.setEmail(bookData.getEmail());
+					newBook.setName(bookData.getName());
+					newBook.setSname(bookData.getSname());
+					newBook.setPhone(bookData.getPhone());
+					newBook.setBookStatus(bookStatusRepository.getOne(3L));
+					newBook = bookRepository.save(newBook);
+					try {
+			    		Map<String, Object> chargeParams = new HashMap<>();
+			            chargeParams.put("amount", bookData.getAmount() * 100);
+			            chargeParams.put("currency", bookData.getCurrency());
+			            chargeParams.put("description", "Wellshared - Espacios sanitarios por horas");
+			            chargeParams.put("source", bookData.getStripeToken());
+			            RequestOptions requestOptions = RequestOptions.builder()
+			            		  .setApiKey("sk_test_o4odb7JTdH1MCiY9FmhYT7TP00jPfNBRsU")
+			            		  .build();
+			            Charge.create(chargeParams, requestOptions);
+			            newBook.setBookStatus(bookStatusRepository.getOne(1L));
+			            bookRepository.save(newBook);
+			            mailerService.sendBook(center, bookData);
+			    	} catch(StripeException e) {
+			    		e.printStackTrace();
+			    	} catch(Exception e) {
+			    		e.printStackTrace();
+			    	}
+				}
 		}		
-		try {
-    		Map<String, Object> chargeParams = new HashMap<>();
-            chargeParams.put("amount", bookData.getAmount() * 100);
-            chargeParams.put("currency", bookData.getCurrency());
-            chargeParams.put("description", "Wellshared - Espacios sanitarios por horas");
-            chargeParams.put("source", bookData.getStripeToken());
-            RequestOptions requestOptions = RequestOptions.builder()
-            		  .setApiKey("sk_test_o4odb7JTdH1MCiY9FmhYT7TP00jPfNBRsU")
-            		  .build();
-
-            Charge.create(chargeParams, requestOptions);
-            mailerService.sendBook(center, bookData);
-    	} catch(StripeException e) {
-    		e.printStackTrace();
-    	} catch(Exception e) {
-    		e.printStackTrace();
-    	}
 		
 		return ResponseEntity.ok("Correo enviado correctamente");
 	}

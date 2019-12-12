@@ -120,7 +120,7 @@ export class RoomFormComponent implements OnInit {
       this.formGroup.value.email,
       this.formGroup.value.phone,
       this.formGroup.value.number,
-      this.datePipe.transform(this.formGroup.value.date, 'dd-MM-yyyy'),
+      this.formGroup.value.date,
       this.formGroup.value.timeFrom,
       this.formGroup.value.timeTo,
       this.center.name,

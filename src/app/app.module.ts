@@ -29,6 +29,7 @@ import { LoginGuard } from './login.guard';
 import { RoomFormComponent } from './components/pages/room-form/room-form.component';
 import { CreditCardMaskPipe } from './pipes/credit-card-mask.pipe';
 import { ExpiryDatePipe } from './pipes/expiry-date.pipe';
+import { CalendarComponent } from './components/pages/calendar/calendar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,8 @@ import { ExpiryDatePipe } from './pipes/expiry-date.pipe';
     LoginComponent,
     RoomFormComponent,
     CreditCardMaskPipe,
-    ExpiryDatePipe
+    ExpiryDatePipe,
+    CalendarComponent
   ],
   imports: [
     CommonModule,

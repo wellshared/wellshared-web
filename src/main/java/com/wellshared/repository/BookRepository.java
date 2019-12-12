@@ -1,5 +1,6 @@
 package com.wellshared.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,8 +18,7 @@ public interface BookRepository extends JpaRepository<Book, Long>{
 	@Query(value = "select * from book " + 
 			"where center_id = ?1 " + 
 			"and date = ?2 " + 
-			"and SUBSTR(time_from, 1, 2) <= SUBSTR(?3, 1, 2) " + 
-			"and SUBSTR(time_to, 1, 2) >= SUBSTR(?4, 1, 2) " +
-			"and book_status_id = 3 limit 1 ", nativeQuery = true)
-	Optional<Book> findFreeByDateAndCenterAndTimeFrom(Long centerId, String date, String timeFrom, String timeTo);
+			"and CAST(time_from As Time) <= CAST(?3 As Time) " + 
+			"and CAST(time_to As Time) >= CAST(?4 As Time) limit 1 ", nativeQuery = true)
+	Optional<Book> findByDateAndCenterAndTimeFrom(Long centerId, Date date, String timeFrom, String timeTo);
 }

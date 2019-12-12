@@ -268,3 +268,7 @@ a:active, a:focus, a:hover {
   color: #2D6555;
   background-color: #fff;
 }
+
+.fc-button-primary:focus {
+  box-shadow: none !important;
+}

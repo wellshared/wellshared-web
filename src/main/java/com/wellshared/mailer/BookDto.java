@@ -1,5 +1,7 @@
 package com.wellshared.mailer;
 
+import java.util.Date;
+
 public class BookDto {
 	private Long centerId;
 	private String name;
@@ -7,7 +9,7 @@ public class BookDto {
 	private Long number;
 	private String email;
 	private String phone;
-	private String date;
+	private Date date;
 	private String timeFrom;
 	private String timeTo;
 	private int amount;
@@ -51,10 +53,10 @@ public class BookDto {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	public String getTimeFrom() {

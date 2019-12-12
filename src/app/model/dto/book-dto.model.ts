@@ -5,7 +5,7 @@ export class BookDto {
     number: string;
     email: string;
     phone: string;
-    date: string;
+    date: Date;
     timeFrom: string;
     timeTo: string;
     paymentDescription: string;
@@ -16,7 +16,7 @@ export class BookDto {
     constructor(
         centerId: number, name: string, sname: string,
         email: string, phone: string, numb: string,
-        date: string, timeFrom: string, timeTo: string,
+        date: Date, timeFrom: string, timeTo: string,
         paymentDescription: string, amount: number, currency: string,
         stripeToken: string
         ) {

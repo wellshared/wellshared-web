@@ -46,7 +46,12 @@ import {
 import {
   Book
 } from '../../../model/book.model';
-import { ImageConverter } from 'src/app/services/image-converter.service';
+import {
+  ImageConverter
+} from 'src/app/services/image-converter.service';
+import {
+  RoomTimeIntervalHeader
+} from 'src/app/model/room-time-interval-header.model';
 @Component({
   selector: 'app-rooms-detail',
   templateUrl: './rooms-detail.component.html',
@@ -58,6 +63,7 @@ export class RoomsDetailComponent implements OnInit {
   markers: Marker[] = [];
   calendarPlugins = [timeGridPlugin];
   customButtons: any;
+  intervals: RoomTimeIntervalHeader[] = [];
   @ViewChild('calendar', {
     static: false
   }) calendarComponent: FullCalendarComponent;
@@ -99,21 +105,30 @@ export class RoomsDetailComponent implements OnInit {
     this.selectedImage = image;
   }
   getCalendarEvents() {
-    this.bookService.findByCenter(this.center.id).subscribe((books: Book[]) => {
-      this.books = books;
-      this.books.forEach((book: Book) => {
-        if (this.calendarComponent) {
-          const from: any = book.date.split('-');
-          this.calendarComponent.getApi().addEvent({
-            title: (book.bookStatus.id === 1 || book.bookStatus.id === 2) ? 'Reservado' : 'Libre',
-            start: from[2] + '-' + from[1] + '-' + from[0] + 'T' + book.timeFrom + ':00',
-            end: from[2] + '-' + from[1] + '-' + from[0] + 'T' + book.timeTo + ':00',
-            allDay: false,
-            color: (book.bookStatus.id === 1 || book.bookStatus.id === 2) ? '#e61e1e' : '#97d027'
-          });
-        }
+    
+    this.centerService.findTimeIntervals(this.center.id).subscribe((headers: RoomTimeIntervalHeader[]) => {
+      this.intervals = headers;
+      if (this.calendarComponent) {
+        this.calendarComponent.getApi().addEvent({
+          title: 'Libre',
+          ranges: [{
+            start: '2019-12-12', //next two weeks
+            end: '2019-12-22'
+          }],
+          start: '12:00:00',
+          end: '11:00:00',
+          allDay: false,
+          dow: [1, 4],
+        });
+      }
+      this.bookService.findByCenter(this.center.id).subscribe((books: Book[]) => {
+        this.books = books;
+        this.books.forEach((book: Book) => {
+          
+        });
       });
     });
+
   }
 
 }

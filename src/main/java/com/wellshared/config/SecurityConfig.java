@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -61,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/api/center/").permitAll()
 		.antMatchers("/api/locations/**").permitAll()
 		.antMatchers("/api/center/img/{id}").permitAll()
+		.antMatchers(HttpMethod.GET, "/api/center/{id}/intervals").permitAll()
 		.antMatchers("/api/center/location/{locationId}").permitAll()
 		.antMatchers("/api/center/{id}").permitAll()
         .anyRequest().authenticated().and()

@@ -21,6 +21,8 @@ import com.wellshared.model.Location;
 import com.wellshared.model.RoomTimeIntervalDetail;
 import com.wellshared.model.RoomTimeIntervalHeader;
 import com.wellshared.model.dto.CenterDto;
+import com.wellshared.model.dto.RoomDetailDto;
+import com.wellshared.model.dto.RoomHeaderDto;
 import com.wellshared.repository.CenterRepository;
 import com.wellshared.repository.LocationRepository;
 import com.wellshared.repository.RoomTimeIntervalDetailRepository;
@@ -120,4 +122,35 @@ public class CenterController {
 		}
     }
 	
+	@RequestMapping(path = "/{id}/intervals", method = RequestMethod.POST)
+    public ResponseEntity<Object> addIntervalHeader(@PathVariable Long id, @RequestBody RoomHeaderDto headerDto) {
+		Center center = centerRepository.findOne(id);
+		if(center != null) {
+			RoomTimeIntervalHeader header = new RoomTimeIntervalHeader();
+			header.setActive(new Byte("1"));
+			header.setCenter(center);
+			header.setDayFrom(headerDto.getDayFrom());
+			header.setDayTo(headerDto.getDayTo());
+			roomTimeIntervalHeaderRepository.save(header);
+			return ResponseEntity.ok("Header guardado correctamente");
+		} else {
+			return new ResponseEntity<Object>("El centro indicado no existe", HttpStatus.BAD_REQUEST);
+		}
+    }
+	
+	@RequestMapping(path = "/intervals/{id}/detail", method = RequestMethod.POST)
+    public ResponseEntity<Object> addIntervalDetail(@PathVariable Long id, @RequestBody RoomDetailDto detailDto) {
+		RoomTimeIntervalHeader header = roomTimeIntervalHeaderRepository.findOne(id);
+		if(header != null) {
+			RoomTimeIntervalDetail detail = new RoomTimeIntervalDetail();
+			detail.setActive(new Byte("1"));
+			detail.setRoomTimeIntervalHeader(header);
+			detail.setTimeFrom(detailDto.getTimeFrom());
+			detail.setTimeTo(detailDto.getTimeTo());
+			roomTimeIntervalDetailRepository.save(detail);
+			return ResponseEntity.ok("Detalle guardado correctamente");
+		} else {
+			return new ResponseEntity<Object>("El centro indicado no existe", HttpStatus.BAD_REQUEST);
+		}
+    }
 }

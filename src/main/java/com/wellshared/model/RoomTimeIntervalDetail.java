@@ -8,6 +8,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="room_time_interval_detail")
 public class RoomTimeIntervalDetail {
@@ -16,6 +18,7 @@ public class RoomTimeIntervalDetail {
 	private Long id;
 	@ManyToOne
 	@NotNull
+	@JsonIgnore
 	@JoinColumn(name="room_time_interval_header_id")
 	private RoomTimeIntervalHeader roomTimeIntervalHeader;
 	private String timeFrom;

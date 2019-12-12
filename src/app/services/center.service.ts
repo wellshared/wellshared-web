@@ -3,6 +3,8 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Center } from '../model/center.model';
+import { RoomDetailDto } from '../model/dto/room-detail-dto.model';
+import { RoomHeaderDto } from '../model/dto/room-header-dto.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -60,6 +62,14 @@ export class CenterService {
 
   findTimeIntervals(id: number) {
     return this.http.get(`${this.url}/api/center/${id}/intervals`);
+  }
+
+  saveIntervalDetail(id: number, roomDetail: RoomDetailDto) {
+    return this.http.post(`${this.url}/api/center/intervals/${id}/detail`, roomDetail,  {responseType: 'text'});
+  }
+
+  saveIntervalHeader(id: number, roomHeader: RoomHeaderDto) {
+    return this.http.post(`${this.url}/api/center/${id}/intervals/`, roomHeader,  {responseType: 'text'});
   }
 
   getServicios(centroid: number) {

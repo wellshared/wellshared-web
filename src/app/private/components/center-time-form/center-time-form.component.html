@@ -5,25 +5,125 @@
                 <h1 class=" u-Margin0 u-Weight300">Administración del centro - Franja horaria</h1>
             </div>
         </div>
-        <a class="back-link u-MarginTop10" [routerLink]="['/admin/center', center.id]"routerLinkActive="router-link-active"><i
-                class="fa fa-arrow-left"></i> Volver al centro</a>
+        <a class="back-link u-MarginTop10" [routerLink]="['/admin/center', center.id]"
+            routerLinkActive="router-link-active"><i class="fa fa-arrow-left"></i> Volver al centro</a>
     </section>
     <section>
-            <div class="panel-group u-PaddingRight20 u-sm-PaddingRight0 text-right" id="accordion7">
-                    <div class="panel panel-shadow" *ngFor="let item of timeList">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordion7" [href]="'#acc_'+item.id" aria-expanded="false" class="collapsed">
-                                    {{item.dayFrom | date: 'dd/MM/yyyy' }} - {{item.dayTo | date: 'dd/MM/yyyy' }}
-                                </a>
+        <div class="u-MarginBottom20">
+                <a class="btn btn-primary" (click)="add" data-toggle="collapse" href="#addHeader"
+                role="button">Añadir</a>
+            <div class="collapse" id="addHeader">
+                <form>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Fecha desde</label><br>
+                                <div class="input-group">
+                                    <input class="form-control form-control--shadow" [(ngModel)]="dayFrom"
+                                        name="dayFrom" #df="bsDatepicker" bsDatepicker [daysDisabled]="[0]">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" (click)="df.toggle()" type="button">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div [id]="'acc_'+item.id" class="panel-collapse collapse" role="tabpanel" aria-expanded="false" style="height: 0px;">
-                            <div class="panel-body text-left">
-                                ewrwerwer
+                        <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-label">Fecha desde</label><br>
+                                    <div class="input-group">
+                                        <input class="form-control form-control--shadow" [(ngModel)]="dayTo"
+                                            name="dayTo" #dt="bsDatepicker" bsDatepicker [daysDisabled]="[0]">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" (click)="dt.toggle()" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <button class="btn btn-default" (click)="saveHeader()"> Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel-group u-PaddingRight20 u-sm-PaddingRight0 text-right" id="accordion7">
+            <div class="panel panel-shadow" *ngFor="let item of timeList">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion7" [href]="'#acc_'+item.id"
+                            aria-expanded="false" class="collapsed">
+                            {{item.dayFrom | date: 'dd/MM/yyyy' }} - {{item.dayTo | date: 'dd/MM/yyyy' }}
+                        </a>
+                    </div>
+                </div>
+                <div [id]="'acc_'+item.id" class="panel-collapse collapse" role="tabpanel" aria-expanded="false"
+                    style="height: 0px;">
+                    <div class="panel-body text-left">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Hora desde</th>
+                                    <th scope="col">Hora hasta</th>
+                                    <th scope="col">Activa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let detail of item.roomTimeIntervalDetails">
+                                    <td>{{detail.timeFrom}}</td>
+                                    <td>{{detail.timeTo}}</td>
+                                    <td>
+                                        {{detail.active === 1 ? 'Sí': 'No'}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a class="btn btn-primary" (click)="add" data-toggle="collapse" [href]="'#detail_'+item.id"
+                            role="button">Añadir</a>
+                        <div class="collapse" [id]="'detail_'+item.id">
+                            <div class="card card-body">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label">Hora desde</label>
+                                                <div class="select-wrapper">
+                                                    <select class="form-control" [(ngModel)]="timeFrom" name="timeFrom">
+                                                        <option *ngFor="let hora of horas" [value]="hora">{{ hora }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="form-label">Hora desde</label>
+                                                <div class="select-wrapper">
+                                                    <select class="form-control" [(ngModel)]="timeTo" name="timeTo">
+                                                        <option *ngFor="let hora of horas" [value]="hora">{{ hora }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <button class="btn btn-default"
+                                                (click)="saveDetail(item.id)">Guardar</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
     </section>
 </div>

@@ -67,6 +67,6 @@ dependencies {
     compile ('com.amazonaws:aws-java-sdk-s3:1.11.465')
     compile ('com.amazonaws:aws-java-sdk-dynamodb:1.11.465')
 	compile("mysql:mysql-connector-java")
-	implementation "com.stripe:stripe-java:15.7.0"
+	compile "com.stripe:stripe-java:16.2.0"
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

@@ -14,6 +14,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 })
 export class CalendarComponent implements OnInit, AfterViewChecked {
   intervals: RoomTimeIntervalHeader[] = [];
+  @Input() height;
   @ViewChild('calendar', {
     static: false
   }) calendarComponent: FullCalendarComponent;

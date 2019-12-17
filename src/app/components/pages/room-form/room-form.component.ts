@@ -129,10 +129,13 @@ export class RoomFormComponent implements OnInit {
       'EUR',
       token
     );
+    this.httpStatus.setHttpStatus(true);
     this.bookService.send(bookDto).subscribe((response: string) => {
+      this.httpStatus.setHttpStatus(false);
       this.responseMsg = response;
-      this.initFormGroup();
+      window.location.reload();
     }, error => {
+      this.httpStatus.setHttpStatus(false);
       this.responseMsg = 'Ha habido un error en el servicio';
       this.initFormGroup();
     });

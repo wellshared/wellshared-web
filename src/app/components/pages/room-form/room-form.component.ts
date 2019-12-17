@@ -32,6 +32,7 @@ import {
   BookService
 } from 'src/app/services/book.service';
 import { environment } from 'src/environments/environment';
+import { HTTPStatus } from 'src/app/services/HTTPListener.interceptor';
 
 @Component({
   selector: 'app-room-form',
@@ -48,7 +49,7 @@ export class RoomFormComponent implements OnInit {
   apiCaptcha = environment.recaptcha;
   recaptchaToken: string;
   constructor(private route: ActivatedRoute, private centerService: CenterService,
-              private bookService: BookService, private datePipe: DatePipe) {}
+              private bookService: BookService, private datePipe: DatePipe, private httpStatus: HTTPStatus) {}
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -130,6 +131,9 @@ export class RoomFormComponent implements OnInit {
     );
     this.bookService.send(bookDto).subscribe((response: string) => {
       this.responseMsg = response;
+      this.initFormGroup();
+    }, error => {
+      this.responseMsg = 'Ha habido un error en el servicio';
       this.initFormGroup();
     });
   }

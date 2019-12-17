@@ -66,17 +66,6 @@ public class MailerService {
 		context.getVariables().put("timeFrom", bookData.getTimeFrom());
 		context.getVariables().put("timeTo", bookData.getTimeTo());
 		context.getVariables().put("image", "http://wellshared-assets.s3.eu-west-3.amazonaws.com/centers/"+center.getId()+"/"+center.getMainImage());
-		Book book = new Book();
-		book.setBookStatus(bookStatusRepository.findOne(1L));
-		book.setCenter(center);
-		book.setName(bookData.getName());
-		book.setSname(bookData.getSname());
-		book.setDate(bookData.getDate());
-		book.setEmail(bookData.getEmail());
-		book.setPhone(bookData.getPhone());
-		book.setTimeFrom(bookData.getTimeFrom());
-		book.setTimeTo(bookData.getTimeTo());
-		bookRepository.save(book);
 		Mail mail = new Mail("info@wellshared.es", bookData.getEmail(), "Wellshared - Salas de fisioterapia", "");
 		this.prepareAndSend(mail, context, "book");
 		mail = new Mail("info@wellshared.es", "info@wellshared.es", "Peticion reserva Wellshared", "");

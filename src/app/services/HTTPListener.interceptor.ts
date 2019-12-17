@@ -17,6 +17,7 @@ import Swal from 'sweetalert2';
   providedIn: 'root'
 })
 export class HTTPStatus {
+  
   private requestInFlight$: BehaviorSubject<boolean>;
   constructor() {
     this.requestInFlight$ = new BehaviorSubject(false);
@@ -35,6 +36,7 @@ export class HTTPStatus {
   providedIn: 'root'
 })
 export class HTTPListener implements HttpInterceptor {
+  requestNumber = 0;
   constructor(private status: HTTPStatus, private router: Router, private userService: UserService) {}
 
   intercept(
@@ -44,12 +46,12 @@ export class HTTPListener implements HttpInterceptor {
     req = req.clone({
       withCredentials: true
     });
+    
     return next.handle(req).pipe(
       map(event => {
         this.status.setHttpStatus(true);
         return event;
       }), catchError((error: HttpErrorResponse) => {
-        console.log(error);
         if (error.status === 401) {
           this.userService.logout();
           this.router.navigate(['login']);

@@ -123,8 +123,8 @@ public class BookController {
 					Book newBook = new Book();
 					newBook.setCenter(center);
 					newBook.setDate(bookData.getDate());
-					newBook.setTimeFrom(bookData.getTimeTo());
-					newBook.setTimeTo(freeBook.get().getTimeTo());
+					newBook.setTimeFrom(bookData.getTimeFrom());
+					newBook.setTimeTo(bookData.getTimeTo());
 					newBook.setEmail(bookData.getEmail());
 					newBook.setName(bookData.getName());
 					newBook.setSname(bookData.getSname());

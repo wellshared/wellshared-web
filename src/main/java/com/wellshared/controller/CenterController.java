@@ -42,6 +42,7 @@ public class CenterController {
 	private RoomTimeIntervalHeaderRepository roomTimeIntervalHeaderRepository;
 	@Autowired
 	private RoomTimeIntervalDetailRepository roomTimeIntervalDetailRepository;
+	
 	@RequestMapping(path = "/", method = RequestMethod.GET)
     public ResponseEntity<Object> getCenters() {
 		List<CenterDto> centers = new ArrayList<>();
@@ -111,46 +112,4 @@ public class CenterController {
 		}
     }
 	
-	@RequestMapping(path = "/{id}/intervals", method = RequestMethod.GET)
-    public ResponseEntity<Object> findAllByCenter(@PathVariable Long id) {
-		Optional<Center> center = centerRepository.findById(id);
-		if(center.isPresent()) {
-			List<RoomTimeIntervalHeader> list = this.roomTimeIntervalHeaderRepository.findAllByCenter(id);
-			return ResponseEntity.ok(list);
-		} else {
-			return new ResponseEntity<Object>("El centro indicado no existe", HttpStatus.BAD_REQUEST);
-		}
-    }
-	
-	@RequestMapping(path = "/{id}/intervals", method = RequestMethod.POST)
-    public ResponseEntity<Object> addIntervalHeader(@PathVariable Long id, @RequestBody RoomHeaderDto headerDto) {
-		Center center = centerRepository.findOne(id);
-		if(center != null) {
-			RoomTimeIntervalHeader header = new RoomTimeIntervalHeader();
-			header.setActive(new Byte("1"));
-			header.setCenter(center);
-			header.setDayFrom(headerDto.getDayFrom());
-			header.setDayTo(headerDto.getDayTo());
-			roomTimeIntervalHeaderRepository.save(header);
-			return ResponseEntity.ok("Header guardado correctamente");
-		} else {
-			return new ResponseEntity<Object>("El centro indicado no existe", HttpStatus.BAD_REQUEST);
-		}
-    }
-	
-	@RequestMapping(path = "/intervals/{id}/detail", method = RequestMethod.POST)
-    public ResponseEntity<Object> addIntervalDetail(@PathVariable Long id, @RequestBody RoomDetailDto detailDto) {
-		RoomTimeIntervalHeader header = roomTimeIntervalHeaderRepository.findOne(id);
-		if(header != null) {
-			RoomTimeIntervalDetail detail = new RoomTimeIntervalDetail();
-			detail.setActive(new Byte("1"));
-			detail.setRoomTimeIntervalHeader(header);
-			detail.setTimeFrom(detailDto.getTimeFrom());
-			detail.setTimeTo(detailDto.getTimeTo());
-			roomTimeIntervalDetailRepository.save(detail);
-			return ResponseEntity.ok("Detalle guardado correctamente");
-		} else {
-			return new ResponseEntity<Object>("El centro indicado no existe", HttpStatus.BAD_REQUEST);
-		}
-    }
 }

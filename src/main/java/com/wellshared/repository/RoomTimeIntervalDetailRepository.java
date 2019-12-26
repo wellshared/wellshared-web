@@ -11,7 +11,7 @@ import com.wellshared.model.RoomTimeIntervalDetail;
 
 public interface RoomTimeIntervalDetailRepository extends JpaRepository<RoomTimeIntervalDetail, Long>{
 	
-	@Query(value="select * from room_time_interval_detail where room_time_interval_detail_id = ?1 ", nativeQuery = true)
+	@Query(value="select * from room_time_interval_detail where room_time_interval_header_id = ?1 ", nativeQuery = true)
 	List<RoomTimeIntervalDetail> findAllByHeader(Long id);
 	
 	@Query(value = "select id.* from center c " + 
@@ -24,4 +24,17 @@ public interface RoomTimeIntervalDetailRepository extends JpaRepository<RoomTime
 			"and ih.active = 1 and id.active = 1 ", nativeQuery = true)
 	Optional<RoomTimeIntervalDetail> findFreeByDateAndCenterAndTimeFrom(Long centerId, Date date, String timeFrom, String timeTo);
 	
+	@Query(value = "select id.* from room_time_interval_detail id  " + 
+			" inner join room_time_interval_header ih on (ih.id = id.room_time_interval_header_id)  " + 
+			" where ih.id = ?1 " + 
+			" and (" + 
+			"	(CAST(id.time_from As Time) > CAST(?2 As Time) and" + 
+			"    CAST(id.time_from As Time) < CAST(?3 As Time)" + 
+			"	) or" + 
+			"    (CAST(id.time_to As Time) > CAST(?2 As Time) and" + 
+			"    CAST(id.time_to As Time) < CAST(?3 As Time)" + 
+			"	)" + 
+			" )" + 
+			" and ih.active = 1 and id.active = 1  ", nativeQuery = true)
+	Optional<RoomTimeIntervalDetail> findByHeaderAndInterval(Long headerId, String timeFrom, String timeTo);
 }

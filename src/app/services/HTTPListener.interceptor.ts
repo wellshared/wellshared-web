@@ -46,7 +46,6 @@ export class HTTPListener implements HttpInterceptor {
     req = req.clone({
       withCredentials: true
     });
-    
     return next.handle(req).pipe(
       map(event => {
         this.status.setHttpStatus(true);
@@ -55,7 +54,7 @@ export class HTTPListener implements HttpInterceptor {
         if (error.status === 401) {
           this.userService.logout();
           this.router.navigate(['login']);
-        } else if(error.status === 406){
+        } else if(error.status === 406) {
           Swal.fire('', error.error, 'warning');
         }
         return throwError(error);

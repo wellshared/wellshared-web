@@ -22,10 +22,10 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if(this.formGroup.valid) {
+    if (this.formGroup.valid) {
       this.userService.login(
-        this.formGroup.controls['username'].value,
-        this.formGroup.controls['password'].value
+        this.formGroup.controls.username.value,
+        this.formGroup.controls.password.value
         ).subscribe(() => {
           this.getUserConnected();
         });

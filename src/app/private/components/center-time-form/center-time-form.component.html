@@ -2,7 +2,7 @@
     <section class="admin-section position-flex-bottom u-PaddingBottom40">
         <div class="row u-MarginTop20">
             <div class="col-md-8">
-                <h1 class=" u-Margin0 u-Weight300">Administración del centro - Franja horaria</h1>
+                <h1 class=" u-Margin0 u-Weight300">{{center.name}} - Franja horaria</h1>
             </div>
         </div>
         <a class="back-link u-MarginTop10" [routerLink]="['/admin/center', center.id]"
@@ -71,6 +71,7 @@
                                     <th scope="col">Hora desde</th>
                                     <th scope="col">Hora hasta</th>
                                     <th scope="col">Activa</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,11 +81,17 @@
                                     <td>
                                         {{detail.active === 1 ? 'Sí': 'No'}}
                                     </td>
+                                    <td>
+                                        <button class="btn btn-rounded btn-danger" (click)="deleteDetail(detail.id)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                         <a class="btn btn-primary" data-toggle="collapse" [href]="'#detail_'+item.id"
                             role="button">Añadir</a>
+                        <button class="btn btn-danger u-MarginLeft10" role="button" (click)="deleteHeader(item.id)">Eliminar franja</button>
                         <div class="collapse" [id]="'detail_'+item.id">
                             <div class="card card-body">
                                 <form>

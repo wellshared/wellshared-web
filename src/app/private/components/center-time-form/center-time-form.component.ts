@@ -7,6 +7,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Constants } from 'src/app/utils/constants';
 import { RoomDetailDto } from 'src/app/model/dto/room-detail-dto.model';
 import { RoomHeaderDto } from 'src/app/model/dto/room-header-dto.model';
+import { RoomTimeIntervalService } from 'src/app/services/room-time-interval.service';
 
 @Component({
   selector: 'app-center-time-form',
@@ -22,7 +23,8 @@ export class CenterTimeFormComponent implements OnInit {
   timeTo: string;
   dayFrom: Date;
   dayTo: Date;
-  constructor(private centerService: CenterService, private activatedRoute: ActivatedRoute) { }
+  constructor(private centerService: CenterService, private activatedRoute: ActivatedRoute,
+              private roomTimeIntervalService: RoomTimeIntervalService) { }
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -37,14 +39,14 @@ export class CenterTimeFormComponent implements OnInit {
   }
 
   findTimeIntervals() {
-    this.centerService.findTimeIntervals(this.center.id).subscribe((list: RoomTimeIntervalHeader[]) => {
+    this.roomTimeIntervalService.findTimeIntervals(this.center.id).subscribe((list: RoomTimeIntervalHeader[]) => {
       this.timeList = list;
     });
   }
 
   saveHeader() {
     const roomHeader = new RoomHeaderDto(this.dayFrom, this.dayTo);
-    this.centerService.saveIntervalHeader(this.center.id, roomHeader).subscribe(() => {
+    this.roomTimeIntervalService.saveIntervalHeader(this.center.id, roomHeader).subscribe(() => {
       this.findTimeIntervals();
       this.dayFrom = undefined;
       this.dayTo = undefined;
@@ -53,10 +55,22 @@ export class CenterTimeFormComponent implements OnInit {
 
   saveDetail(id: number) {
     const roomDetail = new RoomDetailDto(this.timeFrom, this.timeTo);
-    this.centerService.saveIntervalDetail(id, roomDetail).subscribe(() => {
+    this.roomTimeIntervalService.saveIntervalDetail(id, roomDetail).subscribe(() => {
       this.findTimeIntervals();
       this.timeFrom = undefined;
       this.timeTo = undefined;
+    });
+  }
+
+  deleteDetail(id) {
+    this.roomTimeIntervalService.deleteRoomTimeIntervalDetail(id).subscribe(() => {
+      this.findTimeIntervals();
+    });
+  }
+
+  deleteHeader(id) {
+    this.roomTimeIntervalService.deleteRoomTimeIntervalHeader(id).subscribe(() => {
+      this.findTimeIntervals();
     });
   }
 

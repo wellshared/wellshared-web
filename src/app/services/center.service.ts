@@ -60,19 +60,7 @@ export class CenterService {
     });
   }
 
-  findTimeIntervals(id: number) {
-    return this.http.get(`${this.url}/api/center/${id}/intervals`);
-  }
-
-  saveIntervalDetail(id: number, roomDetail: RoomDetailDto) {
-    return this.http.post(`${this.url}/api/center/intervals/${id}/detail`, roomDetail,  {responseType: 'text'});
-  }
-
-  saveIntervalHeader(id: number, roomHeader: RoomHeaderDto) {
-    return this.http.post(`${this.url}/api/center/${id}/intervals/`, roomHeader,  {responseType: 'text'});
-  }
-
-  getServicios(centroid: number) {
+  getServices(centroid: number) {
     return this.http.get(this.url + '/servicios/' + centroid);
   }
   calendarEvents(apiKey: string, url: string) {

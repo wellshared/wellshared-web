@@ -7,6 +7,7 @@ import { BookService } from 'src/app/services/book.service';
 import { DatePipe } from '@angular/common';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import { RoomTimeIntervalService } from 'src/app/services/room-time-interval.service';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -30,7 +31,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
   @Input() center: Center;
   books: Book[] = [];
   constructor(private centerService: CenterService, private bookService: BookService,
-              private datePipe: DatePipe) { }
+              private datePipe: DatePipe, private roomTimeIntervalService: RoomTimeIntervalService) { }
 
   ngOnInit() {
     this.getCalendarEvents();
@@ -45,8 +46,7 @@ export class CalendarComponent implements OnInit, AfterViewChecked {
   }
 
   getCalendarEvents() {
-
-    this.centerService.findTimeIntervals(this.center.id).subscribe((headers: RoomTimeIntervalHeader[]) => {
+    this.roomTimeIntervalService.findTimeIntervals(this.center.id).subscribe((headers: RoomTimeIntervalHeader[]) => {
       this.intervals = headers;
       headers.forEach(header => {
         header.roomTimeIntervalDetails.forEach(detail => {

@@ -12,6 +12,7 @@ defineLocale('es', esLocale);
 })
 export class AppComponent implements OnInit {
   HTTPActivity: boolean;
+  paymentProcess: boolean;
   title = 'Wellshared - Salas de fisioterapia en Barcelona';
   acceptCookies = false;
   constructor(private httpStatus: HTTPStatus, private userService: UserService, private localeService: BsLocaleService,
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit {
       this.acceptCookies = true;
     }
     this.httpStatus.getHttpStatus().subscribe((status: boolean) => this.HTTPActivity = status);
+    this.httpStatus.getPaymentProcess().subscribe((status: boolean) => this.paymentProcess = status);
     this.titleService.setTitle(this.title);
     this.meta.addTags([
       // tslint:disable-next-line:max-line-length

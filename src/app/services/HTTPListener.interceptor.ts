@@ -17,12 +17,18 @@ import Swal from 'sweetalert2';
   providedIn: 'root'
 })
 export class HTTPStatus {
-  
   private requestInFlight$: BehaviorSubject<boolean>;
+  private paymentProcess$: BehaviorSubject<boolean>;
   constructor() {
     this.requestInFlight$ = new BehaviorSubject(false);
+    this.paymentProcess$ = new BehaviorSubject(false);
   }
-
+  setPaymentProcess(action: boolean) {
+    this.paymentProcess$.next(action);
+  }
+  getPaymentProcess(): Observable<boolean> {
+    return this.paymentProcess$.asObservable();
+  }
   setHttpStatus(inFlight: boolean) {
     this.requestInFlight$.next(inFlight);
   }

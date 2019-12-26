@@ -97,6 +97,7 @@ export class RoomFormComponent implements OnInit {
   submit() {
     if (this.formGroup.valid) {
       const card = this.formGroup.value.cardNumber.replace(/\s/g, '');
+      this.httpStatus.setPaymentProcess(true);
       (window as any).Stripe.card.createToken({
         number: card,
         exp_month: this.formGroup.value.expiryDate.split('/')[0],
@@ -107,6 +108,7 @@ export class RoomFormComponent implements OnInit {
           console.log(response.id);
           this.prepareDateToSend(response.id);
         } else {
+          this.httpStatus.setPaymentProcess(false);
           this.responseMsg = 'La tarjeta introducida no es válida';
         }
       });
@@ -129,13 +131,12 @@ export class RoomFormComponent implements OnInit {
       'EUR',
       token
     );
-    this.httpStatus.setHttpStatus(true);
     this.bookService.send(bookDto).subscribe((response: string) => {
-      this.httpStatus.setHttpStatus(false);
+      this.httpStatus.setPaymentProcess(false);
       this.responseMsg = response;
       window.location.reload();
     }, error => {
-      this.httpStatus.setHttpStatus(false);
+      this.httpStatus.setPaymentProcess(false);
       this.responseMsg = 'Ha habido un error en el servicio';
       this.initFormGroup();
     });

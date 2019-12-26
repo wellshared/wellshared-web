@@ -12,13 +12,13 @@ import com.wellshared.model.RoomTimeIntervalHeader;
 public interface RoomTimeIntervalHeaderRepository extends JpaRepository<RoomTimeIntervalHeader, Long>{
 
 	@Query(value="select * from room_time_interval_header " + 
-			"where center_id = ?1 " + 
-			"and (" + 
-			"(day_from > ?2" + 
-			"and day_from < ?3 " + 
-			") or " + 
-			"(day_To > ?2 " + 
-			"and day_To < ?3)) limit 1 ", nativeQuery = true)
+			" where center_id = ?1 " + 
+			" and (" + 
+			" (day_from > ?2" + 
+			" and day_from < ?3 " + 
+			" ) or " + 
+			" (day_To > ?2 " + 
+			" and day_To < ?3)) limit 1 ", nativeQuery = true)
 	Optional<RoomTimeIntervalHeader> findByCenterAndTimeInterval(Long centerId, Date dateFrom, Date dateTo);
 	
 	@Query(value="select * from room_time_interval_header where center_id = ?1 ", nativeQuery = true)

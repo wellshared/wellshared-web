@@ -11,7 +11,7 @@ import com.wellshared.model.Book;
 import com.wellshared.model.Center;
 
 public interface BookRepository extends JpaRepository<Book, Long>{
-	List<Book> findAllByCenter(Center center);
+	List<Book> findAllByCenterOrderByIdDesc(Center center);
 	
 	Optional<Book> findByDateAndTimeFrom(String date, String timeFrom);
 

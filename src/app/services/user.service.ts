@@ -5,7 +5,8 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { User } from '../model/user.model';
 import { tap, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-
+import { Constants } from '../utils/constants';
+import sha256 from 'crypto-js/sha256';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,6 +25,7 @@ export class UserService {
     return this.http.get(environment.url + '/logout').pipe(
       tap(() => {
         this.userConected.next(undefined);
+        sessionStorage.removeItem(Constants.STORAGE_USR);
         this.router.navigate(['/']);
       })
     );
@@ -33,6 +35,8 @@ export class UserService {
     return this.http.get(environment.url + '/user/session').pipe(
       map((user: User) => {
         this.userConected.next(user);
+        const hashDigest = sha256(user);
+        sessionStorage.setItem(Constants.STORAGE_USR, hashDigest);
         return user;
       })
     );

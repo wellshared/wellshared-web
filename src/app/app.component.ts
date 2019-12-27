@@ -4,6 +4,7 @@ import { UserService } from './services/user.service';
 import { BsLocaleService, defineLocale, esLocale } from 'ngx-bootstrap';
 import { Meta, Title } from '@angular/platform-browser';
 import { CanonicalService } from './services/canonical.service';
+import { Constants } from './utils/constants';
 defineLocale('es', esLocale);
 @Component({
   selector: 'app-root',

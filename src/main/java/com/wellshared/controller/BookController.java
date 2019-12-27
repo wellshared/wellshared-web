@@ -54,7 +54,7 @@ public class BookController {
     public ResponseEntity<Object> getBooksByCenter(@PathVariable Long id) {
 		Optional<Center> center = centerRepository.findById(id);
 		if(center.isPresent()) {
-			return ResponseEntity.ok(bookRepository.findAllByCenter(center.get()));
+			return ResponseEntity.ok(bookRepository.findAllByCenterOrderByIdDesc(center.get()));
 		} else {
 			return ResponseEntity.ok(new ArrayList<Object>());
 		}

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, take } from 'rxjs/operators';
 import { UserService } from './services/user.service';
 import { User } from './model/user.model';
+import { Constants } from './utils/constants';
 
 @Injectable()
 export class LoginGuard implements CanActivate {
@@ -12,15 +13,10 @@ export class LoginGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ) {
-      return this.userService.userConected.pipe(
-        take(1),
-        map((user: User) => {
-          if (user) {
-            return this.router.parseUrl('/');
-          } else {
-            return true;
-          }
-        })
-      );
+    if (sessionStorage.getItem(Constants.STORAGE_USR)) {
+      return true;
+    } else {
+      return this.router.parseUrl('/');
+    }
   }
 }

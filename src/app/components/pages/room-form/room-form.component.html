@@ -88,13 +88,16 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group u-MarginTop20">
+                            <div class="form-group u-MarginTop10">
                                 <label class="form-label"></label>
                                 <input type="checkbox" style="margin-right: 10px" name="cookies"
                                     formControlName="cookies">
                                 <label>Acepto la <a routerLink="/privacidad">Política de privacidad</a> de
                                     wellshared.es</label>
                             </div>
+                        </div>
+                        <div class="col-md-12 u-MarginBottom20">
+                            <re-captcha (resolved)="resolved($event)" [siteKey]="apiCaptcha"></re-captcha>
                         </div>
                     </div>
                 </div>
@@ -152,9 +155,6 @@
                                             <input type="text" class="form-control form-control--shadow"
                                                 formControlName="cvv" name="cvv" placeholder="123" maxlength="3">
                                         </div>
-                                    </div>
-                                    <div class="col-md-6 col-md-offset-2">
-                                        <re-captcha (resolved)="resolved($event)" [siteKey]="apiCaptcha"></re-captcha>
                                     </div>
                                 </div>
                                 <div class="row">
